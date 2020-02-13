@@ -1,0 +1,103 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,600,700&display=swap');
+
+
+*{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    text-decoration: none;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+}
+body{
+    
+    background: #5a8cc5;
+    color:#abbccf;
+    float: left;
+
+}
+
+.wrapper .container{
+    position: fixed;
+    top: 20px;
+    left: 10px;
+    background: #9fb1e7;
+    width: 200px;
+    height: calc(100% - 30px);
+    border-bottom-left-radius: 20px;
+    transition: all 0.3s ease;
+}
+
+.wrapper .container .hamburger{
+    width: 70px;
+    height: 70px;
+    background: #2e4ead;
+    padding: 15px 17px;
+    cursor: pointer;
+    border-radius: 100%;
+}
+
+.wrapper .container .hamburger div{
+    width: 35px;
+    height: 4px;
+    background: #92a6e2;
+    margin: 5px 0;
+    border-radius: 5px;
+}
+
+.wrapper .container .hamburger:hover{
+    background: #3567fd;
+}
+
+.wrapper.collapse .container{
+    width: 70px;
+}
+/* .wrapper.collapse .container ul li a{
+    text-align: center;
+}
+.wrapper.collapse .container ul li a span.icon{
+    margin: 0;
+}
+.wrapper.collapse .container ul li a span.title{
+    display: none
+} */
+/* .wrapper.collapse .main_container{
+    width: calc(100% - 70px);
+    margin-left: 70px
+} */
+
+
+/* 
+.resource{
+
+}
+
+.wrapper.collapse{
+    
+} */
+.random {
+background: -moz-linear-gradient(left, rgba(47,4,237,0.57) 0%, rgba(47,4,237,0.56) 1%, rgba(76,225,255,0.43) 17%, rgba(211,247,255,0.26) 37%, rgba(211,247,255,0.15) 50%, rgba(211,247,255,0.23) 59%, rgba(76,225,255,0.41) 81%, rgba(47,4,237,0.57) 100%);
+background: -webkit-linear-gradient(left, rgba(47,4,237,0.57) 0%,rgba(47,4,237,0.56) 1%,rgba(76,225,255,0.43) 17%,rgba(211,247,255,0.26) 37%,rgba(211,247,255,0.15) 50%,rgba(211,247,255,0.23) 59%,rgba(76,225,255,0.41) 81%,rgba(47,4,237,0.57) 100%);
+background: linear-gradient(to right, rgba(47,4,237,0.57) 0%,rgba(47,4,237,0.56) 1%,rgba(76,225,255,0.43) 17%,rgba(211,247,255,0.26) 37%,rgba(211,247,255,0.15) 50%,rgba(211,247,255,0.23) 59%,rgba(76,225,255,0.41) 81%,rgba(47,4,237,0.57) 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#912f04ed', endColorstr='#912f04ed',GradientType=1 );
+
+background: -moz-linear-gradient(left, rgba(47,4,237,0.57) 0%, rgba(47,4,237,0.58) 1%, rgba(52,7,255,0.99) 49%, rgba(52,7,255,1) 50%, rgba(47,4,237,0.57) 100%);
+background: -webkit-linear-gradient(left, rgba(47,4,237,0.57) 0%,rgba(47,4,237,0.58) 1%,rgba(52,7,255,0.99) 49%,rgba(52,7,255,1) 50%,rgba(47,4,237,0.57) 100%);
+background: linear-gradient(to right, rgba(47,4,237,0.57) 0%,rgba(47,4,237,0.58) 1%,rgba(52,7,255,0.99) 49%,rgba(52,7,255,1) 50%,rgba(47,4,237,0.57) 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#912f04ed', endColorstr='#912f04ed',GradientType=1 );
+
+background: -moz-linear-gradient(left, rgba(47,4,237,0.57) 0%, rgba(47,4,237,0.57) 1%, rgba(10,112,255,0.57) 13%, rgba(22,191,252,0.57) 25%, rgba(76,225,255,0.57) 38%, rgba(76,225,255,0.57) 61%, rgba(22,191,252,0.57) 75%, rgba(10,112,255,0.57) 87%, rgba(47,4,237,0.57) 100%);
+background: -webkit-linear-gradient(left, rgba(47,4,237,0.57) 0%,rgba(47,4,237,0.57) 1%,rgba(10,112,255,0.57) 13%,rgba(22,191,252,0.57) 25%,rgba(76,225,255,0.57) 38%,rgba(76,225,255,0.57) 61%,rgba(22,191,252,0.57) 75%,rgba(10,112,255,0.57) 87%,rgba(47,4,237,0.57) 100%);
+background: linear-gradient(to right, rgba(47,4,237,0.57) 0%,rgba(47,4,237,0.57) 1%,rgba(10,112,255,0.57) 13%,rgba(22,191,252,0.57) 25%,rgba(76,225,255,0.57) 38%,rgba(76,225,255,0.57) 61%,rgba(22,191,252,0.57) 75%,rgba(10,112,255,0.57) 87%,rgba(47,4,237,0.57) 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#912f04ed', endColorstr='#912f04ed',GradientType=1 );
+
+background: -moz-linear-gradient(left, rgba(134, 129, 153, 0.57) 0%, rgba(47,4,237,0.57) 1%, rgba(10,112,255,0.57) 13%, rgba(76,115,255,0.57) 29%, rgba(71,83,255,0.57) 48%, rgba(76,115,255,0.57) 62%, rgba(71,83,255,0.57) 75%, rgba(10,112,255,0.57) 87%, rgba(47,4,237,0.57) 100%);
+background: -webkit-linear-gradient(left, rgba(47,4,237,0.57) 0%,rgba(47,4,237,0.57) 1%,rgba(10,112,255,0.57) 13%,rgba(76,115,255,0.57) 29%,rgba(71,83,255,0.57) 48%,rgba(76,115,255,0.57) 62%,rgba(71,83,255,0.57) 75%,rgba(10,112,255,0.57) 87%,rgba(47,4,237,0.57) 100%);
+background: linear-gradient(to right, rgba(47,4,237,0.57) 0%,rgba(47,4,237,0.57) 1%,rgba(10,112,255,0.57) 13%,rgba(76,115,255,0.57) 29%,rgba(71,83,255,0.57) 48%,rgba(76,115,255,0.57) 62%,rgba(71,83,255,0.57) 75%,rgba(10,112,255,0.57) 87%,rgba(47,4,237,0.57) 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#912f04ed', endColorstr='#912f04ed',GradientType=1 );
+
+background: -moz-linear-gradient(top, rgba(227,232,244,0.25) 16%, rgba(227,232,244,0.25) 18%, rgba(227,232,244,0.25) 30%, rgba(227,232,244,0.25) 44%, rgba(227,232,244,0.25) 51%, rgba(227,232,244,0.25) 72%, rgba(227,232,244,0.25) 80%, rgba(227,232,244,0.25) 93%, rgba(227,232,244,0.25) 96%, rgba(115,68,255,0.25) 100%, rgba(115,68,255,0.25) 102%, rgba(115,68,255,0.25) 103%);
+background: -webkit-linear-gradient(top, rgba(227,232,244,0.25) 16%,rgba(227,232,244,0.25) 18%,rgba(227,232,244,0.25) 30%,rgba(227,232,244,0.25) 44%,rgba(227,232,244,0.25) 51%,rgba(227,232,244,0.25) 72%,rgba(227,232,244,0.25) 80%,rgba(227,232,244,0.25) 93%,rgba(227,232,244,0.25) 96%,rgba(115,68,255,0.25) 100%,rgba(115,68,255,0.25) 102%,rgba(115,68,255,0.25) 103%);
+background: linear-gradient(to bottom, rgba(227,232,244,0.25) 16%,rgba(227,232,244,0.25) 18%,rgba(227,232,244,0.25) 30%,rgba(227,232,244,0.25) 44%,rgba(227,232,244,0.25) 51%,rgba(227,232,244,0.25) 72%,rgba(227,232,244,0.25) 80%,rgba(227,232,244,0.25) 93%,rgba(227,232,244,0.25) 96%,rgba(115,68,255,0.25) 100%,rgba(115,68,255,0.25) 102%,rgba(115,68,255,0.25) 103%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#40e3e8f4', endColorstr='#407344ff',GradientType=0 );
+}

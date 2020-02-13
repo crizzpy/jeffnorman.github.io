@@ -1,0 +1,47 @@
+*{
+    margin: 0;  
+    padding: 0;
+    list-style: none;
+    text-decoration: none;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.mainwrapper{
+    position: absolute;
+    width: 780px;
+    height: 561px;
+    background: #C4C4C4;
+}
+
+
+
+
+
+.profileImgWrapper{
+    position: absolute;
+    width: 292px;
+    height: 561px;
+    background: #C4C4C4;
+    overflow: hidden
+}
+
+.splitterwrapper{
+    position: absolute;
+    width: 780px;
+    height: 36px;
+    background: white;
+}
+
+.image{
+    margin:100px;
+    max-height: 100%;
+    max-width: 100%;    
+    position: absolute;
+    width: 123px;
+    height: 124px;
+    background: #C4C4C4;
+    object-fit: scale-down;
+    clip-path: circle(150px at center);
+    /* padding: 40px 0 0 30px; */
+}
