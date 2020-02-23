@@ -2,6 +2,11 @@
 const express = require("express");
 const app = express();
 
+//Form/upload libraries
+const Formidable = require('formidable')
+const bluebird = require('bluebird')
+const fs = bluebird.promisifyAll(require('fs'))
+
 //Web sockets
 // const http = require("http");
 // const server = http.createServer(app);
@@ -10,21 +15,28 @@ const app = express();
 
 const cors = require("cors");
 
+
 //Database
 const mongoose = require("mongoose");
 const DB = require('./config/keys').MongoURI
 
 //CORS, body-parser
 app.use(cors())
+app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 
-//Dashboard Router
-app.use('/?/users', require('./routes/users'))
+//API Routers
+app.use('/users', require('./routes/users'))
+app.use('/posts', require('./routes/posts'))
+app.use("/api", require("./routes/api"));
+app.use('/messages', require('./routes/messages'))
 
 //connect to DB
 mongoose.connect(DB, {useNewUrlParser: true})
 .then(() => console.log('Connected to DB'))
 .catch(err => console.log(err))
+
+
 
 
 //Socket connection
@@ -34,5 +46,5 @@ mongoose.connect(DB, {useNewUrlParser: true})
 
 
 
-const PORT = process.env.PORT || 3000
+const PORT = process.env.PORT || 4000
 app.listen(PORT, console.log(`Server running on port ${PORT}`))

@@ -1,5 +1,9 @@
 const mongoose = require("mongoose");
 const PostSchema = mongoose.Schema({
+  userId: {
+    type: String,
+    required: true
+  },
   id: {
     type: String,
     required: true
@@ -11,6 +15,10 @@ const PostSchema = mongoose.Schema({
   date: {
     type: Date,
     default: Date.now()
+  },
+  content: {
+    type: String,
+    required: true
   }
 });
 

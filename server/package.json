@@ -4,17 +4,23 @@
   "description": "server for project mgmt react app",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index"
+    "start": "nodemon index",
+    "client": "cd .. && cd client && npm start",
+    "server": "nodemon index.js",
+    "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\""
   },
   "author": "Jeff Norman",
   "license": "ISC",
   "dependencies": {
+    "bluebird": "^3.7.2",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "formidable": "^1.2.1",
-    "mongoose": "^5.8.10"
+    "mongoose": "^5.8.10",
+    "uuid": "^3.4.0"
   },
   "devDependencies": {
+    "concurrently": "^5.1.0",
     "nodemon": "^2.0.2"
   }
 }
