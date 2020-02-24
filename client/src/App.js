@@ -682,19 +682,28 @@ const UserProfile = ({activeUser, setActiveUser, addPhotoOpen, setAddPhotoOpen, 
   })
 
   const uploadHandler = e => {
-    console.log(uploadedFile[0]);
-    console.log(uploadedFile);
-    const fd = new FormData() 
+    // console.log(uploadedFile.name);
+    // console.log(uploadedFile);
+    const myForm = document.getElementsByName("addPhoto")[0].files
+    // console.log(myForm[0].files)
+    console.log(myForm)
+    // const fd = new FormData(myForm.files.File)
+    // uploadedFile.map(file => {
+    //   console.log(file)
+    // })
+    const fd = new FormData()
+    fd.append('files', myForm) 
     // fd.set() 
-    fd.append('file', uploadedFile[0]);
-    // fd.append("files", uploadedFile, uploadedFile.name);
-    console.log(fd.file)
+    // fd.append('files', uploadedFile.values);
+    // fd.append('test', 'test')
     axios.post('/users/upload', fd)
     .then(res => {
       console.log(res.data)
     })
     .catch(err => console.log(err))
   }
+  const [aboutText, setAboutText] = useState('')
+  const [showAboutMe, setShowAboutMe] = useState(false)
   return (
     <animated.div className="profilepage_wrapper" style={fade}>
       <div className="sidetop_wrapper">
@@ -733,59 +742,63 @@ const UserProfile = ({activeUser, setActiveUser, addPhotoOpen, setAddPhotoOpen, 
             </div>
           </div>
         </div>
+        <div className="slideouts_wrapper">
+          <animated.div
+            className={addPhotoOpen ? "uploadwrap fadein" : "uploadwrap fadeout"}
+            id="shift"
+            style={addPhotoFade}
+          >
+            <div className="addphoto-wrap">
+              <form>
+                <div className={addPhotoOpen ? "image-upload open" : "image-upload"}>
+                  <label for="file-input">
+                    <FontAwesomeIcon icon="plus-circle" class={addPhotoOpen ? "uploadbtn open" : "uploadbtn"} />
+                  </label>
+                  <input id="file-input" name="addPhoto" type="file" onChange={e => setUploadedFile(e.target.files[0])} />
+                </div>
+                <div className={addPhotoOpen ? "image-upload open" : "image-upload"} onClick={e => {
+                  e.preventDefault()
+                  uploadHandler()
+                }}>
+                  <label for="file-input">
+                    <FontAwesomeIcon icon="cloud-upload-alt" class={addPhotoOpen ? "uploadbtn open" : "uploadbtn"} />
+                  </label>
+                  <button id="file-input" type="submit" name="test" value="Submit" />
+                </div>
+              </form>
+            </div>
+          </animated.div>
+          {/* )} */}
+          {/* {takePhotoOpen && ( */}
+          <animated.div
+            className={takePhotoOpen ? "uploadwrap fadein" : "uploadwrap fadeout"}
+            style={takePhotoFade}
+          >
+            <div className="addphoto-wrap">
+              <form onSubmit={uploadHandler}>
+                <div className={takePhotoOpen ? "image-upload open" : "image-upload"} onClick={e => {
+                  e.preventDefault()
+                  setWebCamOpen(true);
+                }}>
+                  <label for="file-input">
+                    <FontAwesomeIcon icon="plus-circle" class={takePhotoOpen ? "uploadbtn open" : "uploadbtn"} />
+                  </label>
+                  <input id="file-input" type="file" />
+                </div>
+                <div className={takePhotoOpen ? "image-upload open" : "image-upload"}>
+                  <label for="file-input">
+                    <FontAwesomeIcon icon="cloud-upload-alt" class={takePhotoOpen ? "uploadbtn open" : "uploadbtn"} />
+                  </label>
+                  <button id="file-input" type="submit" />
+                </div>
+              </form>
+            </div>
+          </animated.div>
+        </div>
       </div>
       {/* {addPhotoOpen && ( */}
-      <animated.div
-        className={addPhotoOpen ? "uploadwrap fadein" : "uploadwrap fadeout"}
-        id="shift"
-        style={addPhotoFade}
-      >
-        <div className="addphoto-wrap">
-          <form>
-            <div className={addPhotoOpen ? "image-upload open" : "image-upload"}>
-              <label for="file-input">
-                <FontAwesomeIcon icon="plus-circle" class={addPhotoOpen ? "uploadbtn open" : "uploadbtn"} />
-              </label>
-              <input id="file-input" type="file" onChange={e => setUploadedFile(e.target.files[0])}/>
-            </div>
-            <div className={addPhotoOpen ? "image-upload open" : "image-upload"} onClick={e => {
-                e.preventDefault()
-                uploadHandler()
-              }}>
-              <label for="file-input">
-                <FontAwesomeIcon icon="cloud-upload-alt" class={addPhotoOpen ? "uploadbtn open" : "uploadbtn"} />
-              </label>
-              <button id="file-input" type="submit" name="test" value="Submit" />
-            </div>
-          </form>
-        </div>
-      </animated.div>
-      {/* )} */}
-      {/* {takePhotoOpen && ( */}
-      <animated.div
-        className={takePhotoOpen ? "uploadwrap fadein" : "uploadwrap fadeout"}
-        style={takePhotoFade}
-      >
-        <div className="addphoto-wrap">
-          <form onSubmit={uploadHandler}>
-            <div className={takePhotoOpen ? "image-upload open" : "image-upload"} onClick={e => {
-              e.preventDefault()
-              setWebCamOpen(true);
-            }}>
-              <label for="file-input">
-                <FontAwesomeIcon icon="plus-circle" class={takePhotoOpen ? "uploadbtn open" : "uploadbtn"} />
-              </label>
-              <input id="file-input" type="file" />
-            </div>
-            <div className={takePhotoOpen ? "image-upload open" : "image-upload"}>
-              <label for="file-input">
-                <FontAwesomeIcon icon="cloud-upload-alt" class={takePhotoOpen ? "uploadbtn open" : "uploadbtn"} />
-              </label>
-              <button id="file-input" type="submit" />
-            </div>
-          </form>
-        </div>
-      </animated.div>
+      
+      
       {webCamOpen &&(
         <animated.div 
         className={webCamOpen ? "webcam_wrapper open" : "webcam_wrapper close"}
@@ -794,7 +807,26 @@ const UserProfile = ({activeUser, setActiveUser, addPhotoOpen, setAddPhotoOpen, 
           <WebcamComponent webCamOpen={webCamOpen} setWebCamOpen={setWebCamOpen} />
         </animated.div>
       )}
-      
+      <div className="userinfo_outerwrapper">
+        <div className="userinfo_innerwrapper">
+          <div className="defaultinfo_wrap">
+            
+          </div>
+          <div className="aboutme_outerwrapper">
+            {showAboutMe && (
+              <animated.div className="aboutme_textareawrap">
+                <textarea />
+              </animated.div>
+            )}
+            {!showAboutMe && (
+              <div className="aboutme_innerwrapper">
+
+              </div>
+            )}
+            
+            </div>
+          </div>
+        </div>
       {/* )} */}
     </animated.div>
   );
@@ -1063,7 +1095,7 @@ const NavBar = ({ navCollapse, setNavCollapse, activeComponent, setActiveCompone
 
 
 
-const Dashboard = ({navCollapse, setNavCollapse, activeComponent, setActiveComponent, pageReady, setPageReady, addUserOpen, setAddUserOpen, errors, setErrors, addPostOpen, setAddPostOpen, renderUserProfile, setRenderUserProfile, renderBulletinBoard, setRenderBulletinBoard, activeUser, setActiveUser, posts, messages, renderMessages, setRenderMessages, renderTeamPage, setRenderTeamPage, addPhotoOpen, setAddPhotoOpen, takePhotoOpen, setTakePhotoOpen, uploadedFile, setUploadedFile, webCamOpen, setWebCamOpen}) => {
+const Dashboard = ({navCollapse, setNavCollapse, activeComponent, setActiveComponent, pageReady, setPageReady, addUserOpen, setAddUserOpen, errors, setErrors, addPostOpen, setAddPostOpen, renderUserProfile, setRenderUserProfile, renderBulletinBoard, setRenderBulletinBoard, activeUser, setActiveUser, posts, messages, renderMessages, setRenderMessages, renderTeamPage, setRenderTeamPage, addPhotoOpen, setAddPhotoOpen, takePhotoOpen, setTakePhotoOpen, uploadedFile, setUploadedFile, webCamOpen, setWebCamOpen, userProfileRendered, setUserProfileRendered, bulletinBoardRendered, setBulletinBoardRendered, teamPageRendered, setTeamPageRendered, messagesPageRendered, setMessagesPageRendered}) => {
   return (
     <div
       style={require("./style/dashboard.css")}
@@ -1119,6 +1151,14 @@ const Dashboard = ({navCollapse, setNavCollapse, activeComponent, setActiveCompo
             activeUser={activeUser}
             setActiveUser={setActiveUser}
             posts={posts}
+            userProfileRendered={userProfileRendered}
+            setUserProfileRendered={setUserProfileRendered}
+            bulletinBoardRendered={bulletinBoardRendered}
+            setBulletinBoardRendered={setBulletinBoardRendered}
+            teamPageRendered={teamPageRendered}
+            setTeamPageRendered={setTeamPageRendered}
+            messagesPageRendered={messagesPageRendered}
+            setMessagesPageRendered={setMessagesPageRendered}
             // setPosts={setPosts}
           />
         )}
@@ -1134,13 +1174,43 @@ const Dashboard = ({navCollapse, setNavCollapse, activeComponent, setActiveCompo
             setUploadedFile={setUploadedFile}
             webCamOpen={webCamOpen}
             setWebCamOpen={setWebCamOpen}
+            userProfileRendered={userProfileRendered}
+            setUserProfileRendered={setUserProfileRendered}
+            bulletinBoardRendered={bulletinBoardRendered}
+            setBulletinBoardRendered={setBulletinBoardRendered}
+            teamPageRendered={teamPageRendered}
+            setTeamPageRendered={setTeamPageRendered}
+            messagesPageRendered={messagesPageRendered}
+            setMessagesPageRendered={setMessagesPageRendered}
           />
         )}
         {renderMessages && (
-          <Messages activeUser={activeUser} setActiveUser={setActiveUser} />
+          <Messages 
+            activeUser={activeUser} 
+            setActiveUser={setActiveUser}
+            userProfileRendered={userProfileRendered}
+            setUserProfileRendered={setUserProfileRendered}
+            bulletinBoardRendered={bulletinBoardRendered}
+            setBulletinBoardRendered={setBulletinBoardRendered}
+            teamPageRendered={teamPageRendered}
+            setTeamPageRendered={setTeamPageRendered}
+            messagesPageRendered={messagesPageRendered}
+            setMessagesPageRendered={setMessagesPageRendered} 
+          />
         )}
         {renderTeamPage && (
-          <TeamPage activeUser={activeUser} setActiveUser={setActiveUser} />
+          <TeamPage 
+            activeUser={activeUser} 
+            setActiveUser={setActiveUser}
+            userProfileRendered={userProfileRendered}
+            setUserProfileRendered={setUserProfileRendered}
+            bulletinBoardRendered={bulletinBoardRendered}
+            setBulletinBoardRendered={setBulletinBoardRendered}
+            teamPageRendered={teamPageRendered}
+            setTeamPageRendered={setTeamPageRendered}
+            messagesPageRendered={messagesPageRendered}
+            setMessagesPageRendered={setMessagesPageRendered}
+          />
         )}
       </div>
     </div>
@@ -1196,9 +1266,13 @@ const App = () => {
   const [webCamOpen, setWebCamOpen] = useState(false);
   const [uploadedFile, setUploadedFile] = useState([]);
   const [renderUserProfile, setRenderUserProfile] = useState(false);
-  const [renderBulletinBoard, setRenderBulletinBoard] = useState(true);
+  const [renderBulletinBoard, setRenderBulletinBoard] = useState(true)
   const [renderMessages, setRenderMessages] = useState(false);
   const [renderTeamPage, setRenderTeamPage] = useState(false)
+  const [userProfileRendered, setUserProfileRendered] = useState(false)
+  const [bulletinBoardRendered, setBulletinBoardRendered] = useState(false)
+  const [messagesPageRendered, setMessagesPageRendered] = useState(false)
+  const [teamPageRendered, setTeamPageRendered] = useState(false)
   
   // const [posts, setPosts] = useState('')
   const posts = []
@@ -1264,6 +1338,14 @@ const App = () => {
                 setUploadedFile={setUploadedFile}
                 webCamOpen={webCamOpen}
                 setWebCamOpen={setWebCamOpen}
+                userProfileRendered={userProfileRendered}
+                setUserProfileRendered={setUserProfileRendered}
+                bulletinBoardRendered={bulletinBoardRendered}
+                setBulletinBoardRendered={setBulletinBoardRendered}
+                teamPageRendered={teamPageRendered}
+                setTeamPageRendered={setTeamPageRendered}
+                messagesPageRendered={messagesPageRendered}
+                setMessagesPageRendered={setMessagesPageRendered}
                 // setPosts={setPosts}
               />
             </React.Fragment>

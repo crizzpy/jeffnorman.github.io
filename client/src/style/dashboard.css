@@ -980,7 +980,7 @@ body{
     margin: 10px;
     background: #4219f8;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     border-radius: 10px;
     border-top-left-radius: 55px;
     box-shadow: 0px 2px 5px 0px rgb(49, 49, 49);
@@ -1063,7 +1063,12 @@ body{
     opacity: 1;
     cursor: pointer;
 }
+.slideouts_wrapper{
+    display: flex;
+    flex-direction: column;
+    padding: 0;
 
+}
 .profileicon:hover{
     cursor: pointer;
 }
@@ -1116,11 +1121,11 @@ body{
     border: thin white;;
 }
 .uploadwrap{
-    margin: 0 0 0 10px;
+    margin: 0 0 0 0px;
     width: 50px;
     padding: 5px;
     background: black;
-    border-radius: 23px;
+    border-radius: 25px;
     cursor: auto;
     transition: all 0.3s ease;
 }
@@ -1142,10 +1147,10 @@ body{
     height: 100%;
     width: 100%;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
 }
 #shift{
-    margin: 0 0 0 60px;
+    margin: 0 0 0 55px;
 }
 .image-upload{
     visibility: hidden;
@@ -1186,7 +1191,48 @@ body{
 .uploadbtn:hover{
     cursor: pointer;
 }
+.userinfo_outerwrapper{
+    display: flex;
+    flex-direction: row;
+    padding: 5px;
+    margin: 5px;
+    /* border-radius: 5px; */
+    /* background: black; */
+    height: calc(100% - 10px);
+    width: 100%;
+}
+.userinfo_innerwrapper{
+    /* display: flex;
+    flex-direction: row; */
+}
+.defaultinfo_wrap{
+    height: 120px;
+    width: 100%;
+    background: #ffebc1;
+    border-radius: 10px;
+    display: flex;
+    flex-basis: 100%;
+    box-shadow: 0px 2px 5px 0px rgb(49, 49, 49);
+}
+.aboutme_outerwrapper{
+    display: flex;
+    height: calc(100% - 130px);
+    width: calc(100% - 10px);
+    margin: 5px;
+    padding: 5px;
+    border-radius: 10px;
+    background: #ffebc1;
+    box-shadow: 0px 2px 5px 0px rgb(49, 49, 49);
+}
+.aboutme_innerwrapper{
 
+}
+.aboutme_textareawrap{
+
+}
+.aboutme_textareawrap > textarea{
+
+}
 
 /*                                           
   /\/\   ___ ___ ___  __ _  __ _  ___ ___ 

@@ -103,9 +103,8 @@ const checkFileType = file => {
 };
 
 router.post('/upload', async (req, res) => {  
-  // console.log(req.body)
+  console.log(req.body)
   let form = new Formidable.IncomingForm()
-  console.log(form)
   const uploadFolder = join(__dirname, 'images', 'uploads')
   console.log(uploadFolder)
   // form.multiples = false
@@ -113,11 +112,16 @@ router.post('/upload', async (req, res) => {
   form.maxFileSize = 10 * 24 * 24 // 10MB
   form.uploadDir = uploadFolder
   console.log(form)
-  
+
   const folderExists = await createUploadsFolder(uploadFolder)
   if (!folderExists) {
     return res.json({ok: false, msg: "There was an error reading/creating the upload folder"})
   }
+  let myUploadedFiles = [];
+  form.on('file', file => {
+    myUploadedFiles.push(file)
+  })
+  console.log(myUploadedFiles)
 
   form.parse(req, async(err, fields, files) => {
     let myUploadedFiles = [];
@@ -126,7 +130,7 @@ router.post('/upload', async (req, res) => {
       return res.json({ok: false, msg: "Error Parsing the files"})
     }
     const file = files.files
-    console.log(files)
+    console.log(fields)
     console.log(file)
     // const isValid = checkFileType(file)
     // const fileName = encodeURIComponent(file.name.replace(/&. *;+/g, '-'))
