@@ -1,0 +1,539 @@
+/* Ellipse 24 */
+
+
+position: absolute;
+width: 94px;
+height: 94px;
+
+background: #340088;
+
+
+/* Rectangle 9 */
+
+
+position: absolute;
+width: 94px;
+height: 164px;
+
+background: #340088;
+
+
+/* Ellipse 26 */
+
+
+position: absolute;
+width: 115px;
+height: 112px;
+
+background: #5B04E9;
+
+
+/* Rectangle 11 */
+
+
+position: absolute;
+width: 115px;
+height: 194px;
+
+background: #5B04E9;
+
+
+/* Ellipse 25 */
+
+
+position: absolute;
+width: 107px;
+height: 111px;
+
+background: #4302AC;
+
+
+/* Rectangle 10 */
+
+
+position: absolute;
+width: 107px;
+height: 194px;
+
+background: #4302AC;
+
+
+/* Rectangle 5 */
+
+
+position: absolute;
+width: 115px;
+height: 194px;
+
+background: #671FFF;
+
+
+/* Ellipse 17 */
+
+
+position: absolute;
+width: 115px;
+height: 112px;
+
+background: #671FFF;
+
+
+/* Ellipse 3 */
+
+
+position: absolute;
+width: 119px;
+height: 123px;
+
+background: #FFE68F;
+
+
+/* Ellipse 4 */
+
+
+position: absolute;
+width: 120px;
+height: 123px;
+
+background: #001970;
+
+
+/* Ellipse 6 */
+
+
+position: absolute;
+width: 96px;
+height: 98px;
+
+background: #4F439D;
+
+
+/* Ellipse 15 */
+
+
+position: absolute;
+width: 96px;
+height: 98px;
+
+background: #5E51AA;
+
+
+/* Ellipse 14 */
+
+
+position: absolute;
+width: 95px;
+height: 98px;
+
+background: #473A94;
+
+
+/* Ellipse 13 */
+
+
+position: absolute;
+width: 96px;
+height: 98px;
+
+background: #4C4093;
+
+
+/* Ellipse 12 */
+
+
+position: absolute;
+width: 96px;
+height: 99px;
+
+background: #4C4093;
+
+
+/* Ellipse 18 */
+
+
+position: absolute;
+width: 96px;
+height: 99px;
+
+background: #5C558A;
+
+
+/* Ellipse 20 */
+
+
+position: absolute;
+width: 95px;
+height: 98px;
+
+background: #5E51AA;
+
+
+/* Ellipse 19 */
+
+
+position: absolute;
+width: 95px;
+height: 98px;
+
+background: #4C4093;
+
+
+/* Ellipse 11 */
+
+
+position: absolute;
+width: 95px;
+height: 98px;
+
+background: #5E51AA;
+
+
+/* Ellipse 10 */
+
+
+position: absolute;
+width: 95px;
+height: 98px;
+
+background: #5E51AA;
+
+
+/* Ellipse 9 */
+
+
+position: absolute;
+width: 95px;
+height: 98px;
+
+background: #5E51AA;
+
+
+/* Ellipse 8 */
+
+
+position: absolute;
+width: 95px;
+height: 99px;
+
+background: #5E51AA;
+
+
+/* Ellipse 7 */
+
+
+position: absolute;
+width: 95px;
+height: 98px;
+
+background: #4C4093;
+
+
+/* Ellipse 23 */
+
+
+position: absolute;
+width: 115px;
+height: 112px;
+
+background: #3C009E;
+
+
+/* Rectangle 8 */
+
+
+position: absolute;
+width: 115px;
+height: 194px;
+
+background: #3C009E;
+
+
+/* Ellipse 22 */
+
+
+position: absolute;
+width: 96px;
+height: 99px;
+
+background: #4C4093;
+
+
+/* Vector 1 */
+
+
+position: absolute;
+width: 742px;
+height: 381px;
+
+background: #6E6CD6;
+border: 1px solid #6E6CD6;
+
+
+/* Ellipse 16 */
+
+
+position: absolute;
+width: 116px;
+height: 111px;
+
+background: #5B04E9;
+
+
+/* Rectangle 4 */
+
+
+position: absolute;
+width: 116px;
+height: 194px;
+
+background: #5B04E9;
+
+
+/* Ellipse 2 */
+
+
+position: absolute;
+width: 246px;
+height: 255px;
+
+background: #6E23E8;
+
+
+/* Rectangle 3 */
+
+
+position: absolute;
+width: 115px;
+height: 277px;
+
+background: #6E23E8;
+
+
+/* Ellipse 1 */
+
+
+position: absolute;
+width: 241px;
+height: 254px;
+
+background: #7230FF;
+
+
+/* Rectangle 2 */
+
+
+position: absolute;
+width: 258px;
+height: 411px;
+
+background: #7230FF;
+
+
+/* Ellipse 21 */
+
+
+position: absolute;
+width: 241px;
+height: 254px;
+
+background: #621AFB;
+
+
+/* Ellipse 5 */
+
+
+position: absolute;
+width: 242px;
+height: 255px;
+
+background: #7230FF;
+
+
+/* Vector 4 */
+
+
+position: absolute;
+width: 41px;
+height: 4px;
+
+border: 1px solid #000000;
+
+
+/* Ellipse 30 */
+
+
+position: absolute;
+width: 47px;
+height: 47px;
+
+background: #B7B5A4;
+
+
+/* Ellipse 29 */
+
+
+position: absolute;
+width: 69px;
+height: 46px;
+
+background: #B7B5A4;
+
+
+/* Ellipse 33 */
+
+
+position: absolute;
+width: 49px;
+height: 48px;
+
+background: #B7B5A4;
+
+
+/* Ellipse 38 */
+
+
+position: absolute;
+width: 26px;
+height: 29px;
+
+background: #B7B5A4;
+
+
+/* Ellipse 28 */
+
+
+position: absolute;
+width: 47px;
+height: 47px;
+
+background: #B7B5A4;
+
+
+/* Rectangle 12 */
+
+
+position: absolute;
+width: 89px;
+height: 47px;
+
+background: #B7B5A4;
+
+
+/* Ellipse 31 */
+
+
+position: absolute;
+width: 35px;
+height: 33px;
+
+background: #B7B5A4;
+
+
+/* Ellipse 32 */
+
+
+position: absolute;
+width: 35px;
+height: 33px;
+
+background: #B7B5A4;
+
+
+/* Rectangle 13 */
+
+
+position: absolute;
+width: 62px;
+height: 33px;
+
+background: #B7B5A4;
+
+
+/* Ellipse 34 */
+
+
+position: absolute;
+width: 36px;
+height: 31px;
+
+background: #B7B5A4;
+
+
+/* Ellipse 35 */
+
+
+position: absolute;
+width: 26px;
+height: 21px;
+
+background: #B7B5A4;
+
+
+/* Ellipse 36 */
+
+
+position: absolute;
+width: 31px;
+height: 21px;
+
+background: #B7B5A4;
+
+
+/* Rectangle 14 */
+
+
+position: absolute;
+width: 39px;
+height: 21px;
+
+background: #B7B5A4;
+
+config property
+mass
+tension
+velocity
+friction
+clamp (binary)
+precision (usually not needed)
+
+config.
+    default
+    gentle
+    wobble
+    stiff
+    slow
+    molasses
+
+delay
+immediate - jumps to end value
+cancel - stops animation, does not render to end value
+reverse - flips 'from' and 'to'
+
+event props
+onStart - called when animation has started
+onFrame - called on every animation onFrame
+onRest - called when animation has finished
+
+imperative mode
+const values, update, stop = useSpring(() => {
+    update
+})
+
+
+ <Spring
+          from={{ number: 0 }}
+          to={{ number: 1 }}>
+          {props => <div>{props.number}</div>}
+        </Spring>
+
+{/* <path d="M85.9737 54.5021L130.585 66.6617L167.761 72.3362H214.496L289.91 66.6617H371.698L499.158 76.3894L700.971 96.6553L818.871 103.14L1009 96.6553V382H1V1L85.9737 54.5021Z" fill="#6E6CD6" stroke="#6E6CD6" /> */}
+
+
+config={{
+            mass: 1,
+            tension: 20,
+            velocity: 130,
+            friction: 150,
+            clamp: false,
+            duration: 1000
+          }}

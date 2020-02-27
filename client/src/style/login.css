@@ -2,12 +2,86 @@
     background: blue;
 } */
 
-
+body{
+    background: #001970;
+}
 .login_container{
     position: absolute;
     width: 100%;
-    height: 100%;
-    background: #413efa !important;
+    height: 99%;
+    background: #001970 !important;
+    overflow: hidden;
+    /* background: #413efa !important; */
+}
+.moon{
+    position: absolute;
+    top: 30px;
+    right: 80px;
+}
+.hillbackrear{
+    position: absolute;
+    left: 18%;
+    top: calc(100% - 450px);
+}
+.hillbackmid{
+    position: absolute;
+    left: 12%;
+    top: calc(100% - 410px);
+}
+.hillbackfront{
+    position: absolute;
+    left: 22%;
+    top: calc(100% - 360px); 
+}
+.treesback{
+    position: absolute;
+    top: calc(100% - 300px);
+    left: -20%;
+}
+.lake{
+    position: absolute;
+    top: calc(100% - 300px);
+    left: 0%;
+}
+.hillmidrear{
+    position: absolute;
+    right: 0%;
+    top: calc(100% - 400px);
+}
+.hillmidfront{
+    position: absolute;
+    right: 3%;
+    top: calc(100% - 360px);
+}
+.hillfrontrear{
+    position: absolute;
+    left: 8%;
+    top: calc(100% - 330px);
+}
+.hillfrontfront{
+    position: absolute;
+    left: -10%;
+    top: calc(100% - 400px);
+}
+.treesfront{
+    position: absolute;
+    right: -2%;
+    top: calc(100% - 250px);
+}
+.cloudrear{
+    position: absolute;
+    left: 38%;
+    top: 33%;
+}
+.cloudmid{
+    position: absolute;
+    left: 55%;
+    top: 20%;
+}
+.cloudfront{
+    position: absolute;
+    left: 8%;
+    top: 12%;
 }
 .form_container{
     display: flex;
@@ -93,3 +167,14 @@
 .router_wrapper:hover{
     cursor: pointer;
 }
+
+.sky_bg{
+    position: absolute;
+    width: 1008px;
+    height: 596px;
+    background: #001970;
+}
+
+
+
+

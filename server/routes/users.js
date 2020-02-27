@@ -6,6 +6,7 @@ const bluebird = require("bluebird");
 const fs = bluebird.promisifyAll(require("fs"));
 const { join } = require('path') 
 
+
 router.post("/login", (req, res) => {
   const {username, password} = req.body
   const errors=[]
@@ -14,6 +15,7 @@ router.post("/login", (req, res) => {
     .then(user => {
         if(user) {
           if (user.password == password) {
+            console.log(user)
             res.status(200).send(user)
           } else {
             errors.push({ password: `Incorrect password. Click 'Forgot Password' if you need to reset it.`})
