@@ -14,7 +14,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useSpring, animated, config, useTransition } from 'react-spring'
 import { Keyframes, Spring} from 'react-spring/renderprops'
 import delay from 'delay'
-
+import uuid from 'uuid'
 // import formidable from 'formidable'
 // import './server/routes/users'
 // import mongoose from 'mongoose'
@@ -33,6 +33,20 @@ library.add(fab, faCheckSquare, faCoffee, faUser, faEnvelopeSquare, faSpinner, f
 // user credentials context state declaration
 
 const UserContext = createContext(null)
+const LoginContext = createContext(null)
+const SignupContext = createContext(null);
+const PostsContext = createContext(null);
+const ActiveComponentContext = createContext(null)
+
+
+
+const Welcome = () => {
+  return(
+    <div className="component_container">
+      <h1>welcome</h1>
+    </div>  
+  )
+}
 
 
 // ooooooooooooo-oooooooooooo-------.o.-------ooo--------ooooo-----------ooooooooo.---------.o.---------.oooooo.----oooooooooooo-
@@ -53,7 +67,7 @@ const TeamPage = () => {
       opacity: 0
     },
     opacity: 1
-  });
+  })
 
   const [usersLoaded, setUsersLoaded] = useState(false);
 
@@ -94,7 +108,7 @@ const TeamPage = () => {
 // -8----Y-----888---888-------o-oo-----.d8P-oo-----.d8P--.8'-----`888.--`88.----.88'---888-------o-oo-----.d8P-
 // o8o--------o888o-o888ooooood8-8""88888P'--8""88888P'--o88o-----o8888o--`Y8bood8P'---o888ooooood8-8""88888P'--
 
-const Messages = ({activeComponent, setActiveComponent, messages}) => {
+const Messages = ({messages}) => {
   useEffect(() => {
     retrieveMessages();
   }, []);
@@ -105,6 +119,18 @@ const Messages = ({activeComponent, setActiveComponent, messages}) => {
     },
     opacity: 1
   });
+
+  const slideIn = useTransition({
+    from: {
+      transform: "translateX(1200px)"
+    },
+    enter: {
+      transform: "translateX(0px)"
+    },
+    leave: {
+      transform: "translateX(-1200px)"
+    }
+  })
 
   const [messagesLoaded, setMessagesLoaded] = useState(false)
 
@@ -123,21 +149,23 @@ const Messages = ({activeComponent, setActiveComponent, messages}) => {
   };
 
   return (
-    <animated.div className="messagespage_wrapper" style={fadein}>
-      <div className="messages_innerwrapper">
-        <div className="iconwrap">
-          <div className="msgimgcircle">
-            <div className="msgimage">
-              <FontAwesomeIcon
-                icon="comment-alt"
-                class="msgimage"
-                id="chat"
-              />
+    <div className="component_container">
+      <animated.div className="messagespage_wrapper" style={fadein}>
+        <div className="messages_innerwrapper">
+          <div className="iconwrap">
+            <div className="msgimgcircle">
+              <div className="msgimage">
+                <FontAwesomeIcon
+                  icon="comment-alt"
+                  class="msgimage"
+                  id="chat"
+                />
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </animated.div>
+      </animated.div>
+    </div>
   );
 }
 
@@ -150,11 +178,9 @@ const Messages = ({activeComponent, setActiveComponent, messages}) => {
 // o888bood8P'-----`YbodP'----o888ooooood8-o888ooooood8-o888ooooood8-----o888o-----o888o-o8o--------`8------------o888bood8P'---`Y8bood8P'--o88o-----o8888o-o888o--o888o-o888bood8P'---
 
 
-const BulletinBoard = ({addPostOpen, setAddPostOpen, activeUser, setActiveUser, posts, setPosts}) => {
-  
-  useEffect(() => {
-    retrievePosts()
-  }, [])
+const BulletinBoard = ({addPostOpen, setAddPostOpen, activeUser, setActiveUser, postsLoaded, setPostsLoaded}) => {
+  const { userId, setUserId } = useContext(UserContext)
+  const { posts, setPosts } = useContext(PostsContext)
 
   const fadein = useSpring({
     from: {
@@ -163,36 +189,38 @@ const BulletinBoard = ({addPostOpen, setAddPostOpen, activeUser, setActiveUser, 
     opacity: 1
   });
 
+  const slideIn = useTransition({
+    from: {
+      transform: "translateX(1200px)"
+    },
+    enter: {
+      transform: "translateX(0px)"
+    },
+    leave: {
+      transform: "translateX(-1200px)"
+    }
+  })
   const [postAdminsOnly, setPostAdminsOnly] = useState(false)
   const [postContent, setPostContent] = useState('')
-  const [postsLoaded, setPostsLoaded] = useState(false)
+  
 
-  const retrievePosts = () => {
-    axios
-      .get("/posts/retrieve")
-      .then(res => {
-        console.log(res.data)
-        res.data.map(post => {
-          posts.push(post)
-        });
-        
-        setPostsLoaded(true);
-      })
-      .catch(err => console.log(err));
-  }
+  
 
   const submitPost = () => {
+    console.log('submit post')
+    console.log(postContent)
     if (postContent) {
       // console.log(postContent);
       // console.log(postAdminsOnly);
       const data = {
-        userId: activeUser.id,
+        userId: userId._id,
+        id: uuid.v4(),
         postAdminsOnly,
         content: postContent
       }
       axios.post('/posts/add', data)
       .then(res=> {
-
+        console.log(res.data)
       })
       .catch(err => console.log(err))
       
@@ -206,85 +234,94 @@ const BulletinBoard = ({addPostOpen, setAddPostOpen, activeUser, setActiveUser, 
   }
 
   return (
-    <animated.div className="component_container" style={fadein}>
-      <div
-        className="addPost"
-        onClick={e => {
-          e.preventDefault();
-          setAddPostOpen(!addPostOpen);
-        }}
-      >
-        <FontAwesomeIcon icon="pencil-alt" class="buttonicon" />
-      </div>
-      <div className="posts_window">
-        <div className="posts_innerwrap">
-          {postsLoaded && (
-            <div className="test">
-              <ul>
-                {console.log(posts)}
-                {posts.map(post => {
-                  return (
-                    <React.Fragment>
-                      <li key={post.id}>{post.content}</li>
-                    </React.Fragment>
-                  );
-                })}
-              </ul>
-            </div>
-          )}
-          {!postsLoaded && <div className="test">Loading</div>}
-        </div>
-      </div>
-      {addPostOpen && (
-        <div className="postbuilder">
-          <div className="postbuilder_innercontainer">
-            <form
-              onSubmit={e => {
+    <div className="component_container">
+      {slideIn.map(({item, props, key}) => {
+        return(
+          <animated.div style={props} key={key}>
+            <div
+              className="addPost"
+              onClick={e => {
                 e.preventDefault();
-                submitPost();
+                setAddPostOpen(!addPostOpen);
               }}
             >
-              <div
-                contentEditable="true"
-                className="post_compose"
-                value={postContent}
-                onChange={e => setPostContent(e.target.value)}
-              />
-              <div className="postbuilder_bottomwrapper">
-                <div className="bottomicon_wrap">
-                  <FontAwesomeIcon icon="bold" class="bottomicon" />
-                </div>
-                <div className="bottomicon_wrap">
-                  <FontAwesomeIcon icon="italic" class="bottomicon" />
-                </div>
-                <div className="bottomicon_wrap" id="send">
-                  <FontAwesomeIcon
-                    icon="paper-plane"
-                    class="bottomicon"
-                    onClick={() => submitPost()}
-                  />
-                </div>
+              <FontAwesomeIcon icon="pencil-alt" class="buttonicon" />
+            </div>
+            <div className="posts_window">
+              <div className="posts_innerwrap">
+                {postsLoaded && (
+                  <ul>
+                    {console.log(posts)}
+                    {posts.map(post => {
+                      return (
+                        <li key={post.id}>
+                          <div className="renderedpost_wrapper">
+                            {post.content}
+                          </div>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                )}
+                {!postsLoaded && <div className="test">Loading</div>}
+              </div>
+            </div>
+            {addPostOpen && (
+              <div className="postbuilder">
+                <div className="postbuilder_innercontainer">
+                  <form
+                    onSubmit={e => {
+                      e.preventDefault();
+                      submitPost();
+                    }}
+                  >
+                    <div
+                      contentEditable="true"
+                      className="post_compose"
+                      value={postContent}
+                      onChange={e => setPostContent(e.target.value)}
+                    />
+                    <div className="postbuilder_bottomwrapper">
+                      <div className="bottomicon_wrap">
+                        <FontAwesomeIcon icon="bold" class="bottomicon" />
+                      </div>
+                      <div className="bottomicon_wrap">
+                        <FontAwesomeIcon icon="italic" class="bottomicon" />
+                      </div>
+                      <div className="bottomicon_wrap" id="send">
+                        <FontAwesomeIcon
+                          icon="paper-plane"
+                          class="bottomicon"
+                          onClick={(e) => {
+                            e.preventDefault()
+                            submitPost()
+                          }}
+                        />
+                      </div>
 
-                <div
-                  className="bottomicon_wrap"
-                  onClick={e => {
-                    setPostAdminsOnly(!postAdminsOnly);
-                  }}
-                >
-                  <input
-                    type="checkbox"
-                    id="checkbox"
-                    checked={postAdminsOnly ? true : false}
-                    onChange={e => setPostAdminsOnly(!postAdminsOnly)}
-                  />
-                  <p>Admins only</p>
+                      <div
+                        className="bottomicon_wrap"
+                        onClick={e => {
+                          setPostAdminsOnly(!postAdminsOnly);
+                        }}
+                      >
+                        <input
+                          type="checkbox"
+                          id="checkbox"
+                          checked={postAdminsOnly ? true : false}
+                          onChange={e => setPostAdminsOnly(!postAdminsOnly)}
+                        />
+                        <p>Admins only</p>
+                      </div>
+                    </div>
+                  </form>
                 </div>
               </div>
-            </form>
-          </div>
-        </div>
-      )}
-    </animated.div>
+            )}
+          </animated.div>
+        )
+      })}
+    </div>
   );
 }
 
@@ -709,7 +746,7 @@ const UserProfile = ({activeUser, setActiveUser, addPhotoOpen, setAddPhotoOpen, 
 
 
 
-const NavBar = ({ navCollapse, setNavCollapse, activeComponent, setActiveComponent, renderUserProfile, setRenderUserProfile, renderBulletinBoard, setRenderBulletinBoard, renderMessages, setRenderMessages, renderTeamPage, setRenderTeamPage, activeUser, setActiveUser }) => {
+const NavBar = ({ navCollapse, setNavCollapse, renderUserProfile, setRenderUserProfile, renderBulletinBoard, setRenderBulletinBoard, renderMessages, setRenderMessages, renderTeamPage, setRenderTeamPage, activeUser, setActiveUser }) => {
   // useEffect(() => {
   //   axios.get('/users/login')
   //   .then(res => {
@@ -724,9 +761,14 @@ const NavBar = ({ navCollapse, setNavCollapse, activeComponent, setActiveCompone
   // const spin = useSpring({
   //   transform: navCollapse ? 'rotateZ(0deg)'  : 'rotateZ(90deg)'
   // })
+
+  const {activeComponent, setActiveComponent} = useContext(ActiveComponentContext)
   
   const { rotateZ } = useSpring({
-    rotateZ: navCollapse ? 0 : 90 
+    rotateZ: navCollapse ? 0 : 90,
+    config: {
+      duration: 200
+    }
   });
 
   // const transitions = useTransition(location, location => location.pathname => {
@@ -960,8 +1002,38 @@ const NavBar = ({ navCollapse, setNavCollapse, activeComponent, setActiveCompone
 
 
 
-const Dashboard = ({navCollapse, setNavCollapse, activeComponent, setActiveComponent, pageReady, setPageReady, addUserOpen, setAddUserOpen, errors, setErrors, addPostOpen, setAddPostOpen, renderUserProfile, setRenderUserProfile, renderBulletinBoard, setRenderBulletinBoard, activeUser, setActiveUser, posts, messages, renderMessages, setRenderMessages, renderTeamPage, setRenderTeamPage, addPhotoOpen, setAddPhotoOpen, takePhotoOpen, setTakePhotoOpen, uploadedFile, setUploadedFile, webCamOpen, setWebCamOpen, userProfileRendered, setUserProfileRendered, bulletinBoardRendered, setBulletinBoardRendered, teamPageRendered, setTeamPageRendered, messagesPageRendered, setMessagesPageRendered}) => {
+const Dashboard = ({loggedIn, setLoggedIn, navCollapse, setNavCollapse, pageReady, setPageReady, addUserOpen, setAddUserOpen, errors, setErrors, addPostOpen, setAddPostOpen, renderUserProfile, setRenderUserProfile, renderBulletinBoard, setRenderBulletinBoard, activeUser, setActiveUser, renderMessages, setRenderMessages, renderTeamPage, setRenderTeamPage, addPhotoOpen, setAddPhotoOpen, takePhotoOpen, setTakePhotoOpen, uploadedFile, setUploadedFile, webCamOpen, setWebCamOpen, userProfileRendered, setUserProfileRendered, bulletinBoardRendered, setBulletinBoardRendered, teamPageRendered, setTeamPageRendered, messagesPageRendered, setMessagesPageRendered, postsLoaded, setPostsLoaded, renderWelcome, setRenderWelcome}) => {
+  useEffect(() => {
+    retrievePosts()
+  }, [])
+
+  const { activeComponent, setActiveComponent } = useContext(ActiveComponentContext)
+
+  const {posts, setPosts} = useContext(PostsContext)
+  const retrievePosts = () => {
+    axios
+      .get("/posts/retrieve")
+      .then(res => {
+        console.log(res.data)
+        res.data.map(post => {
+          console.log(post)
+          // setPosts([...posts, post]);
+          posts.push(post)
+          
+        });
+        console.log(posts, 'hello')
+        setPostsLoaded(true);
+      })
+      .catch(err => console.log(err));
+  }
+
   const{userId, setUserId} = useContext(UserContext)
+
+  const handleLogout = () => {
+    setUserId(null)
+    setLoggedIn(false)
+    // window.location.reload();
+  }
 
   if(!userId) {
     setUserId({
@@ -975,8 +1047,7 @@ const Dashboard = ({navCollapse, setNavCollapse, activeComponent, setActiveCompo
         password: 'hallybird101',
         email: 'jeff_norman@live.com',
         department: 'A',
-        role: 'Analyst'
-                          
+        role: 'Analyst'           
     })
   }
   
@@ -1001,6 +1072,9 @@ const Dashboard = ({navCollapse, setNavCollapse, activeComponent, setActiveCompo
           setErrors={setErrors}
         />
       </div>
+      <div className="logout">
+        <button onClick={handleLogout}>Log Out</button>
+      </div>
       <NavBar
         navCollapse={navCollapse}
         setNavCollapse={setNavCollapse}
@@ -1014,8 +1088,6 @@ const Dashboard = ({navCollapse, setNavCollapse, activeComponent, setActiveCompo
         setRenderTeamPage={setRenderTeamPage}
         activeUser={activeUser}
         setActiveUser={setActiveUser}
-        activeComponent={activeComponent}
-        setActiveComponent={setActiveComponent}
       />
       <div
         className={navCollapse ? "container_window shrink" : "container_window"}
@@ -1028,13 +1100,15 @@ const Dashboard = ({navCollapse, setNavCollapse, activeComponent, setActiveCompo
         }
       >
         {/* <div className="active_comp"><UserProfile /></div> */}
+        {renderWelcome && (
+          <Welcome />
+        )}
         {renderBulletinBoard && (
           <BulletinBoard
             addPostOpen={addPostOpen}
             setAddPostOpen={setAddPostOpen}
             activeUser={activeUser}
             setActiveUser={setActiveUser}
-            posts={posts}
             userProfileRendered={userProfileRendered}
             setUserProfileRendered={setUserProfileRendered}
             bulletinBoardRendered={bulletinBoardRendered}
@@ -1043,6 +1117,8 @@ const Dashboard = ({navCollapse, setNavCollapse, activeComponent, setActiveCompo
             setTeamPageRendered={setTeamPageRendered}
             messagesPageRendered={messagesPageRendered}
             setMessagesPageRendered={setMessagesPageRendered}
+            postsLoaded={postsLoaded}
+            setPostsLoaded={setPostsLoaded}
             // setPosts={setPosts}
           />
         )}
@@ -1122,46 +1198,21 @@ const Testing = () =>{
     </>
   )
 }
-// ooooo----------.oooooo.-----.oooooo.----ooooo-ooooo------ooo-----------ooooooooo.---------.o.---------.oooooo.----oooooooooooo-
-// `888'---------d8P'--`Y8b---d8P'--`Y8b---`888'-`888b.-----`8'-----------`888---`Y88.------.888.-------d8P'--`Y8b---`888'-----`8-
-// -888---------888------888-888------------888---8-`88b.----8-------------888---.d88'-----.8"888.-----888------------888---------
-// -888---------888------888-888------------888---8---`88b.--8-------------888ooo88P'-----.8'-`888.----888------------888oooo8----
-// -888---------888------888-888-----ooooo--888---8-----`88b.8-------------888-----------.88ooo8888.---888-----ooooo--888----"----
-// -888-------o-`88b----d88'-`88.----.88'---888---8-------`888-------------888----------.8'-----`888.--`88.----.88'---888-------o-
-// o888ooooood8--`Y8bood8P'---`Y8bood8P'---o888o-o8o--------`8------------o888o--------o88o-----o8888o--`Y8bood8P'---o888ooooood8-
 
+const LoginForm = ({loggedIn, setLoggedIn}) => {
 
-const LoginPage = ({ showSignup, setShowSignup, loggedIn, setLoggedIn, renderBulletinBoard, setRenderBulletinBoard, activeUser, setActiveUser, errors, setErrors }) => {
-  const {userId, setUserId} = useContext(UserContext)
-
-  // const breeze = useSpring({
-  //   from: { transform: "translate3d(0,0,0)" },
-  //   to: { transform: "translate3d(5px,0,0)"},
-  //   reset: true
-  // })
-
-  // const {xy} = useSpring({
-  //   config: {
-  //     mass: 1,
-  //     tension: 80,
-  //     friction: 7,
-  //     clamp: false
-  //   },
-  //   from: { xy: [0, 0] },
-  //   to: { xy: [800, 800] },
-
-  //   delay: 2000,
-  //   onRest: () => {
-  //     console.log('done')
-  //   }
-  // })
-
-  // const Script = Keyframes.Spring(async next =>
-  // while (true)
-  //   await next({ opacity: 1, from: { opacity: 0 }, reset: true })
-  // )
-
-
+  const { userId, setUserId } = useContext(UserContext);
+  const { showSignup, setShowSignup } = useContext(SignupContext)
+  const {
+    username,
+    setUsername,
+    email,
+    setEmail,
+    password,
+    setPassword,
+    passwordTwo,
+    setPasswordTwo
+  } = useContext(LoginContext);
   const handleGet = async (e) => {
     e.preventDefault()
     const user = {
@@ -1172,8 +1223,7 @@ const LoginPage = ({ showSignup, setShowSignup, loggedIn, setLoggedIn, renderBul
     setUserId(response)
     // console.log(userId)
     // .catch(err => console.log(`Error encountered: ${err}`))
-    // axios.get('/api/hello')
-    // .then(res => console.log(res.data))
+
   }
   const tryLogin = async user => {
     return await axios.post('/users/login', user)
@@ -1202,6 +1252,137 @@ const LoginPage = ({ showSignup, setShowSignup, loggedIn, setLoggedIn, renderBul
     // setPasswordTwo('')
     // setEmail('')
   }
+  return(
+    <div className="form_container">
+      {!showSignup && (
+        <div className="form_innercontainer" id="login">
+          <form onSubmit={handleGet}>
+            <div className="input_wrapper">
+              <input
+                placeholder="Username or Email"
+                value={username}
+                onChange={e => setUsername(e.target.value)}
+              />
+            </div>
+            <div className="input_wrapper">
+              <input
+                placeholder="Password"
+                type="password"
+                value={password}
+                onChange={e => setPassword(e.target.value)}
+              />
+            </div>
+            <div className="button_wrapper" onClick={handleGet}>
+              <button type="submit" value="Submit" id="button">
+                Log In
+                </button>
+            </div>
+            <button
+              className="router_wrapper"
+              onClick={e => {
+                e.preventDefault();
+                setShowSignup(true);
+              }}
+            >
+              Don't have an account? >> Sign Up
+              </button>
+          </form>
+        </div>
+      )}
+
+      {showSignup && (
+        
+        <div className="form_innercontainer">
+          <form onSubmit={handlePost}>
+            <div className="input_wrapper">
+              <input
+                placeholder="Email"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+              />
+            </div>
+            <div className="input_wrapper">
+              <input
+                placeholder="Username"
+                value={username}
+                onChange={e => setUsername(e.target.value)}
+              />
+            </div>
+            <div className="input_wrapper">
+              <input
+                placeholder="Password"
+                type="password"
+                value={password}
+                onChange={e => setPassword(e.target.value)}
+              />
+            </div>
+            <div className="input_wrapper">
+              <input
+                placeholder="Confirm Password"
+                type="password"
+                value={passwordTwo}
+                onChange={e => setPasswordTwo(e.target.value)}
+              />
+            </div>
+            <div className="button_wrapper" onClick={handlePost}>
+              <button type="submit" value="Submit" id="button">
+                Sign Up
+                </button>
+            </div>
+            <button
+              className="router_wrapper"
+              onClick={e => {
+                e.preventDefault();
+                setShowSignup(false);
+            }}>
+              Have an exisiting account? >> Log In
+            </button>
+          </form>
+        </div>
+      )}
+    </div>
+  )
+}
+
+
+// ooooo----------.oooooo.-----.oooooo.----ooooo-ooooo------ooo-----------ooooooooo.---------.o.---------.oooooo.----oooooooooooo-
+// `888'---------d8P'--`Y8b---d8P'--`Y8b---`888'-`888b.-----`8'-----------`888---`Y88.------.888.-------d8P'--`Y8b---`888'-----`8-
+// -888---------888------888-888------------888---8-`88b.----8-------------888---.d88'-----.8"888.-----888------------888---------
+// -888---------888------888-888------------888---8---`88b.--8-------------888ooo88P'-----.8'-`888.----888------------888oooo8----
+// -888---------888------888-888-----ooooo--888---8-----`88b.8-------------888-----------.88ooo8888.---888-----ooooo--888----"----
+// -888-------o-`88b----d88'-`88.----.88'---888---8-------`888-------------888----------.8'-----`888.--`88.----.88'---888-------o-
+// o888ooooood8--`Y8bood8P'---`Y8bood8P'---o888o-o8o--------`8------------o888o--------o88o-----o8888o--`Y8bood8P'---o888ooooood8-
+
+
+const LoginPage = ({ showSignup, setShowSignup, loggedIn, setLoggedIn, renderBulletinBoard, setRenderBulletinBoard, activeUser, setActiveUser, errors, setErrors }) => {
+  
+  // const breeze = useSpring({
+  //   from: { transform: "translate3d(0,0,0)" },
+  //   to: { transform: "translate3d(5px,0,0)"},
+  //   reset: true
+  // })
+
+  // const {xy} = useSpring({
+  //   config: {
+  //     mass: 1,
+  //     tension: 80,
+  //     friction: 7,
+  //     clamp: false
+  //   },
+  //   from: { xy: [0, 0] },
+  //   to: { xy: [800, 800] },
+
+  //   delay: 2000,
+  //   onRest: () => {
+  //     console.log('done')
+  //   }
+  // })
+
+  // const Script = Keyframes.Spring(async next =>
+  // while (true)
+  //   await next({ opacity: 1, from: { opacity: 0 }, reset: true })
+  // )
+
 
   const Script1 = Keyframes.Spring(async next => {
     while (true) {
@@ -1458,18 +1639,59 @@ const LoginPage = ({ showSignup, setShowSignup, loggedIn, setLoggedIn, renderBul
   })
 
 
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
-  const [email, setEmail] = useState('')
-  const [passwordTwo, setPasswordTwo] = useState('')
+
+  
   return (
     <React.Fragment>
     <div className="login_container" style={require("./style/login.css")}>
       <div className="moon">
         <svg width="119" height="123" viewBox="0 0 119 123" fill="none" xmlns="http://www.w3.org/2000/svg">
+          {/* <defs>
+            <clipPath id="clipPath1">
+              <ellipse cx="41.5" cy="44.5" rx="59.5" ry="59.5" fill="#001970" />
+            </clipPath>
+          </defs>
           <ellipse cx="59.5" cy="61.5" rx="59.5" ry="59.5" fill="#FFE68F" />
-          <ellipse cx="41.5" cy="44.5" rx="59.5" ry="59.5" fill="#001970" />
+          <ellipse cx="41.5" cy="44.5" rx="59.5" ry="59.5" fill="#001970" style={{ clipPath: "url(#clipPath1)" }}/> */}
+            <path stroke="#000" transform="rotate(-134 67.58161163330078,68.32870483398438) " id="svg_3" d="m99.186113,130.951092l0,0c-34.906272,0 -63.209006,-28.032067 -63.209006,-62.62238c0,-34.585881 28.302735,-62.62238 63.209006,-62.62238l0,0c-19.893102,14.782639 -31.602332,37.984648 -31.602332,62.62238s11.709231,47.835309 31.602332,62.62238z" fill-opacity="null" stroke-opacity="null" stroke-width="1.5" fill="#FFE68F" />
+
         </svg>
+      </div>
+      <div className="cloudrear">
+        <CloudScript1
+          config={{duration: 40000}}
+        >
+          {style => (
+            <svg style={style} width="120" height="100" viewBox="0 0 39 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="27" height="9" rx="6" fill="#B7B5A4"/>
+              <ellipse cx="11" cy="1" rx="7" ry="5" fill="#B7B5A4"/>
+            </svg>
+          )}
+        </CloudScript1>
+        <CloudScript2
+          config={{duration: 40000}}
+        >
+          {style => (
+            <svg style={style} width="120" height="100" viewBox="0 0 39 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="27" height="9" rx="6" fill="#B7B5A4"/>
+              <ellipse cx="11" cy="1" rx="7" ry="5" fill="#B7B5A4"/>
+            </svg>
+          )}
+        </CloudScript2>
+        
+      </div>
+      <div className="cloudmid">
+        <CloudScript1
+          config={{duration: 60000}}
+        >
+          {style => (
+            <svg style={style} width="140" height="100" viewBox="0 0 39 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="25" height="8" rx="6" fill="#B7B5A4" />
+              <ellipse cx="9" cy="1" rx="6" ry="4" fill="#B7B5A4" />
+              <ellipse cx="14" cy="3" rx="5" ry="5" fill="#B7B5A4" />
+            </svg>
+          )}
+        </CloudScript1>
       </div>
       <div className="hillback">
         <div className="hillbackrear">
@@ -1492,6 +1714,28 @@ const LoginPage = ({ showSignup, setShowSignup, loggedIn, setLoggedIn, renderBul
 
         </div>
       </div>
+      <div className="cloudfront">
+        <CloudScript1
+          config={{duration: 80000}}
+        >
+          {style => (
+            <svg style={style} width="140" height="120" viewBox="0 0 39 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="35" height="15" rx="10" fill="#B7B5A4"/>
+              <ellipse cx="12" cy="1" rx="7" ry="5" fill="#B7B5A4"/>
+            </svg>
+          )}
+        </CloudScript1>
+        <CloudScript2
+          config={{duration: 80000}}
+        >
+          {style => (
+            <svg style={style} width="140" height="120" viewBox="0 0 39 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="35" height="15" rx="10" fill="#B7B5A4"/>
+              <ellipse cx="12" cy="1" rx="7" ry="5" fill="#B7B5A4"/>
+            </svg>
+          )}
+        </CloudScript2>
+      </div>
       <div className="treesback">
         <svg width="1450" height="123" viewBox="0 0 400 123" fill="none" xmlns="http://www.w3.org/2000/svg">
           
@@ -1509,6 +1753,8 @@ const LoginPage = ({ showSignup, setShowSignup, loggedIn, setLoggedIn, renderBul
             transform: xy.interpolate((x, y) => `translate(${x}px, ${y}px)`)
           }}/> */}
           
+          {/*  BACK TREES  */}
+
           <Script5 config={{
             mass: 1,
             tension: 20,
@@ -1541,7 +1787,7 @@ const LoginPage = ({ showSignup, setShowSignup, loggedIn, setLoggedIn, renderBul
               {style => <animated.ellipse style={style} cx="650" cy="19" rx="47.5" ry="49" fill="#473A94" />}
           </Script13>
           
-          <Script15 config={{
+          <Script16 config={{
             mass: 1,
             tension: 20,
             velocity: 130,
@@ -1549,8 +1795,8 @@ const LoginPage = ({ showSignup, setShowSignup, loggedIn, setLoggedIn, renderBul
             clamp: false,
             duration: 1000
           }}>
-              {style => <animated.ellipse style={style} cx="750" cy="21" rx="47.5" ry="49" fill="#473A94" />}
-          </Script15>
+              {style => <animated.ellipse style={style} cx="800" cy="19" rx="47.5" ry="49" fill="#473A94" />}
+          </Script16>
           
           <Script17 config={{
             mass: 1,
@@ -1560,18 +1806,9 @@ const LoginPage = ({ showSignup, setShowSignup, loggedIn, setLoggedIn, renderBul
             clamp: false,
             duration: 1000
           }}>
-              {style => <animated.ellipse style={style} cx="850" cy="20" rx="47.5" ry="49" fill="#473A94" />}
+              {style => <animated.ellipse style={style} cx="850" cy="28" rx="47.5" ry="49" fill="#473A94" />}
           </Script17>
-          <Script18 config={{
-            mass: 1,
-            tension: 20,
-            velocity: 130,
-            friction: 150,
-            clamp: false,
-            duration: 1000
-          }}>
-              {style => <animated.ellipse style={style} cx="900" cy="17" rx="47.5" ry="49" fill="#5E51AA" />}
-          </Script18>
+          
           <Script19 config={{
             mass: 1,
             tension: 20,
@@ -1580,7 +1817,7 @@ const LoginPage = ({ showSignup, setShowSignup, loggedIn, setLoggedIn, renderBul
             clamp: false,
             duration: 1000
           }}>
-              {style => <animated.ellipse style={style} cx="950" cy="18" rx="47.5" ry="49" fill="#473A94" />}
+              {style => <animated.ellipse style={style} cx="950" cy="27" rx="47.5" ry="49" fill="#473A94" />}
           </Script19>
           <Script20 config={{
             mass: 1,
@@ -1590,7 +1827,7 @@ const LoginPage = ({ showSignup, setShowSignup, loggedIn, setLoggedIn, renderBul
             clamp: false,
             duration: 1000
           }}>
-              {style => <animated.ellipse style={style} cx="1000" cy="15" rx="47.5" ry="49" fill="#473A94" />}
+              {style => <animated.ellipse style={style} cx="1000" cy="25" rx="47.5" ry="49" fill="#473A94" />}
           </Script20>
 
 
@@ -1712,7 +1949,7 @@ const LoginPage = ({ showSignup, setShowSignup, loggedIn, setLoggedIn, renderBul
           }}>
               {style => <animated.ellipse style={style} cx="700" cy="17" rx="47.5" ry="49" fill="#5E51AA" />}
           </Script14>
-          <Script16 config={{
+          <Script15 config={{
             mass: 1,
             tension: 20,
             velocity: 130,
@@ -1720,16 +1957,265 @@ const LoginPage = ({ showSignup, setShowSignup, loggedIn, setLoggedIn, renderBul
             clamp: false,
             duration: 1000
           }}>
-              {style => <animated.ellipse style={style} cx="800" cy="19" rx="47.5" ry="49" fill="#5E51AA" />}
-          </Script16>
+              {style => <animated.ellipse style={style} cx="750" cy="21" rx="47.5" ry="49" fill="#5E51AA" />}
+          </Script15>
+          
+              
+          <Script18 config={{
+            mass: 1,
+            tension: 20,
+            velocity: 130,
+            friction: 150,
+            clamp: false,
+            duration: 1000
+          }}>
+              {style => <animated.ellipse style={style} cx="900" cy="25" rx="47.5" ry="49" fill="#5E51AA" />}
+          </Script18>
         </svg>
       </div>
       <div className="lake">
         <svg width="1371" height="383" viewBox="0 0 1371 383" fill="none" xmlns="http://www.w3.org/2000/svg">
           {/* <path d="M85.9737 54.5021L130.585 66.6617L167.761 72.3362H214.496L289.91 66.6617H371.698L499.158 76.3894L700.971 96.6553L818.871 103.14L1009 96.6553V382H1V1L85.9737 54.5021Z" fill="#6E6CD6" stroke="#6E6CD6" /> */}
           <path d="M116.406 54.5021L176.994 66.6617L227.484 72.3362H290.957L393.379 66.6617H504.457L677.566 76.3894L951.654 96.6553L1111.78 103.14L1370 96.6553V382H1V1L116.406 54.5021Z" fill="#6E6CD6" stroke="#6E6CD6" />
-        </svg>
+          <defs>
+            <clipPath id="clipPath4">
+              <path d="M116.406 54.5021L176.994 66.6617L227.484 72.3362H290.957L393.379 66.6617H504.457L677.566 76.3894L951.654 96.6553L1111.78 103.14L1370 96.6553V382H1V1L116.406 54.5021Z" fill="#6E6CD6" stroke="#6E6CD6" />
+              {/* <rect x="-300" y="60" width="200" height="40" /> */}
+            </clipPath>
+          </defs>
+          <svg width="1371" height="383" viewBox="0 0 1371 383" fill="none" xmlns="http://www.w3.org/2000/svg" style={{clipPath: "url(#clipPath4)"}}>
+            
+            {/*  BACK TREES  */}
 
+            <Script5 config={{
+              mass: 1,
+              tension: 20,
+              velocity: 130,
+              friction: 150,
+              clamp: false,
+              duration: 1000
+            }}>
+              {style => <animated.ellipse style={style} cx="510" cy="42" rx="47.5" ry="49.5" fill="#473A94" />}
+            </Script5>
+            <Script8 config={{
+              mass: 1,
+              tension: 20,
+              velocity: 130,
+              friction: 150,
+              clamp: false,
+              duration: 1000
+            }}>
+              {style => <animated.ellipse style={style} cx="660" cy="44" rx="47.5" ry="49" fill="#473A94" />}
+            </Script8>
+            <Script13 config={{
+              mass: 1,
+              tension: 20,
+              velocity: 130,
+              friction: 150,
+              clamp: false,
+              duration: 1000
+            }}>
+              {style => <animated.ellipse style={style} cx="910" cy="72" rx="47.5" ry="49" fill="#473A94" />}
+            </Script13>
+            <Script16 config={{
+              mass: 1,
+              tension: 20,
+              velocity: 130,
+              friction: 150,
+              clamp: false,
+              duration: 1000
+            }}>
+              {style => <animated.ellipse style={style} cx="1060" cy="105" rx="47.5" ry="49" fill="#473A94" />}
+            </Script16>
+            <Script17 config={{
+              mass: 1,
+              tension: 20,
+              velocity: 130,
+              friction: 150,
+              clamp: false,
+              duration: 1000
+            }}>
+              {style => <animated.ellipse style={style} cx="1110" cy="103" rx="47.5" ry="49" fill="#473A94" />}
+            </Script17>
+            <Script19 config={{
+              mass: 1,
+              tension: 20,
+              velocity: 130,
+              friction: 150,
+              clamp: false,
+              duration: 1000
+            }}>
+              {style => <animated.ellipse style={style} cx="1210" cy="99" rx="47.5" ry="49" fill="#473A94" />}
+            </Script19>
+            <Script20 config={{
+              mass: 1,
+              tension: 20,
+              velocity: 130,
+              friction: 150,
+              clamp: false,
+              duration: 1000
+            }}>
+              {style => <animated.ellipse style={style} cx="1260" cy="99" rx="47.5" ry="49" fill="#473A94" />}
+            </Script20>
+
+            {/*  MID TREES  */}
+
+
+            <Script1 config={{
+              mass: 1,
+              tension: 20,
+              velocity: 130,
+              friction: 150,
+              clamp: false,
+              duration: 1000
+            }}>
+                {style => <animated.ellipse style={style} cx="310" cy="48" rx="48" ry="49.5" fill="#4C4093" />}
+            </Script1>
+            <Script4 config={{
+              mass: 1,
+              tension: 20,
+              velocity: 130,
+              friction: 150,
+              clamp: false,
+              duration: 1000
+            }}>
+                {style => <animated.ellipse style={style} cx="460" cy="45" rx="47.5" ry="49" fill="#4C4093"  />}
+            </Script4>
+            <Script9 config={{
+              mass: 1,
+              tension: 20,
+              velocity: 130,
+              friction: 150,
+              clamp: false,
+              duration: 1000
+            }}>
+              {style => <animated.ellipse style={style} cx="710" cy="48" rx="47.5" ry="49" fill="#4C4093" />}
+            </Script9>
+            <Script11 config={{
+              mass: 1,
+              tension: 20,
+              velocity: 130,
+              friction: 150,
+              clamp: false,
+              duration: 1000
+            }}>
+              {style => <animated.ellipse style={style} cx="810" cy="67" rx="48" ry="49.5" fill="#4C4093" />}
+            </Script11>
+            <Script12 config={{
+              mass: 1,
+              tension: 20,
+              velocity: 130,
+              friction: 150,
+              clamp: false,
+              duration: 1000
+            }}>
+              {style => <animated.ellipse style={style} cx="860" cy="70" rx="48" ry="49" fill="#4C4093" />}
+            </Script12>
+
+            {/*  FRONT TREES  */}
+
+            <Script2 config={{
+              mass: 1,
+              tension: 20,
+              velocity: 130,
+              friction: 150,
+              clamp: false,
+              duration: 1000
+            }}>
+              {style => <animated.ellipse style={style} cx="360" cy="48" rx="48" ry="49.5" fill="#5E51AA" />}
+            </Script2>
+            <Script3 config={{
+              mass: 1,
+              tension: 20,
+              velocity: 130,
+              friction: 150,
+              clamp: false,
+              duration: 1000
+            }}>
+              {style => <animated.ellipse style={style} cx="410 " cy="45" rx="48" ry="49" fill="#5E51AA" />}
+            </Script3>
+            
+            
+            <Script6 config={{
+              mass: 1,
+              tension: 20,
+              velocity: 130,
+              friction: 150,
+              clamp: false,
+              duration: 1000
+            }}>
+              {style => <animated.ellipse style={style} cx="560" cy="45" rx="47.5" ry="49" fill="#5E51AA" />}
+            </Script6>
+            <Script7 config={{
+              mass: 1,
+              tension: 20,
+              velocity: 130,
+              friction: 150,
+              clamp: false,
+              duration: 1000
+            }}>
+              {style => <animated.ellipse style={style} cx="610" cy="50" rx="47.5" ry="49" fill="#5E51AA" />}
+            </Script7>
+            
+            
+            <Script10 config={{
+              mass: 1,
+              tension: 20,
+              velocity: 130,
+              friction: 150,
+              clamp: false,
+              duration: 1000
+            }}>
+              {style => <animated.ellipse style={style} cx="760" cy="62" rx="47.5" ry="49" fill="#5E51AA" />}
+            </Script10>
+            
+            
+            <Script14 config={{
+              mass: 1,
+              tension: 20,
+              velocity: 130,
+              friction: 150,
+              clamp: false,
+              duration: 1000
+            }}>
+              {style => <animated.ellipse style={style} cx="960" cy="85" rx="47.5" ry="49" fill="#5E51AA" />}
+            </Script14>
+            <Script15 config={{
+              mass: 1,
+              tension: 20,
+              velocity: 130,
+              friction: 150,
+              clamp: false,
+              duration: 1000
+            }}>
+              {style => <animated.ellipse style={style} cx="1010" cy="105" rx="47.5" ry="49" fill="#5E51AA" />}
+            </Script15>
+            
+            
+            <Script18 config={{
+              mass: 1,
+              tension: 20,
+              velocity: 130,
+              friction: 150,
+              clamp: false,
+              duration: 1000
+            }}>
+              {style => <animated.ellipse style={style} cx="1160" cy="108" rx="47.5" ry="49" fill="#5E51AA" />}
+            </Script18>
+            
+          </svg>
+            <svg width="1371" height="383" viewBox="0 0 1371 383" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <radialGradient id="Gradient"
+                  cx="0.8" cy="0.5" r="0.5" fx="1.29" fy="0.4">
+                  <stop offset="0%" stop-color="#ffe554" />
+                  <stop offset="100%" stop-color="#5553d1" />
+                </radialGradient>
+              </defs>
+              <path d="M116.406 54.5021L176.994 66.6617L227.484 72.3362H290.957L393.379 66.6617H504.457L677.566 76.3894L951.654 96.6553L1111.78 103.14L1370 96.6553V382H1V1L116.406 54.5021Z" fill="url(#Gradient)" stroke="#6E6CD6" opacity="0.7" />
+          </svg>
+        </svg>
+        
       </div>
       <div className="hillmidrear">
         <svg width="115" height="350" viewBox="0 0 115 194" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1779,183 +2265,9 @@ const LoginPage = ({ showSignup, setShowSignup, loggedIn, setLoggedIn, renderBul
           <rect width="258" height="411" fill="#7230FF" />
           <ellipse cx="138" cy="0" rx="120.5" ry="127" fill="#7230FF" />
         </svg>
-
       </div>
-      <div className="cloudrear">
-        <CloudScript1
-          config={{duration: 40000}}
-        >
-          {style => (
-            <svg style={style} width="120" height="100" viewBox="0 0 39 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect width="27" height="9" rx="6" fill="#B7B5A4"/>
-              <ellipse cx="11" cy="1" rx="7" ry="5" fill="#B7B5A4"/>
-            </svg>
-          )}
-        </CloudScript1>
-        <CloudScript2
-          config={{duration: 40000}}
-        >
-          {style => (
-            <svg style={style} width="120" height="100" viewBox="0 0 39 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect width="27" height="9" rx="6" fill="#B7B5A4"/>
-              <ellipse cx="11" cy="1" rx="7" ry="5" fill="#B7B5A4"/>
-            </svg>
-          )}
-        </CloudScript2>
-        
-      </div>
-      <div className="cloudmid">
-        <CloudScript1
-          config={{duration: 60000}}
-        >
-          {style => (
-            <svg style={style} width="140" height="100" viewBox="0 0 39 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect width="25" height="8" rx="6" fill="#B7B5A4" />
-              <ellipse cx="9" cy="1" rx="6" ry="4" fill="#B7B5A4" />
-              <ellipse cx="14" cy="3" rx="5" ry="5" fill="#B7B5A4" />
-            </svg>
-          )}
-        </CloudScript1>
-        
-        {/* <svg width="100" height="70" viewBox="0 0 62 33" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect width="62" height="33" fill="#B7B5A4"/>
-          <ellipse cx="24.5" cy="24" rx="24.5" ry="24" fill="#B7B5A4"/>
-          <ellipse cx="13" cy="14.5" rx="13" ry="14.5" fill="#B7B5A4"/>
-          <ellipse cx="17.5" cy="16.5" rx="17.5" ry="16.5" fill="#B7B5A4"/>
-          <ellipse cx="17.5" cy="16.5" rx="17.5" ry="16.5" fill="#B7B5A4"/>
-        </svg> */}
-      </div>
-      <div className="cloudfront">
-        <CloudScript1
-          config={{duration: 80000}}
-        >
-          {style => (
-            <svg style={style} width="140" height="120" viewBox="0 0 39 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect width="35" height="15" rx="10" fill="#B7B5A4"/>
-              <ellipse cx="12" cy="1" rx="7" ry="5" fill="#B7B5A4"/>
-            </svg>
-          )}
-        </CloudScript1>
-        <CloudScript2
-          config={{duration: 80000}}
-        >
-          {style => (
-            <svg style={style} width="140" height="120" viewBox="0 0 39 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect width="35" height="15" rx="10" fill="#B7B5A4"/>
-              <ellipse cx="12" cy="1" rx="7" ry="5" fill="#B7B5A4"/>
-            </svg>
-          )}
-        </CloudScript2>
-        {/* <svg width="100" height="100" viewBox="0 0 89 47" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect width="89" height="47" fill="#B7B5A4"/>
-          <ellipse cx="34.5" cy="23" rx="34.5" ry="23" fill="#B7B5A4"/>
-          <circle cx="23.5" cy="23.5" r="23.5" fill="#B7B5A4"/>
-          <circle cx="23.5" cy="23.5" r="23.5" fill="#B7B5A4"/>
-        </svg> */}
-      </div>
-      
     </div>
-    
-          <div className="form_container">
-            {/* <Spring
-              reset
-              config={config.molasses}
-              from={{ background: "red", width: "100px", height: "10px" }}
-              to={{ background: "blue", width: "50px", height: "10px" }}
-            >
-              {props => <animated.div style={props}>Hi</animated.div>}
-            </Spring> */}
-          </div>
-
-    {/* <div className="form_container">
-      {!showSignup && (
-        <div className="form_innercontainer" id="login">
-          <form onSubmit={handleGet}>
-            <div className="input_wrapper">
-              <input
-                placeholder="Username or Email"
-                value={username}
-                onChange={e => setUsername(e.target.value)}
-              />
-            </div>
-            <div className="input_wrapper">
-              <input
-                placeholder="Password"
-                type="password"
-                value={password}
-                onChange={e => setPassword(e.target.value)}
-              />
-            </div>
-            <div className="button_wrapper" onClick={handleGet}>
-              <button type="submit" value="Submit" id="button">
-                Log In
-                </button>
-            </div>
-            <button
-              className="router_wrapper"
-              onClick={e => {
-                e.preventDefault();
-                setShowSignup(true);
-              }}
-            >
-              Don't have an account? >> Create Account
-              </button>
-          </form>
-        </div>
-      )}
-
-      {showSignup && (
-        
-        <div className="form_innercontainer">
-          <form onSubmit={handlePost}>
-            <div className="input_wrapper">
-              <input
-                placeholder="Email"
-                value={email}
-                onChange={e => setEmail(e.target.value)}
-              />
-            </div>
-            <div className="input_wrapper">
-              <input
-                placeholder="Username"
-                value={username}
-                onChange={e => setUsername(e.target.value)}
-              />
-            </div>
-            <div className="input_wrapper">
-              <input
-                placeholder="Password"
-                type="password"
-                value={password}
-                onChange={e => setPassword(e.target.value)}
-              />
-            </div>
-            <div className="input_wrapper">
-              <input
-                placeholder="Confirm Password"
-                type="password"
-                value={passwordTwo}
-                onChange={e => setPasswordTwo(e.target.value)}
-              />
-            </div>
-            <div className="button_wrapper" onClick={handlePost}>
-              <button type="submit" value="Submit" id="button">
-                Sign Up
-                </button>
-            </div>
-          </form>
-          <button
-            className="router_wrapper"
-            onClick={e => {
-              e.preventDefault();
-              setShowSignup(false);
-            }}
-          >
-            Have an exisiting account? >> Log In
-            </button>
-        </div>
-      )}
-    </div> */}
+    {/* <LoginForm loggedIn={loggedIn} setLoggedIn={setLoggedIn}/> */}
     </React.Fragment>
   );
   
@@ -1978,12 +2290,10 @@ const LoginPage = ({ showSignup, setShowSignup, loggedIn, setLoggedIn, renderBul
 const App = () => {
 
   const [testing, isTesting] = useState(false)
-  const [showSignup, setShowSignup] = useState(false)
   const [loggedIn, setLoggedIn] = useState(false)
   const [activeUser, setActiveUser] = useState('')
   const [pageReady, setPageReady] = useState(false)
   const [navCollapse, setNavCollapse] = useState(false);
-  const [activeComponent, setActiveComponent] = useState('dashboard')
   const [errors, setErrors] = useState(false) 
   const [addUserOpen, setAddUserOpen] = useState(false)
   const [addPostOpen, setAddPostOpen] = useState(false)
@@ -1991,93 +2301,170 @@ const App = () => {
   const [takePhotoOpen, setTakePhotoOpen] = useState(false);
   const [webCamOpen, setWebCamOpen] = useState(false);
   const [uploadedFile, setUploadedFile] = useState([]);
+  const [renderWelcome, setRenderWelcome] = useState(true)
   const [renderUserProfile, setRenderUserProfile] = useState(false);
-  const [renderBulletinBoard, setRenderBulletinBoard] = useState(true)
+  const [renderBulletinBoard, setRenderBulletinBoard] = useState(false)
   const [renderMessages, setRenderMessages] = useState(false);
   const [renderTeamPage, setRenderTeamPage] = useState(false)
   const [userProfileRendered, setUserProfileRendered] = useState(false)
   const [bulletinBoardRendered, setBulletinBoardRendered] = useState(false)
   const [messagesPageRendered, setMessagesPageRendered] = useState(false)
   const [teamPageRendered, setTeamPageRendered] = useState(false)
-  
-  // const [posts, setPosts] = useState('')
-  const posts = []
+  const [postsLoaded, setPostsLoaded] = useState(false)
+  // const posts = []
   const messages = []
-
+  
   const [userId, setUserId] = useState(null)
-  const providerValue = useMemo(() => ({userId, setUserId}), [userId, setUserId])
+  const [username, setUsername] = useState(null);
+  const [password, setPassword] = useState(null);
+  const [email, setEmail] = useState(null);
+  const [passwordTwo, setPasswordTwo] = useState(null);
+  const [showSignup, setShowSignup] = useState(false);
+  const [posts, setPosts] = useState([])
+  const [activeComponent, setActiveComponent] = useState(null)
+  const userProviderValue = useMemo(
+    () => ({
+      userId,
+      setUserId,
+    }),
+    [
+      userId,
+      setUserId,
+    ]
+  );
+  const loginProviderValue = useMemo(
+    () => ({
+      username,
+      setUsername,
+      email,
+      setEmail,
+      password,
+      setPassword,
+      passwordTwo,
+      setPasswordTwo
+    }),
+    [
+      username,
+      setUsername,
+      email,
+      setEmail,
+      password,
+      setPassword,
+      passwordTwo,
+      setPasswordTwo
+    ]
+  );
+  const signupProviderValue = useMemo(() => ({
+    showSignup,
+    setShowSignup
+    }),
+    [
+      showSignup,
+      setShowSignup
+    ]
+  )
+  const postsProviderValue = useMemo(
+    () => ({
+      posts,
+      setPosts
+    }),
+    [posts, setPosts]
+  )
+  const activeComponentProviderValue = useMemo(
+    () => ({
+      activeComponent,
+      setActiveComponent
+    }),
+    [
+      activeComponent,
+      setActiveComponent
+    ]
+  );
 
   return (
     <React.Fragment>
       <Router>
         <Route>
-          <UserContext.Provider value={providerValue}>
+          <UserContext.Provider value={userProviderValue}>
             {/* {isTesting && (
               <Testing testing={testing} isTesting={isTesting}/>
             )} */}
             {!loggedIn && (
-              <LoginPage
-                loggedIn={loggedIn}
-                setLoggedIn={setLoggedIn}
-                showSignup={showSignup}
-                setShowSignup={setShowSignup}
-                renderBulletinBoard={renderBulletinBoard}
-                setRenderBulletinBoard={setRenderBulletinBoard}
-                activeUser={activeUser}
-                setActiveUser={setActiveUser}
-                errors={errors}
-                setErrors={setErrors}
-              />
+              <LoginContext.Provider value={loginProviderValue}>
+                <SignupContext.Provider value={signupProviderValue}>
+                  <LoginPage
+                    loggedIn={loggedIn}
+                    setLoggedIn={setLoggedIn}
+                    showSignup={showSignup}
+                    setShowSignup={setShowSignup}
+                    renderBulletinBoard={renderBulletinBoard}
+                    setRenderBulletinBoard={setRenderBulletinBoard}
+                    activeUser={activeUser}
+                    setActiveUser={setActiveUser}
+                    errors={errors}
+                    setErrors={setErrors}
+                  />
+                </SignupContext.Provider>
+              </LoginContext.Provider>
             )}
             {!pageReady && (
-              <LoadingScreen pageReady={pageReady} setPageReady={setPageReady} />
+              <LoadingScreen
+                pageReady={pageReady}
+                setPageReady={setPageReady}
+              />
             )}
             {pageReady && loggedIn && (
               <React.Fragment>
-                <Dashboard
-                  key={"key2"}
-                  activeComponent={activeComponent}
-                  setActiveComponent={setActiveComponent}
-                  navCollapse={navCollapse}
-                  setNavCollapse={setNavCollapse}
-                  pageReady={pageReady}
-                  setPageReady={setPageReady}
-                  addUserOpen={addUserOpen}
-                  setAddUserOpen={setAddUserOpen}
-                  errors={errors}
-                  setErrors={setErrors}
-                  addPostOpen={addPostOpen}
-                  setAddPostOpen={setAddPostOpen}
-                  renderBulletinBoard={renderBulletinBoard}
-                  setRenderBulletinBoard={setRenderBulletinBoard}
-                  renderUserProfile={renderUserProfile}
-                  setRenderUserProfile={setRenderUserProfile}
-                  renderMessages={renderMessages}
-                  setRenderMessages={setRenderMessages}
-                  renderTeamPage={renderTeamPage}
-                  setRenderTeamPage={setRenderTeamPage}
-                  activeUser={activeUser}
-                  setActiveUser={setActiveUser}
-                  posts={posts}
-                  messages={messages}
-                  addPhotoOpen={addPhotoOpen}
-                  setAddPhotoOpen={setAddPhotoOpen}
-                  takePhotoOpen={takePhotoOpen}
-                  setTakePhotoOpen={setTakePhotoOpen}
-                  uploadedFile={uploadedFile}
-                  setUploadedFile={setUploadedFile}
-                  webCamOpen={webCamOpen}
-                  setWebCamOpen={setWebCamOpen}
-                  userProfileRendered={userProfileRendered}
-                  setUserProfileRendered={setUserProfileRendered}
-                  bulletinBoardRendered={bulletinBoardRendered}
-                  setBulletinBoardRendered={setBulletinBoardRendered}
-                  teamPageRendered={teamPageRendered}
-                  setTeamPageRendered={setTeamPageRendered}
-                  messagesPageRendered={messagesPageRendered}
-                  setMessagesPageRendered={setMessagesPageRendered}
-                  // setPosts={setPosts}
-                />
+                <PostsContext.Provider value={postsProviderValue}>
+                  <ActiveComponentContext.Provider value={activeComponentProviderValue}>
+                    <Dashboard
+                      key={"key2"}
+                      loggedIn={loggedIn}
+                      setLoggedIn={setLoggedIn}
+                      navCollapse={navCollapse}
+                      setNavCollapse={setNavCollapse}
+                      pageReady={pageReady}
+                      setPageReady={setPageReady}
+                      addUserOpen={addUserOpen}
+                      setAddUserOpen={setAddUserOpen}
+                      errors={errors}
+                      setErrors={setErrors}
+                      addPostOpen={addPostOpen}
+                      setAddPostOpen={setAddPostOpen}
+                      renderBulletinBoard={renderBulletinBoard}
+                      setRenderBulletinBoard={setRenderBulletinBoard}
+                      renderUserProfile={renderUserProfile}
+                      setRenderUserProfile={setRenderUserProfile}
+                      renderMessages={renderMessages}
+                      setRenderMessages={setRenderMessages}
+                      renderTeamPage={renderTeamPage}
+                      setRenderTeamPage={setRenderTeamPage}
+                      renderWelcome={renderWelcome}
+                      setRenderWelcome={setRenderWelcome}
+                      activeUser={activeUser}
+                      setActiveUser={setActiveUser}
+                      addPhotoOpen={addPhotoOpen}
+                      setAddPhotoOpen={setAddPhotoOpen}
+                      takePhotoOpen={takePhotoOpen}
+                      setTakePhotoOpen={setTakePhotoOpen}
+                      uploadedFile={uploadedFile}
+                      setUploadedFile={setUploadedFile}
+                      webCamOpen={webCamOpen}
+                      setWebCamOpen={setWebCamOpen}
+                      userProfileRendered={userProfileRendered}
+                      setUserProfileRendered={setUserProfileRendered}
+                      bulletinBoardRendered={bulletinBoardRendered}
+                      setBulletinBoardRendered={setBulletinBoardRendered}
+                      teamPageRendered={teamPageRendered}
+                      setTeamPageRendered={setTeamPageRendered}
+                      messagesPageRendered={messagesPageRendered}
+                      setMessagesPageRendered={setMessagesPageRendered}
+                      postsLoaded={postsLoaded}
+                      setPostsLoaded={setPostsLoaded}
+                      // setPosts={setPosts}
+                    />
+                  </ActiveComponentContext.Provider>
+                </PostsContext.Provider>
               </React.Fragment>
             )}
           </UserContext.Provider>

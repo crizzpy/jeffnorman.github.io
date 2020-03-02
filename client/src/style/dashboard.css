@@ -701,6 +701,22 @@ body{
     left: 70px;
     width: calc(100%);
 }
+.logout{
+    height: 30px;
+    width: 60px;
+    position: absolute;
+    top: 30px;
+    right: 20px;
+    background: blue;
+    border-radius: 5px;
+    z-index: 5;
+}
+.logout > button{
+    background: none;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
 .component_container{
     position: absolute;
     width: calc(100% - 100px);
@@ -708,8 +724,8 @@ body{
     border-radius: 20px;
     top: 120px;
     left: 10px;
-    background: #4219f8;
-    opacity: 0.6;
+    background: #2f04ed;
+    opacity: 1;
     padding: 10px 0 0 0;
     transition: all 0.3s ease;
     box-shadow: 0px 2px 5px 0px rgb(49, 49, 49);
@@ -957,6 +973,25 @@ body{
     width: 15px;
     color: black;
 
+}
+.posts_innerwrap{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+}
+.posts_window .posts_innerwrap .renderedpost_wrapper{
+    display: flex;
+    height: 40px;
+    width: calc(100% - 20px);
+    padding: 5px 10px;
+    background: rgb(255, 217, 0);
+    margin: 5px;
+    border-radius: 5px;
+}
+.posts_window .posts_innerwrap ul li {
+    height: 40px;
+    width: calc(100% - 20px);
 }
 
 /* 

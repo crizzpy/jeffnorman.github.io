@@ -9,17 +9,23 @@ router.get("/test", (req, res) => {
 router.get('/retrieve', (req, res) => {
     Post.find()
     .then(posts => {
+        console.log(posts)
         res.send(posts);
+        
     })
     .catch(err => console.log(err))
 })
 
 router.post("/add", (req, res) => {
-     
+    const {userId, id, adminsOnly, content} = req.body
+    console.log(userId, content)
+//     const newPost = new Post({
+
+//     })
  
 
-    post.save();
-    res.end();
+//     newPost.save();
+//     res.end();
 });
 
 // router.post()
