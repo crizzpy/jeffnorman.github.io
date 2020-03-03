@@ -14,6 +14,7 @@ add lake reflection animation... figure out if its possible to literally mirror 
 make loading screen work when logging in vs. when first loading the login page, switch pageLoaded toggle to dashboard after having loaded posts
 add a glow/luminescence effect to moon on login page
 add online status icon/functions
+add bcrypt
 
 
 

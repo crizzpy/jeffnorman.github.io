@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const uuid = require('uuid')
 const MsgSchema = mongoose.Schema({
     originId: {
         type: String,
@@ -10,10 +11,12 @@ const MsgSchema = mongoose.Schema({
     },
     messageId: {
         type: String,
-        required: true
+        required: true,
+        default: uuid.v4()
     },
     date: {
         type: Date,
+        required: true,
         default: Date.now()
     },
     content: {

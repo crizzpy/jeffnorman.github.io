@@ -30,6 +30,10 @@ const UserSchema = mongoose.Schema({
         required: true,
         default: false
     },
+    headmin: {
+        type: String,
+        required: true
+    },
     profileImg: {
         type: String,
         required: false

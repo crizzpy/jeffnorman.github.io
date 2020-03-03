@@ -20,9 +20,20 @@ body{
     top: 30px;
     right: 80px;
 }
-.moon path{
-     box-shadow: 100px 100px 40px 20px #0ff;
+.moon_glow{
+    filter: url('#dropshadow');
 }
+
+.path {
+  fill: none;
+  stroke: cornflowerblue;
+  stroke-width: 1;
+  
+}
+.blur {
+  filter: url('#dropshadow');
+}
+
 .hillbackrear{
     position: absolute;
     left: 18%;
