@@ -8,6 +8,7 @@
 
 import React, { useState, useEffect, useCallback, useRef, createContext, useContext, useMemo } from "react";
 import axios from 'axios'
+import { NavLink } from 'react-router-dom'
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fab } from "@fortawesome/free-brands-svg-icons";
 import { faCheckSquare, faCoffee, faUser, faEnvelopeSquare, faSpinner, faBars, faPlus, faUserFriends, faUsersCog, faCommentDots, faClipboard, faCommentAlt, faPencilAlt, faItalic, faBold, faPaperPlane, faUserPlus, faCamera, faImages, faPlusCircle, faCloudUploadAlt } from "@fortawesome/free-solid-svg-icons";
@@ -189,20 +190,22 @@ export const NavBar = ({ navCollapse, setNavCollapse, renderWelcome, setRenderWe
             <div className="componentpreview_buttonbuffer"></div>
             <div className="sidenav_buttoncontainer">
               <div className="sidenav_buttonwrap">
-                <FontAwesomeIcon
-                  icon="clipboard"
-                  class="sidenav_buttonicon"
-                  onClick={e => {
-                    e.preventDefault();
-                    setRenderWelcome(false)
-                    setRenderUserProfile(false);
-                    setRenderBulletinBoard(true);
-                    setRenderMessages(false);
-                    setRenderTeamPage(false);
-                    setPageIndex(0)
-                    setActiveComponent("dashboard");
-                  }}
-                />
+                <NavLink exact to="/dashboard">
+                  <FontAwesomeIcon
+                    icon="clipboard"
+                    class="sidenav_buttonicon"
+                    onClick={e => {
+                      // e.preventDefault();
+                      setRenderWelcome(false)
+                      setRenderUserProfile(false);
+                      setRenderBulletinBoard(true);
+                      setRenderMessages(false);
+                      setRenderTeamPage(false);
+                      setPageIndex(0)
+                      setActiveComponent("dashboard");
+                    }}
+                  />
+                </NavLink>
               </div>
               <div className="component_preview"></div>
             </div>
@@ -220,21 +223,23 @@ export const NavBar = ({ navCollapse, setNavCollapse, renderWelcome, setRenderWe
             <div className="componentpreview_buttonbuffer"></div>
             <div className="sidenav_buttoncontainer">
               <div className="sidenav_buttonwrap">
-                <FontAwesomeIcon
-                  icon="comment-alt"
-                  class="sidenav_buttonicon"
-                  id="chat"
-                  onClick={e => {
-                    e.preventDefault();
-                    setRenderWelcome(false)
-                    setRenderUserProfile(false);
-                    setRenderBulletinBoard(false);
-                    setRenderMessages(true);
-                    setRenderTeamPage(false);
-                    setPageIndex(1)
-                    setActiveComponent("messages");
-                  }}
-                />
+                <NavLink exact to="/messages">
+                  <FontAwesomeIcon
+                    icon="comment-alt"
+                    class="sidenav_buttonicon"
+                    id="chat"
+                    onClick={e => {
+                      // e.preventDefault();
+                      setRenderWelcome(false)
+                      setRenderUserProfile(false);
+                      setRenderBulletinBoard(false);
+                      setRenderMessages(true);
+                      setRenderTeamPage(false);
+                      setPageIndex(1)
+                      setActiveComponent("messages");
+                    }}
+                  />
+                </NavLink>
               </div>
               <div className="component_preview"></div>
             </div>
@@ -250,21 +255,23 @@ export const NavBar = ({ navCollapse, setNavCollapse, renderWelcome, setRenderWe
             <div className="componentpreview_buttonbuffer"></div>
             <div className="sidenav_buttoncontainer">
               <div className="sidenav_buttonwrap">
-                <FontAwesomeIcon
-                  icon="user-friends"
-                  class="sidenav_buttonicon"
-                  onClick={e => {
-                    e.preventDefault();
-                    setRenderWelcome(false)
-                    setRenderUserProfile(false);
-                    setRenderBulletinBoard(false);
-                    setRenderMessages(false);
-                    setRenderTeamPage(true);
-                    setRenderWelcome(false)
-                    setPageIndex(2)
-                    setActiveComponent("team");
-                  }}
-                />
+                <NavLink exact to="/team">
+                  <FontAwesomeIcon
+                    icon="user-friends"
+                    class="sidenav_buttonicon"
+                    onClick={e => {
+                      // e.preventDefault();
+                      setRenderWelcome(false)
+                      setRenderUserProfile(false);
+                      setRenderBulletinBoard(false);
+                      setRenderMessages(false);
+                      setRenderTeamPage(true);
+                      setRenderWelcome(false)
+                      setPageIndex(2)
+                      setActiveComponent("team");
+                    }}
+                  />
+                </NavLink>
               </div>
               <div className="component_preview"></div>
             </div>

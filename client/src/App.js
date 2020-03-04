@@ -9,7 +9,7 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import axios from 'axios'
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fab } from "@fortawesome/free-brands-svg-icons";
-import { faCheckSquare, faCoffee, faUser, faEnvelopeSquare, faSpinner, faBars, faPlus, faUserFriends, faUsersCog, faCommentDots, faClipboard, faCommentAlt, faPencilAlt, faItalic, faBold, faPaperPlane, faUserPlus, faCamera, faImages, faPlusCircle, faCloudUploadAlt } from "@fortawesome/free-solid-svg-icons";
+import { faTimesCircle, faCheckSquare, faCoffee, faUser, faEnvelopeSquare, faSpinner, faBars, faPlus, faUserFriends, faUsersCog, faCommentDots, faClipboard, faCommentAlt, faPencilAlt, faItalic, faBold, faPaperPlane, faUserPlus, faCamera, faImages, faPlusCircle, faCloudUploadAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useSpring, animated, config, useTransition } from 'react-spring'
 import { Keyframes, Spring, Transition} from 'react-spring/renderprops'
@@ -20,7 +20,7 @@ import { Dashboard } from './components/Dashboard'
 import { LoginPage } from './components/LoginPage'
 
 
-library.add(fab, faCheckSquare, faCoffee, faUser, faEnvelopeSquare, faSpinner, faBars, faPlus, faUserFriends, faUsersCog, faCommentDots, faClipboard, faCommentAlt, faPencilAlt, faItalic, faBold, faPaperPlane, faUserPlus, faCamera, faImages, faPlusCircle, faCloudUploadAlt)
+library.add(fab, faTimesCircle, faCheckSquare, faCoffee, faUser, faEnvelopeSquare, faSpinner, faBars, faPlus, faUserFriends, faUsersCog, faCommentDots, faClipboard, faCommentAlt, faPencilAlt, faItalic, faBold, faPaperPlane, faUserPlus, faCamera, faImages, faPlusCircle, faCloudUploadAlt)
 
 
 export const UserContext = createContext(null)
@@ -131,6 +131,7 @@ const App = () => {
   const [errors, setErrors] = useState(false) 
   const [addUserOpen, setAddUserOpen] = useState(false)
   const [addPostOpen, setAddPostOpen] = useState(false)
+  const [confirmPostDel, setConfirmPostDel] = useState(false)
   const [addPhotoOpen, setAddPhotoOpen] = useState(false)
   const [takePhotoOpen, setTakePhotoOpen] = useState(false);
   const [webCamOpen, setWebCamOpen] = useState(false);
@@ -232,7 +233,6 @@ const App = () => {
             {testing && (
               <Testing testing={testing} isTesting={isTesting}/>
             )}
-
             {!loggedIn && (
               <LoginContext.Provider value={loginProviderValue}>
                 <SignupContext.Provider value={signupProviderValue}>
@@ -306,6 +306,8 @@ const App = () => {
                         setMessagesPageRendered={setMessagesPageRendered}
                         postsLoaded={postsLoaded}
                         setPostsLoaded={setPostsLoaded}
+                        confirmPostDel={confirmPostDel} 
+                        setConfirmPostDel={setConfirmPostDel}
                         // setPosts={setPosts}
                       />
                     </PageIndexContext.Provider>

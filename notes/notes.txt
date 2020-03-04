@@ -9,12 +9,16 @@ fix file upload
 separate all functional components into separate files - might help with rerendering issues..
 create a "hard logout" process with a router to a logout url 
 add "about me" section on profile page
-fix file upload button animations
-add lake reflection animation... figure out if its possible to literally mirror or just have to reverse animations/svgs
+fix file upload button animations - add position absolute?
 make loading screen work when logging in vs. when first loading the login page, switch pageLoaded toggle to dashboard after having loaded posts
 add a glow/luminescence effect to moon on login page
 add online status icon/functions
 add bcrypt
+
+SCHEDULE
+
+2 hrs every day looking at sandbox codepens/other resources for different techniques
+
 
 
 

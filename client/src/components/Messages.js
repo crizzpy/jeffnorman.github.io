@@ -12,6 +12,7 @@ import { Keyframes, Spring, Transition } from 'react-spring/renderprops'
 import { faCommentAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from 'axios'
+import { AbsoluteWrapper } from './AbsoluteWrapper'
 
 export const Messages = ({ messages }) => {
     useEffect(() => {
@@ -54,7 +55,7 @@ export const Messages = ({ messages }) => {
     };
 
     return (
-        <div className="component_container">
+        <AbsoluteWrapper>
             <div className="messagespage_wrapper">
                 <div className="messages_innerwrapper">
                     <div className="iconwrap">
@@ -70,6 +71,6 @@ export const Messages = ({ messages }) => {
                     </div>
                 </div>
             </div>
-        </div>
+        </AbsoluteWrapper>
     );
 }

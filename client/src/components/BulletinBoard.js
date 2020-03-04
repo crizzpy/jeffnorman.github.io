@@ -11,15 +11,16 @@ import React, { useState, useEffect, useCallback, useRef, createContext, useCont
 import axios from 'axios'
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fab } from "@fortawesome/free-brands-svg-icons";
-import { faCheckSquare, faCoffee, faUser, faEnvelopeSquare, faSpinner, faBars, faPlus, faUserFriends, faUsersCog, faCommentDots, faClipboard, faCommentAlt, faPencilAlt, faItalic, faBold, faPaperPlane, faUserPlus, faCamera, faImages, faPlusCircle, faCloudUploadAlt } from "@fortawesome/free-solid-svg-icons";
+import { faTimesCircle, faCheckSquare, faCoffee, faUser, faEnvelopeSquare, faSpinner, faBars, faPlus, faUserFriends, faUsersCog, faCommentDots, faClipboard, faCommentAlt, faPencilAlt, faItalic, faBold, faPaperPlane, faUserPlus, faCamera, faImages, faPlusCircle, faCloudUploadAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useSpring, animated, config, useTransition } from 'react-spring'
 import { Keyframes, Spring, Transition } from 'react-spring/renderprops'
 import delay from 'delay'
 import uuid from 'uuid'
 import {UserContext, PostsContext} from '../App'
+import { AbsoluteWrapper } from './AbsoluteWrapper'
 
-export const BulletinBoard = ({addPostOpen, setAddPostOpen, activeUser, setActiveUser, postsLoaded, setPostsLoaded}) => {
+export const BulletinBoard = ({addPostOpen, setAddPostOpen, activeUser, setActiveUser, postsLoaded, setPostsLoaded, confirmPostDel, setConfirmPostDel}) => {
   const { userId, setUserId } = useContext(UserContext)
   const { posts, setPosts } = useContext(PostsContext)
 
@@ -43,9 +44,8 @@ export const BulletinBoard = ({addPostOpen, setAddPostOpen, activeUser, setActiv
   // })
   const [postAdminsOnly, setPostAdminsOnly] = useState(false)
   const [postContent, setPostContent] = useState('')
-  
+  let delBtn = ""
 
-  
 
   const submitPost = () => {
     console.log('submit post')
@@ -53,15 +53,19 @@ export const BulletinBoard = ({addPostOpen, setAddPostOpen, activeUser, setActiv
     if (postContent) {
       // console.log(postContent);
       // console.log(postAdminsOnly);
+      console.log(postAdminsOnly)
       const data = {
         userId: userId._id,
+        userFirstName: userId.firstName,
+        userLastName: userId.lastName,
         id: uuid.v4(),
-        postAdminsOnly,
+        adminsOnly: postAdminsOnly,
         content: postContent
       }
       axios.post('/posts/add', data)
       .then(res=> {
         console.log(res.data)
+        setPosts([...posts, res.data])
       })
       .catch(err => console.log(err))
       
@@ -74,18 +78,28 @@ export const BulletinBoard = ({addPostOpen, setAddPostOpen, activeUser, setActiv
     }
   }
 
+  const delPost = (id) => {
+    console.log('post delete try')
+
+    axios.delete('/posts/delete', {data: { postId: id }})
+      .then(res => {
+        console.log(res.data)
+        setPosts([...posts.filter(post => post.id !== res.data)])
+
+      })
+      .catch(err => console.log(err))
+  }
+  
+
   return (
-    <div className="component_container">
-      {/* {slideIn.map(({item, props, key}) => {
-        return( */}
-          {/* <animated.div style={props} key={key}> */}
+    <AbsoluteWrapper>
+          <div>
             <div
               className="addPost"
               onClick={e => {
                 e.preventDefault();
                 setAddPostOpen(!addPostOpen);
-              }}
-            >
+            }}>
               <FontAwesomeIcon icon="pencil-alt" class="buttonicon" />
             </div>
             <div className="posts_window">
@@ -93,15 +107,33 @@ export const BulletinBoard = ({addPostOpen, setAddPostOpen, activeUser, setActiv
                 {postsLoaded && (
                   <ul>
                     {console.log(posts)}
+                    
                     {posts.map(post => {
+                      if (userId._id == post.userId) {
+                        delBtn = "delbutton"
+                      } else {
+                        delBtn = "hide"
+                      }
                       return (
-                        <li key={post.id}>
-                          <div className="renderedpost_wrapper">
+                        <div className="renderedpost_wrapper">
+                          <div className="postText">
                             {post.content}
                           </div>
-                        </li>
-                      );
-                    })}
+                          <div className={delBtn}>
+                            <FontAwesomeIcon
+                              icon="times-circle"
+                              class="delBtn"
+                              onClick={e => {
+                                e.preventDefault();
+                                console.log(post.id)
+                                delPost(post.id)
+                              }}
+                            />
+                          </div>
+                        </div>
+                      )       
+                      }
+                    )}
                   </ul>
                 )}
                 {!postsLoaded && <div className="test">Loading</div>}
@@ -116,12 +148,22 @@ export const BulletinBoard = ({addPostOpen, setAddPostOpen, activeUser, setActiv
                       submitPost();
                     }}
                   >
-                    <div
+                    {/* <div
                       contentEditable="true"
                       className="post_compose"
                       value={postContent}
-                      onChange={e => setPostContent(e.target.value)}
-                    />
+                      onChange={e => {
+                          setPostContent(e.target.innerHtml)
+                          console.log(postContent)
+                        }
+                      }/> */}
+                    <textarea 
+                      className="post_compose" 
+                      value={postContent} 
+                      onChange={e => {
+                          setPostContent(e.target.value)
+                          console.log(postContent)
+                        }} />
                     <div className="postbuilder_bottomwrapper">
                       <div className="bottomicon_wrap">
                         <FontAwesomeIcon icon="bold" class="bottomicon" />
@@ -159,9 +201,7 @@ export const BulletinBoard = ({addPostOpen, setAddPostOpen, activeUser, setActiv
                 </div>
               </div>
             )}
-          {/* </animated.div>
-        )
-      })} */}
-    </div>
+      </div>
+    </AbsoluteWrapper>
   );
 }

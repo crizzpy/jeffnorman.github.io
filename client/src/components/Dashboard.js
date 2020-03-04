@@ -24,7 +24,7 @@ import { NavBar } from './NavBar'
 import { UserProfile } from './UserProfile'
 
 
-export const Dashboard = ({ loggedIn, setLoggedIn, navCollapse, setNavCollapse, pageReady, setPageReady, addUserOpen, setAddUserOpen, errors, setErrors, addPostOpen, setAddPostOpen, renderUserProfile, setRenderUserProfile, renderBulletinBoard, setRenderBulletinBoard, activeUser, setActiveUser, renderMessages, setRenderMessages, renderTeamPage, setRenderTeamPage, addPhotoOpen, setAddPhotoOpen, takePhotoOpen, setTakePhotoOpen, uploadedFile, setUploadedFile, webCamOpen, setWebCamOpen, userProfileRendered, setUserProfileRendered, bulletinBoardRendered, setBulletinBoardRendered, teamPageRendered, setTeamPageRendered, messagesPageRendered, setMessagesPageRendered, postsLoaded, setPostsLoaded, renderWelcome, setRenderWelcome }) => {
+export const Dashboard = ({ loggedIn, setLoggedIn, navCollapse, setNavCollapse, pageReady, setPageReady, addUserOpen, setAddUserOpen, errors, setErrors, addPostOpen, setAddPostOpen, renderUserProfile, setRenderUserProfile, renderBulletinBoard, setRenderBulletinBoard, activeUser, setActiveUser, renderMessages, setRenderMessages, renderTeamPage, setRenderTeamPage, addPhotoOpen, setAddPhotoOpen, takePhotoOpen, setTakePhotoOpen, uploadedFile, setUploadedFile, webCamOpen, setWebCamOpen, userProfileRendered, setUserProfileRendered, bulletinBoardRendered, setBulletinBoardRendered, teamPageRendered, setTeamPageRendered, messagesPageRendered, setMessagesPageRendered, postsLoaded, setPostsLoaded, renderWelcome, setRenderWelcome, confirmPostDel, setConfirmPostDel }) => {
     useEffect(() => {
         retrievePosts()
     }, [])
@@ -115,16 +115,10 @@ export const Dashboard = ({ loggedIn, setLoggedIn, navCollapse, setNavCollapse, 
                 activeUser={activeUser}
                 setActiveUser={setActiveUser}
             />
-            <div
-                className={navCollapse ? "container_window shrink" : "container_window"}
-            >
+            <div className={navCollapse ? "container_window shrink" : "container_window"}>
                 <h1>{activeComponent}</h1>
             </div>
-            <div
-                className={
-                    navCollapse ? "content_container shrink" : "content_container"
-                }
-            >
+            <div className={navCollapse ? "content_container shrink" : "content_container"}>
                 {/* <div className="active_comp"><UserProfile /></div> */}
 
 
@@ -156,33 +150,27 @@ export const Dashboard = ({ loggedIn, setLoggedIn, navCollapse, setNavCollapse, 
                     />
                 )}
 
-                {/* <Transition
-          native
-          reset
-          unique
-          items={pageIndex}
-          from={{ opacity: 0, transform: 'translateX(1200px)' }}
-          enter={{ opacity: 1, transform: 'translateX(0px)' }}
-          leave={{ opacity: 0, transform: 'translateX(-1200px)' }}>
-          {pageIndex => pages[pageIndex]}
-        </Transition> */}
                 {!renderUserProfile && (
-                    <WorkingView
-                        addPostOpen={addPostOpen}
-                        setAddPostOpen={setAddPostOpen}
-                        activeUser={activeUser}
-                        setActiveUser={setActiveUser}
-                        userProfileRendered={userProfileRendered}
-                        setUserProfileRendered={setUserProfileRendered}
-                        bulletinBoardRendered={bulletinBoardRendered}
-                        setBulletinBoardRendered={setBulletinBoardRendered}
-                        teamPageRendered={teamPageRendered}
-                        setTeamPageRendered={setTeamPageRendered}
-                        messagesPageRendered={messagesPageRendered}
-                        setMessagesPageRendered={setMessagesPageRendered}
-                        postsLoaded={postsLoaded}
-                        setPostsLoaded={setPostsLoaded}
-                    />
+                    <div className="component_container">
+                        <WorkingView
+                            addPostOpen={addPostOpen}
+                            setAddPostOpen={setAddPostOpen}
+                            activeUser={activeUser}
+                            setActiveUser={setActiveUser}
+                            userProfileRendered={userProfileRendered}
+                            setUserProfileRendered={setUserProfileRendered}
+                            bulletinBoardRendered={bulletinBoardRendered}
+                            setBulletinBoardRendered={setBulletinBoardRendered}
+                            teamPageRendered={teamPageRendered}
+                            setTeamPageRendered={setTeamPageRendered}
+                            messagesPageRendered={messagesPageRendered}
+                            setMessagesPageRendered={setMessagesPageRendered}
+                            postsLoaded={postsLoaded}
+                            setPostsLoaded={setPostsLoaded}
+                            confirmPostDel={confirmPostDel} 
+                            setConfirmPostDel={setConfirmPostDel}
+                        />
+                    </div>
                 )}
                 {/* {renderBulletinBoard && (
           <BulletinBoard
