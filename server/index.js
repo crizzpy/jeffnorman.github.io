@@ -30,6 +30,7 @@ app.use('/users', require('./routes/users'))
 app.use('/posts', require('./routes/posts'))
 app.use("/api", require("./routes/api"));
 app.use('/messages', require('./routes/messages'))
+app.use('/images', require('./routes/images'))
 
 //connect to DB
 mongoose.connect(DB, {useNewUrlParser: true})

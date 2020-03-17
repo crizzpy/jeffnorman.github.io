@@ -9,7 +9,6 @@ router.get("/test", (req, res) => {
 router.get('/retrieve', (req, res) => {
     Post.find()
     .then(posts => {
-        console.log(posts)
         res.send(posts);
         
     })
@@ -17,10 +16,11 @@ router.get('/retrieve', (req, res) => {
 })
 
 router.post("/add", async (req, res) => {
-    const { userId, userFirstName, userLastName, id, adminsOnly, content} = req.body
+    const { userId, userIsAdmin, userFirstName, userLastName, id, adminsOnly, content} = req.body
     console.log(userId, userFirstName, userLastName, id, adminsOnly, content)
     const newPost = new Post({
         userId,
+        userIsAdmin,
         userFirstName, 
         userLastName, 
         id, 
@@ -29,10 +29,7 @@ router.post("/add", async (req, res) => {
     })
     
     try {
-        console.log('try')        
         const savedPost = await newPost.save()
-        console.log(savedPost)
-        console.log('saved')
         res.json(savedPost)
     } catch (err) {
         console.log(err)

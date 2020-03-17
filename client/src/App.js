@@ -9,7 +9,7 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import axios from 'axios'
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fab } from "@fortawesome/free-brands-svg-icons";
-import { faTimesCircle, faCheckSquare, faCoffee, faUser, faEnvelopeSquare, faSpinner, faBars, faPlus, faUserFriends, faUsersCog, faCommentDots, faClipboard, faCommentAlt, faPencilAlt, faItalic, faBold, faPaperPlane, faUserPlus, faCamera, faImages, faPlusCircle, faCloudUploadAlt } from "@fortawesome/free-solid-svg-icons";
+import { faShieldAlt, faUserShield, faUndoAlt, faCheckCircle, faTimesCircle, faCheckSquare, faCoffee, faUser, faEnvelopeSquare, faSpinner, faBars, faPlus, faUserFriends, faUsersCog, faCommentDots, faClipboard, faCommentAlt, faPencilAlt, faItalic, faBold, faPaperPlane, faUserPlus, faCamera, faImages, faPlusCircle, faCloudUploadAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useSpring, animated, config, useTransition } from 'react-spring'
 import { Keyframes, Spring, Transition} from 'react-spring/renderprops'
@@ -17,19 +17,21 @@ import delay from 'delay'
 import uuid from 'uuid'
 import { LoadingScreen } from './components/LoadingScreen'
 import { Dashboard } from './components/Dashboard'
-import { LoginPage } from './components/LoginPage'
+import { Login } from "./components/Login";
 
 
-library.add(fab, faTimesCircle, faCheckSquare, faCoffee, faUser, faEnvelopeSquare, faSpinner, faBars, faPlus, faUserFriends, faUsersCog, faCommentDots, faClipboard, faCommentAlt, faPencilAlt, faItalic, faBold, faPaperPlane, faUserPlus, faCamera, faImages, faPlusCircle, faCloudUploadAlt)
+library.add(fab, faShieldAlt, faUserShield, faUndoAlt, faCheckCircle, faTimesCircle, faCheckSquare, faCoffee, faUser, faEnvelopeSquare, faSpinner, faBars, faPlus, faUserFriends, faUsersCog, faCommentDots, faClipboard, faCommentAlt, faPencilAlt, faItalic, faBold, faPaperPlane, faUserPlus, faCamera, faImages, faPlusCircle, faCloudUploadAlt)
 
 
 export const UserContext = createContext(null)
 export const LoginContext = createContext(null)
+export const LoggedInContext = createContext(null) 
 export const SignupContext = createContext(null);
 export const PostsContext = createContext(null);
 export const ActiveComponentContext = createContext(null)
 export const PageIndexContext = createContext(null)
-
+export const HistoryContext = createContext(null)
+export const UniqueIdContext = createContext(null) 
 
 
 const Testing = () =>{
@@ -124,7 +126,6 @@ const Testing = () =>{
 const App = () => {
 
   const [testing, isTesting] = useState(false)
-  const [loggedIn, setLoggedIn] = useState(true)
   const [activeUser, setActiveUser] = useState('')
   const [pageReady, setPageReady] = useState(false)
   const [navCollapse, setNavCollapse] = useState(false);
@@ -136,7 +137,7 @@ const App = () => {
   const [takePhotoOpen, setTakePhotoOpen] = useState(false);
   const [webCamOpen, setWebCamOpen] = useState(false);
   const [uploadedFile, setUploadedFile] = useState([]);
-  const [renderWelcome, setRenderWelcome] = useState(true)
+  const [renderWelcome, setRenderWelcome] = useState(false)
   const [renderUserProfile, setRenderUserProfile] = useState(false);
   const [renderBulletinBoard, setRenderBulletinBoard] = useState(false)
   const [renderMessages, setRenderMessages] = useState(false);
@@ -155,9 +156,12 @@ const App = () => {
   const [email, setEmail] = useState(null);
   const [passwordTwo, setPasswordTwo] = useState(null);
   const [showSignup, setShowSignup] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(true)
   const [posts, setPosts] = useState([])
   const [activeComponent, setActiveComponent] = useState(null)
   const [pageIndex, setPageIndex] = useState(null)
+  const [history, setHistory] = useState(null)
+  const [uniqueId, setUniqueId] = useState(null)
   const userProviderValue = useMemo(
     () => ({
       userId,
@@ -224,30 +228,48 @@ const App = () => {
       pageIndex, setPageIndex
     ]
   )
-
+  const loggedInProviderValue = useMemo(
+    () => ({
+      loggedIn,
+      setLoggedIn
+    }),
+    [loggedIn, setLoggedIn]
+  ); 
+  const historyProviderValue = useMemo(
+    () => ({
+      history,
+      setHistory
+    }),
+    [history, setHistory]
+  );
+  const uniqueIdProviderValue = useMemo(
+    () => ({
+      uniqueId,
+      setUniqueId
+    }),
+    [uniqueId, setUniqueId]
+  );
   return (
     <React.Fragment>
       <Router>
         <Route>
           <UserContext.Provider value={userProviderValue}>
-            {testing && (
-              <Testing testing={testing} isTesting={isTesting}/>
-            )}
+            {testing && <Testing testing={testing} isTesting={isTesting} />}
             {!loggedIn && (
               <LoginContext.Provider value={loginProviderValue}>
                 <SignupContext.Provider value={signupProviderValue}>
-                  <LoginPage
-                    loggedIn={loggedIn}
-                    setLoggedIn={setLoggedIn}
-                    showSignup={showSignup}
-                    setShowSignup={setShowSignup}
-                    renderBulletinBoard={renderBulletinBoard}
-                    setRenderBulletinBoard={setRenderBulletinBoard}
-                    activeUser={activeUser}
-                    setActiveUser={setActiveUser}
-                    errors={errors}
-                    setErrors={setErrors}
-                  />
+                  <LoggedInContext.Provider value={loggedInProviderValue}>
+                    <Login
+                      showSignup={showSignup}
+                      setShowSignup={setShowSignup}
+                      renderBulletinBoard={renderBulletinBoard}
+                      setRenderBulletinBoard={setRenderBulletinBoard}
+                      activeUser={activeUser}
+                      setActiveUser={setActiveUser}
+                      errors={errors}
+                      setErrors={setErrors}
+                    />
+                  </LoggedInContext.Provider>
                 </SignupContext.Provider>
               </LoginContext.Provider>
             )}
@@ -261,55 +283,59 @@ const App = () => {
               <React.Fragment>
                 <PostsContext.Provider value={postsProviderValue}>
                   <ActiveComponentContext.Provider value={activeComponentProviderValue}>
-                      <PageIndexContext.Provider value={pageIndexProviderValue}>
-                      <Dashboard
-                        key={"key2"}
-                        loggedIn={loggedIn}
-                        setLoggedIn={setLoggedIn}
-                        navCollapse={navCollapse}
-                        setNavCollapse={setNavCollapse}
-                        pageReady={pageReady}
-                        setPageReady={setPageReady}
-                        addUserOpen={addUserOpen}
-                        setAddUserOpen={setAddUserOpen}
-                        errors={errors}
-                        setErrors={setErrors}
-                        addPostOpen={addPostOpen}
-                        setAddPostOpen={setAddPostOpen}
-                        renderBulletinBoard={renderBulletinBoard}
-                        setRenderBulletinBoard={setRenderBulletinBoard}
-                        renderUserProfile={renderUserProfile}
-                        setRenderUserProfile={setRenderUserProfile}
-                        renderMessages={renderMessages}
-                        setRenderMessages={setRenderMessages}
-                        renderTeamPage={renderTeamPage}
-                        setRenderTeamPage={setRenderTeamPage}
-                        renderWelcome={renderWelcome}
-                        setRenderWelcome={setRenderWelcome}
-                        activeUser={activeUser}
-                        setActiveUser={setActiveUser}
-                        addPhotoOpen={addPhotoOpen}
-                        setAddPhotoOpen={setAddPhotoOpen}
-                        takePhotoOpen={takePhotoOpen}
-                        setTakePhotoOpen={setTakePhotoOpen}
-                        uploadedFile={uploadedFile}
-                        setUploadedFile={setUploadedFile}
-                        webCamOpen={webCamOpen}
-                        setWebCamOpen={setWebCamOpen}
-                        userProfileRendered={userProfileRendered}
-                        setUserProfileRendered={setUserProfileRendered}
-                        bulletinBoardRendered={bulletinBoardRendered}
-                        setBulletinBoardRendered={setBulletinBoardRendered}
-                        teamPageRendered={teamPageRendered}
-                        setTeamPageRendered={setTeamPageRendered}
-                        messagesPageRendered={messagesPageRendered}
-                        setMessagesPageRendered={setMessagesPageRendered}
-                        postsLoaded={postsLoaded}
-                        setPostsLoaded={setPostsLoaded}
-                        confirmPostDel={confirmPostDel} 
-                        setConfirmPostDel={setConfirmPostDel}
-                        // setPosts={setPosts}
-                      />
+                    <PageIndexContext.Provider value={pageIndexProviderValue}>
+                      <LoggedInContext.Provider value={loggedInProviderValue}>
+                        <HistoryContext.Provider value={historyProviderValue}>
+                          <UniqueIdContext.Provider value={uniqueIdProviderValue}>
+                            <Dashboard
+                              key={"key2"}
+                              navCollapse={navCollapse}
+                              setNavCollapse={setNavCollapse}
+                              pageReady={pageReady}
+                              setPageReady={setPageReady}
+                              addUserOpen={addUserOpen}
+                              setAddUserOpen={setAddUserOpen}
+                              errors={errors}
+                              setErrors={setErrors}
+                              addPostOpen={addPostOpen}
+                              setAddPostOpen={setAddPostOpen}
+                              renderBulletinBoard={renderBulletinBoard}
+                              setRenderBulletinBoard={setRenderBulletinBoard}
+                              renderUserProfile={renderUserProfile}
+                              setRenderUserProfile={setRenderUserProfile}
+                              renderMessages={renderMessages}
+                              setRenderMessages={setRenderMessages}
+                              renderTeamPage={renderTeamPage}
+                              setRenderTeamPage={setRenderTeamPage}
+                              renderWelcome={renderWelcome}
+                              setRenderWelcome={setRenderWelcome}
+                              activeUser={activeUser}
+                              setActiveUser={setActiveUser}
+                              addPhotoOpen={addPhotoOpen}
+                              setAddPhotoOpen={setAddPhotoOpen}
+                              takePhotoOpen={takePhotoOpen}
+                              setTakePhotoOpen={setTakePhotoOpen}
+                              uploadedFile={uploadedFile}
+                              setUploadedFile={setUploadedFile}
+                              webCamOpen={webCamOpen}
+                              setWebCamOpen={setWebCamOpen}
+                              userProfileRendered={userProfileRendered}
+                              setUserProfileRendered={setUserProfileRendered}
+                              bulletinBoardRendered={bulletinBoardRendered}
+                              setBulletinBoardRendered={setBulletinBoardRendered}
+                              teamPageRendered={teamPageRendered}
+                              setTeamPageRendered={setTeamPageRendered}
+                              messagesPageRendered={messagesPageRendered}
+                              setMessagesPageRendered={setMessagesPageRendered}
+                              postsLoaded={postsLoaded}
+                              setPostsLoaded={setPostsLoaded}
+                              confirmPostDel={confirmPostDel}
+                              setConfirmPostDel={setConfirmPostDel}
+                              // setPosts={setPosts}
+                            />
+                          </UniqueIdContext.Provider>
+                        </HistoryContext.Provider>
+                      </LoggedInContext.Provider>
                     </PageIndexContext.Provider>
                   </ActiveComponentContext.Provider>
                 </PostsContext.Provider>

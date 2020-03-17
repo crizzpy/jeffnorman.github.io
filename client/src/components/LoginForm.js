@@ -1,12 +1,11 @@
 import React, { useState, useEffect, useCallback, useRef, createContext, useContext, useMemo } from "react";
 import axios from 'axios'
-import UserContext from '../App'
-import LoginContext from '../App'
-import SignupContext from '../App'
+import { UserContext, SignupContext, LoginContext, LoggedInContext } from "../App";
 
-const LoginForm = ({ loggedIn, setLoggedIn }) => {
+export const LoginForm = () => {
 
     const { userId, setUserId } = useContext(UserContext);
+    const { loggedIn, setLoggedIn } = useContext(LoggedInContext)
     const { showSignup, setShowSignup } = useContext(SignupContext)
     const {
         username,
@@ -24,21 +23,19 @@ const LoginForm = ({ loggedIn, setLoggedIn }) => {
             username,
             password
         }
-        const response = await tryLogin(user)
-        setUserId(response)
+        axios.post('/users/login', user)
+            .then(res => {
+                // setActiveUser(res.data._id);
+                setUserId(res.data)
+                setLoggedIn(true)
+            })
+            .catch(err => console.log(err))
+        
         // console.log(userId)
         // .catch(err => console.log(`Error encountered: ${err}`))
 
     }
-    const tryLogin = async user => {
-        return await axios.post('/users/login', user)
-            .then(res => {
-                // setActiveUser(res.data._id);
-                setLoggedIn(true)
-                return res.data
-            })
-            .catch(err => console.log(err))
-    }
+
     const handlePost = e => {
         e.preventDefault();
         const user = {
@@ -78,19 +75,16 @@ const LoginForm = ({ loggedIn, setLoggedIn }) => {
                             />
                         </div>
                         <div className="button_wrapper" onClick={handleGet}>
-                            <button type="submit" value="Submit" id="button">
-                                Log In
-                </button>
+                            <button type="submit" value="Submit" id="button">Log In</button>
                         </div>
                         <button
                             className="router_wrapper"
                             onClick={e => {
                                 e.preventDefault();
                                 setShowSignup(true);
-                            }}
-                        >
+                        }}>
                             Don't have an account? >> Sign Up
-              </button>
+                        </button>
                     </form>
                 </div>
             )}
@@ -132,21 +126,19 @@ const LoginForm = ({ loggedIn, setLoggedIn }) => {
                         <div className="button_wrapper" onClick={handlePost}>
                             <button type="submit" value="Submit" id="button">
                                 Sign Up
-                </button>
+                            </button>
                         </div>
                         <button
                             className="router_wrapper"
                             onClick={e => {
                                 e.preventDefault();
                                 setShowSignup(false);
-                            }}>
+                        }}>
                             Have an exisiting account? >> Log In
-            </button>
+                        </button>
                     </form>
                 </div>
             )}
         </div>
     )
 }
-
-export default LoginForm

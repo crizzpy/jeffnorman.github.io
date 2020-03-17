@@ -4,6 +4,10 @@ const PostSchema = mongoose.Schema({
     type: String,
     required: true
   },
+  userIsAdmin: {
+    type: Boolean,
+    required: true
+  },
   userFirstName: {
     type: String,
     required: true

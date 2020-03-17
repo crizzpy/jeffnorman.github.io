@@ -1,41 +1,24 @@
 Checklist
 
+change cloud colours, dont use opacity
+separate files even more - separate each individual component i.e. nav bar sections like hamburger, icons, profile pic
+check out <style scoped> equivalent for React (for scroll bar)
+add glow effect to moon with CSS, not svg filter
+pagination - frontend and backend
 fix button colours/hover colour (nav bar)
-create animation for dashboard.. transition from left to right BB > Msgs > Team onclick screen slides
 make sure signup/add post are working
 figure out logout breaking styling?
-fix posts section - formatting
 fix file upload
-separate all functional components into separate files - might help with rerendering issues..
 create a "hard logout" process with a router to a logout url 
 add "about me" section on profile page
-fix file upload button animations - add position absolute?
 make loading screen work when logging in vs. when first loading the login page, switch pageLoaded toggle to dashboard after having loaded posts
 add a glow/luminescence effect to moon on login page
 add online status icon/functions
-add bcrypt
+add bcrypt to backend
+add a back button on profile page
+change active style on navlinks to have width/height be bigger i.e. active navlink has a larger radius around the button
 
-SCHEDULE
-
-2 hrs every day looking at sandbox codepens/other resources for different techniques
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+to fix the refresh animation when returning form the profile page to the bulletin board/messages etc, make a set of transitions based on userProfileRendered?
 
 
 

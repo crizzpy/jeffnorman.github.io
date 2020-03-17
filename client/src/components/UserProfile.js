@@ -18,15 +18,42 @@ import { useSpring, animated, config, useTransition } from 'react-spring'
 import { Keyframes, Spring, Transition } from 'react-spring/renderprops'
 import delay from 'delay'
 import uuid from 'uuid'
-import { UserContext, PostsContext, PageIndexContext, ActiveComponentContext } from '../App'
+import { UserContext, PostsContext, PageIndexContext, ActiveComponentContext, HistoryContext, UniqueIdContext } from '../App'
 import { WebcamComponent } from './WebCam'
+import {useParams} from 'react-router-dom'
 
 
 export const UserProfile = ({activeUser, setActiveUser, addPhotoOpen, setAddPhotoOpen, takePhotoOpen, setTakePhotoOpen, uploadedFile, setUploadedFile, webCamOpen, setWebCamOpen}) => {
 
   const {userId, setUserId} = useContext(UserContext)
+  const { history, setHistory } = useContext(HistoryContext)
+  const {uniqueId, setUniqueId} = useContext(UniqueIdContext)
+
+
+
+  const [viewId, setViewId] = useState({})
   
-  
+  useEffect(() => {
+    setHistory('/profile')
+    if (!uniqueId) {
+      setUniqueId(userId.id)
+    }
+    if (userId.id !== uniqueId) {
+      const user = {
+        uniqueId
+      }
+      axios.post('/users/load', user)
+      .then(res => {
+        setViewId(res.data)
+        // console.log(res.data)
+        // console.log(viewId)
+      })
+      .catch(err => console.log(err))
+    } else {
+      setViewId(userId)
+    }
+  }, [])
+
   const fade = useSpring({
     from: {
       opacity: 0
@@ -47,22 +74,40 @@ export const UserProfile = ({activeUser, setActiveUser, addPhotoOpen, setAddPhot
     visibility: webCamOpen ? 'visible' : 'hidden'
   })
 
-  const uploadHandler = e => {
-    // console.log(uploadedFile.name);
-    // console.log(uploadedFile);
-    const myForm = document.getElementsByName("addPhoto")[0].files
-    // console.log(myForm[0].files)
-    console.log(myForm)
+  const transition1 = useTransition(addPhotoOpen, null, {
+    from: { opacity: 1, height: "0px" },
+    enter: { opacity: 1, height: "120px" },
+    leave: { opacity: 1, height: "0px" },
+    config: {
+      // default: config.wobbly,
+      // duration: 200
+    }
+  })
+  const transition2 = useTransition(takePhotoOpen, null, {
+    from: { opacity: 1, height: "0px" },
+    enter: { opacity: 1, height: "120px" },
+    leave: { opacity: 1, height: "0px" },
+    config: {
+      // default: config.wobbly,
+      // duration: 200
+    }
+  })
+
+  const uploadHandler = async e => {
     // const fd = new FormData(myForm.files.File)
     // uploadedFile.map(file => {
     //   console.log(file)
     // })
-    const fd = new FormData()
-    fd.append('files', myForm) 
+    
+    const fileName = `userimg-${viewId._id}-${Date.now()}`
+    console.log(fileName)
     // fd.set() 
-    // fd.append('files', uploadedFile.values);
+    const fileBlob = new Blob(document.getElementsByName("addPhoto")[0].files)
+    const fd = new FormData()
+    fd.append('files', fileBlob, fileName);
     // fd.append('test', 'test')
-    axios.post('/users/upload', fd)
+    console.log(fd)
+    await axios.post('/images/upload', fd)
     .then(res => {
       console.log(res.data)
     })
@@ -89,8 +134,7 @@ export const UserProfile = ({activeUser, setActiveUser, addPhotoOpen, setAddPhot
               e.preventDefault();
               setAddPhotoOpen(false);
               setTakePhotoOpen(!takePhotoOpen);
-            }}
-          >
+          }}>
             <div className="profilebtn_innerwrap">
               <FontAwesomeIcon icon="camera" class="profileicon" />
             </div>
@@ -101,69 +145,71 @@ export const UserProfile = ({activeUser, setActiveUser, addPhotoOpen, setAddPhot
               e.preventDefault();
               setTakePhotoOpen(false);
               setAddPhotoOpen(!addPhotoOpen);
-            }}
-          >
+          }}>
             <div className="profilebtn_innerwrap">
               <FontAwesomeIcon icon="images" class="profileicon" />
             </div>
           </div>
         </div>
         <div className="slideouts_wrapper">
-          <animated.div
-            className={addPhotoOpen ? "uploadwrap fadein" : "uploadwrap fadeout"}
-            id="shift"
-            style={addPhotoFade}
-          >
-            <div className="addphoto-wrap">
-              <form>
-                <div className={addPhotoOpen ? "image-upload open" : "image-upload"}>
-                  <label for="file-input">
-                    <FontAwesomeIcon icon="plus-circle" class={addPhotoOpen ? "uploadbtn open" : "uploadbtn"} />
-                  </label>
-                  <input id="file-input" name="addPhoto" type="file" onChange={e => setUploadedFile(e.target.files[0])} />
+          {transition1.map(({item, props, key}) => (
+            item && (
+              <animated.div
+                className="uploadwrap"
+                id="shift"
+                style={props}
+              >
+                <div className="addphoto-wrap">
+                  <form id="upload1">
+                    <div className="image-upload">
+                      <label for="file-input">
+                        <FontAwesomeIcon icon="plus-circle" class="uploadbtn" />
+                      </label>
+                      <input id="file-input" name="addPhoto" type="file" onChange={e => setUploadedFile(e.target.files[0])} />
+                    </div>
+                    <div className="image-upload" onClick={e => {
+                      e.preventDefault()
+                      uploadHandler()
+                    }}>
+                      <label for="file-input">
+                        <FontAwesomeIcon icon="cloud-upload-alt" class="uploadbtn" />
+                      </label>
+                      <button id="file-input" type="submit" name="test" value="Submit" />
+                    </div>
+                  </form>
                 </div>
-                <div className={addPhotoOpen ? "image-upload open" : "image-upload"} onClick={e => {
-                  e.preventDefault()
-                  uploadHandler()
-                }}>
-                  <label for="file-input">
-                    <FontAwesomeIcon icon="cloud-upload-alt" class={addPhotoOpen ? "uploadbtn open" : "uploadbtn"} />
-                  </label>
-                  <button id="file-input" type="submit" name="test" value="Submit" />
+              </animated.div>
+            )
+          ))}
+          
+          {transition2.map(({item, props, key}) => (
+            item && (
+              <animated.div className="uploadwrap" style={props}>
+                <div className="addphoto-wrap">
+                  <form onSubmit={uploadHandler} id="upload2">
+                    <div className="image-upload" onClick={e => {
+                      e.preventDefault()
+                      setWebCamOpen(true);
+                    }}>
+                      <label for="file-input">
+                        <FontAwesomeIcon icon="plus-circle" class="uploadbtn" />
+                      </label>
+                      <input id="file-input" type="file" />
+                    </div>
+                    <div className="image-upload">
+                      <label for="file-input">
+                        <FontAwesomeIcon icon="cloud-upload-alt" class="uploadbtn" />
+                      </label>
+                      <button id="file-input" type="submit" />
+                    </div>
+                  </form>
                 </div>
-              </form>
-            </div>
-          </animated.div>
-          {/* )} */}
-          {/* {takePhotoOpen && ( */}
-          <animated.div
-            className={takePhotoOpen ? "uploadwrap fadein" : "uploadwrap fadeout"}
-            style={takePhotoFade}
-          >
-            <div className="addphoto-wrap">
-              <form onSubmit={uploadHandler}>
-                <div className={takePhotoOpen ? "image-upload open" : "image-upload"} onClick={e => {
-                  e.preventDefault()
-                  setWebCamOpen(true);
-                }}>
-                  <label for="file-input">
-                    <FontAwesomeIcon icon="plus-circle" class={takePhotoOpen ? "uploadbtn open" : "uploadbtn"} />
-                  </label>
-                  <input id="file-input" type="file" />
-                </div>
-                <div className={takePhotoOpen ? "image-upload open" : "image-upload"}>
-                  <label for="file-input">
-                    <FontAwesomeIcon icon="cloud-upload-alt" class={takePhotoOpen ? "uploadbtn open" : "uploadbtn"} />
-                  </label>
-                  <button id="file-input" type="submit" />
-                </div>
-              </form>
-            </div>
-          </animated.div>
+              </animated.div>
+            )
+          ))}
+          
         </div>
       </div>
-      {/* {addPhotoOpen && ( */}
-      
       
       {webCamOpen &&(
         <animated.div 
@@ -178,9 +224,9 @@ export const UserProfile = ({activeUser, setActiveUser, addPhotoOpen, setAddPhot
       <div className="userinfo_outerwrapper">
         <div className="userinfo_innerwrapper">
           <div className="defaultinfo_wrap">
-            <p>{userId.firstName + ' ' + userId.lastName}</p>
-            <p>{userId.department}</p>
-            <p>{userId.role}</p>
+            <p className="profile_info-top">{viewId.firstName + ' ' + viewId.lastName}</p>
+            <p><b>Department: </b>{viewId.department}</p>
+            <p><b>Role: </b>{viewId.role}</p>
           </div>
           <div className="aboutme_outerwrapper">
             {showAboutMe && (

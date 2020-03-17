@@ -44,17 +44,17 @@ export const TeamPage = () => {
 
     return (
         <AbsoluteWrapper>
-        <div className="messagespage_wrapper">
-            <div className="messages_innerwrapper">
-                <div className="iconwrap">
-                    <div className="msgimgcircle">
-                        <div className="msgimage">
-                            <FontAwesomeIcon icon="user-friends" class="msgimage" />
+            <div className="messagespage_wrapper">
+                <div className="messages_innerwrapper">
+                    <div className="iconwrap">
+                        <div className="msgimgcircle">
+                            <div className="msgimage">
+                                <FontAwesomeIcon icon="user-friends" class="msgimage" />
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
         </AbsoluteWrapper>
     );
 }

@@ -1,203 +1,12 @@
-// ooooo----------.oooooo.-----.oooooo.----ooooo-ooooo------ooo-----------oooooooooooo---.oooooo.---ooooooooo.---ooo--------ooooo-
-// `888'---------d8P'--`Y8b---d8P'--`Y8b---`888'-`888b.-----`8'-----------`888'-----`8--d8P'--`Y8b--`888---`Y88.-`88.-------.888'-
-// -888---------888------888-888------------888---8-`88b.----8-------------888---------888------888--888---.d88'--888b-----d'888--
-// -888---------888------888-888------------888---8---`88b.--8-------------888oooo8----888------888--888ooo88P'---8-Y88.-.P--888--
-// -888---------888------888-888-----ooooo--888---8-----`88b.8-------------888----"----888------888--888`88b.-----8--`888'---888--
-// -888-------o-`88b----d88'-`88.----.88'---888---8-------`888-------------888---------`88b----d88'--888--`88b.---8----Y-----888--
-// o888ooooood8--`Y8bood8P'---`Y8bood8P'---o888o-o8o--------`8------------o888o---------`Y8bood8P'--o888o--o888o-o8o--------o888o-
 import React, { useState, useEffect, useCallback, useRef, createContext, useContext, useMemo } from "react";
-import { useSpring, animated, config, useTransition } from 'react-spring'
-import { Keyframes, Spring, Transition } from 'react-spring/renderprops'
 import delay from 'delay'
-import { UserContext, SignupContext, LoginContext } from '../App'
-import axios from 'axios'
+import { useSpring, animated, config, useTransition } from 'react-spring'
+import { Keyframes, Spring } from 'react-spring/renderprops'
+import { LoginForm } from './LoginForm'
+import { UserContext, SignupContext, LoginContext } from "../App";
 
-const LoginForm = ({loggedIn, setLoggedIn}) => {
-
-  const { userId, setUserId } = useContext(UserContext);
-  const { showSignup, setShowSignup } = useContext(SignupContext)
-  const {
-    username,
-    setUsername,
-    email,
-    setEmail,
-    password,
-    setPassword,
-    passwordTwo,
-    setPasswordTwo
-  } = useContext(LoginContext);
-  const handleGet = async (e) => {
-    e.preventDefault()
-    const user = {
-      username,
-      password
-    }
-    const response = await tryLogin(user)
-    setUserId(response)
-    // console.log(userId)
-    // .catch(err => console.log(`Error encountered: ${err}`))
-
-  }
-  const tryLogin = async user => {
-    return await axios.post('/users/login', user)
-      .then(res => {
-        // setActiveUser(res.data._id);
-        setLoggedIn(true)
-        return res.data
-      })
-      .catch(err => console.log(err))
-  }
-  const handlePost = e => {
-    e.preventDefault();
-    const user = {
-      username,
-      password,
-      passwordTwo,
-      email
-    };
-
-    axios.post("/users/add", user)
-      .then(console.log('posted'))
-      .catch(err => console.log(`Please see the following error: ${err}`));
-
-    // setUsername('')
-    // setPassword('')
-    // setPasswordTwo('')
-    // setEmail('')
-  }
-  return(
-    <div className="form_container">
-      {!showSignup && (
-        <div className="form_innercontainer" id="login">
-          <form onSubmit={handleGet}>
-            <div className="input_wrapper">
-              <input
-                placeholder="Username or Email"
-                value={username}
-                onChange={e => setUsername(e.target.value)}
-              />
-            </div>
-            <div className="input_wrapper">
-              <input
-                placeholder="Password"
-                type="password"
-                value={password}
-                onChange={e => setPassword(e.target.value)}
-              />
-            </div>
-            <div className="button_wrapper" onClick={handleGet}>
-              <button type="submit" value="Submit" id="button">
-                Log In
-                </button>
-            </div>
-            <button
-              className="router_wrapper"
-              onClick={e => {
-                e.preventDefault();
-                setShowSignup(true);
-              }}
-            >
-              Don't have an account? >> Sign Up
-              </button>
-          </form>
-        </div>
-      )}
-
-      {showSignup && (
-        
-        <div className="form_innercontainer">
-          <form onSubmit={handlePost}>
-            <div className="input_wrapper">
-              <input
-                placeholder="Email"
-                value={email}
-                onChange={e => setEmail(e.target.value)}
-              />
-            </div>
-            <div className="input_wrapper">
-              <input
-                placeholder="Username"
-                value={username}
-                onChange={e => setUsername(e.target.value)}
-              />
-            </div>
-            <div className="input_wrapper">
-              <input
-                placeholder="Password"
-                type="password"
-                value={password}
-                onChange={e => setPassword(e.target.value)}
-              />
-            </div>
-            <div className="input_wrapper">
-              <input
-                placeholder="Confirm Password"
-                type="password"
-                value={passwordTwo}
-                onChange={e => setPasswordTwo(e.target.value)}
-              />
-            </div>
-            <div className="button_wrapper" onClick={handlePost}>
-              <button type="submit" value="Submit" id="button">
-                Sign Up
-                </button>
-            </div>
-            <button
-              className="router_wrapper"
-              onClick={e => {
-                e.preventDefault();
-                setShowSignup(false);
-            }}>
-              Have an exisiting account? >> Log In
-            </button>
-          </form>
-        </div>
-      )}
-    </div>
-  )
-}
-
-
-// ooooo----------.oooooo.-----.oooooo.----ooooo-ooooo------ooo-----------ooooooooo.---------.o.---------.oooooo.----oooooooooooo-
-// `888'---------d8P'--`Y8b---d8P'--`Y8b---`888'-`888b.-----`8'-----------`888---`Y88.------.888.-------d8P'--`Y8b---`888'-----`8-
-// -888---------888------888-888------------888---8-`88b.----8-------------888---.d88'-----.8"888.-----888------------888---------
-// -888---------888------888-888------------888---8---`88b.--8-------------888ooo88P'-----.8'-`888.----888------------888oooo8----
-// -888---------888------888-888-----ooooo--888---8-----`88b.8-------------888-----------.88ooo8888.---888-----ooooo--888----"----
-// -888-------o-`88b----d88'-`88.----.88'---888---8-------`888-------------888----------.8'-----`888.--`88.----.88'---888-------o-
-// o888ooooood8--`Y8bood8P'---`Y8bood8P'---o888o-o8o--------`8------------o888o--------o88o-----o8888o--`Y8bood8P'---o888ooooood8-
-
-
-export const LoginPage = ({ showSignup, setShowSignup, loggedIn, setLoggedIn, renderBulletinBoard, setRenderBulletinBoard, activeUser, setActiveUser, errors, setErrors }) => {
-  
-  // const breeze = useSpring({
-  //   from: { transform: "translate3d(0,0,0)" },
-  //   to: { transform: "translate3d(5px,0,0)"},
-  //   reset: true
-  // })
-
-  // const {xy} = useSpring({
-  //   config: {
-  //     mass: 1,
-  //     tension: 80,
-  //     friction: 7,
-  //     clamp: false
-  //   },
-  //   from: { xy: [0, 0] },
-  //   to: { xy: [800, 800] },
-
-  //   delay: 2000,
-  //   onRest: () => {
-  //     console.log('done')
-  //   }
-  // })
-
-  // const Script = Keyframes.Spring(async next =>
-  // while (true)
-  //   await next({ opacity: 1, from: { opacity: 0 }, reset: true })
-  // )
-
-
-  const Script1 = Keyframes.Spring(async next => {
+export const LoginBackground = () => {
+    const Script1 = Keyframes.Spring(async next => {
     while (true) {
       // await next({ opacity: 1, from: { opacity: 0 }, reset: true })
       // await next({ opacity: 0, from: { opacity: 1 }, reset: true });
@@ -592,10 +401,9 @@ export const LoginPage = ({ showSignup, setShowSignup, loggedIn, setLoggedIn, re
       await next({ transform: "translateY(0px)", opacity: 0.1, from: { transform: "translateY(-1px)", opacity: 0 }, reset: true })
     }
   })
-  
-  
-  return (
-    <React.Fragment>
+
+  return(
+      <React.Fragment>
       <div className="login_container" style={require("../style/login.css")}>
         <div className="moon">
           <svg width="119" height="123" viewBox="0 0 119 123" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1548,9 +1356,7 @@ export const LoginPage = ({ showSignup, setShowSignup, loggedIn, setLoggedIn, re
           </svg>
         </div>
       </div>
-    {/* <LoginForm loggedIn={loggedIn} setLoggedIn={setLoggedIn}/> */}
     </React.Fragment>
-  );
-  
-  
+  )
+
 }

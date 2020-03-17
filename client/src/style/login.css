@@ -99,23 +99,27 @@ body{
     position: absolute;
     left: 38%;
     top: 33%;
+    opacity: 0.6;
 }
 .cloudmid{
     position: absolute;
     left: 55%;
     top: 20%;
+    opacity: 0.8;
 }
 .cloudfront{
     position: absolute;
     left: 8%;
     top: 12%;
+    opacity: 1;
 }
 .form_container{
-    display: flex;
+    position: absolute;
+    /* display: flex; */
     align-content: center;
     width: 400px;
     /* height: 300px; */
-    position: absolute;
+    
     top: calc(100% - 400px);
     left: calc(50% - 200px);;
     border-radius: 50px;
