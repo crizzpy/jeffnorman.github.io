@@ -1,5 +1,6 @@
 Checklist
 
+figure out how to kill webcam process when the webcam component is closed
 change cloud colours, dont use opacity
 separate files even more - separate each individual component i.e. nav bar sections like hamburger, icons, profile pic
 check out <style scoped> equivalent for React (for scroll bar)
@@ -15,11 +16,68 @@ make loading screen work when logging in vs. when first loading the login page, 
 add a glow/luminescence effect to moon on login page
 add online status icon/functions
 add bcrypt to backend
-add a back button on profile page
-change active style on navlinks to have width/height be bigger i.e. active navlink has a larger radius around the button
+add a back button on profile page - using RouterHistory
+change userprofile settings icons to a single edit icon that will expand to multiple buttons when edit menu is opened
+i.e. an edit button that opens a menu similar to the one that is there now when opening the upload/take photo menus
+fix user profile edit button so it doesnt appear when viewing someone elses profile
 
 to fix the refresh animation when returning form the profile page to the bulletin board/messages etc, make a set of transitions based on userProfileRendered?
 
+to fix loading on user profile - a simple If statement ie. if (!userLoaded) return <div> loading </div>
+look into useMemo for the post enter/leave animation
+ideas for animations: 
+
+ei
+496F-9844
+
+
+CSS variables:
+
+:root {
+    --variable-name: 'property';
+    ie. --text-color: red;
+}
+
+further down you can change the default for an element and its children ie:
+
+:root {
+    --text-color: red;
+}
+
+.elementclass{
+    --text-color: blue;
+}
+
+use media query (@media) to define styling:
+
+@media screen and (min-width: 600px) {
+    :root{
+        --margin-base: 10px;
+    }
+}
+@media screen and (max-width: 600px) {
+    :root{
+        --margin-base: 6px;
+    }
+}
+
+define colour theme using:
+
+@media (prefers-color-scheme: dark) {
+    :root{
+        --text-color: white;
+        --background: black;
+    }
+}
+
+you could also use a css variable to work with calc() ie:
+
+.class{
+    --base: 8;
+    margin: calc(var(--base) * 10px)
+}
+
+Building reusable components
 
 
 

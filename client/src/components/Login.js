@@ -3,7 +3,6 @@ import delay from 'delay'
 import { useSpring, animated, config, useTransition } from 'react-spring'
 import { Keyframes, Spring } from 'react-spring/renderprops'
 import { LoginForm } from './LoginForm'
-import { UserContext, SignupContext, LoginContext } from "../App";
 import { LoginBackground } from './LoginBackground'
 
 
@@ -16,12 +15,24 @@ import { LoginBackground } from './LoginBackground'
 // o888ooooood8--`Y8bood8P'---`Y8bood8P'---o888o-o8o--------`8------------o888o--------o88o-----o8888o--`Y8bood8P'---o888ooooood8-
 
 
-export const Login = ({ showSignup, setShowSignup, renderBulletinBoard, setRenderBulletinBoard, activeUser, setActiveUser, errors, setErrors }) => {
-  
+export const Login = ({ showSignup, setShowSignup, renderBulletinBoard, setRenderBulletinBoard, activeUser, setActiveUser, errors, setErrors, setPageReady, setRenderWelcome }) => {
+    
+  // document.addEventListener('resize', e => {
+  //   let windowHeight = window.innerHeight
+  //   document.body.style.height = windowHeight + "px";
+  // }, false)
+
+  window.onresize = () => {
+    let windowHeight = window.innerHeight
+    document.body.style.height = "922px"
+    console.log(document.body.style.height)
+    console.log(windowHeight)
+  }
+
   return (
     <React.Fragment>
       <LoginBackground />
-      <LoginForm />
+      <LoginForm setPageReady={setPageReady} setRenderWelcome={setRenderWelcome} />
     </React.Fragment>
     );
 

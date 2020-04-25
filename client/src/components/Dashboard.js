@@ -17,75 +17,90 @@ import { useSpring, animated, config, useTransition } from 'react-spring'
 import { Keyframes, Spring, Transition } from 'react-spring/renderprops'
 import delay from 'delay'
 import uuid from 'uuid'
-import { UserContext, PostsContext, PageIndexContext, ActiveComponentContext, LoggedInContext, UniqueIdContext } from '../App'
+import { GlobalContext } from '../App'
 import { WorkingView } from "./WorkingView"
 import { AddUser } from "./AddUser"
 import { Welcome } from './Welcome'
 import { NavBar } from './NavBar'
 import { UserProfile } from './UserProfile'
+import { WebcamComponent } from './WebCam'
+import { LoadingScreen } from './LoadingScreen'
 
 
-export const Dashboard = ({ navCollapse, setNavCollapse, pageReady, setPageReady, addUserOpen, setAddUserOpen, errors, setErrors, addPostOpen, setAddPostOpen, renderUserProfile, setRenderUserProfile, renderBulletinBoard, setRenderBulletinBoard, activeUser, setActiveUser, renderMessages, setRenderMessages, renderTeamPage, setRenderTeamPage, addPhotoOpen, setAddPhotoOpen, takePhotoOpen, setTakePhotoOpen, uploadedFile, setUploadedFile, webCamOpen, setWebCamOpen, userProfileRendered, setUserProfileRendered, bulletinBoardRendered, setBulletinBoardRendered, teamPageRendered, setTeamPageRendered, messagesPageRendered, setMessagesPageRendered, postsLoaded, setPostsLoaded, renderWelcome, setRenderWelcome, confirmPostDel, setConfirmPostDel }) => {
+export const Dashboard = ({ navCollapse, setNavCollapse, pageReady, setPageReady, userInfoReady, setUserInfoReady, addUserOpen, setAddUserOpen, errors, setErrors, addPostOpen, setAddPostOpen, renderUserProfile, setRenderUserProfile, renderBulletinBoard, setRenderBulletinBoard, activeUser, setActiveUser, renderMessages, setRenderMessages, renderTeamPage, setRenderTeamPage, addPhotoOpen, setAddPhotoOpen, takePhotoOpen, setTakePhotoOpen, uploadedFile, setUploadedFile, webCamOpen, setWebCamOpen, userProfileRendered, setUserProfileRendered, bulletinBoardRendered, setBulletinBoardRendered, teamPageRendered, setTeamPageRendered, messagesPageRendered, setMessagesPageRendered, postsLoaded, setPostsLoaded, renderWelcome, setRenderWelcome, confirmPostDel, setConfirmPostDel }) => {
   useEffect(() => {
       retrievePosts()
   }, [])
 
-  const { activeComponent, setActiveComponent } = useContext(ActiveComponentContext)
-  const { pageIndex, setPageIndex } = useContext(PageIndexContext)
-  const { uniqueId, setUniqueId } = useContext(UniqueIdContext)
-  const { posts, setPosts } = useContext(PostsContext);
-  const { userId, setUserId } = useContext(UserContext);
-  const { loggedIn, setLoggedIn } = useContext(LoggedInContext);
+  
+  // useEffect(() => {
+    //   // setTimeout(() => {
+      //     if(userInfoReady){
+        //       setReady(true)
+        //       console.log('testing')
+        //     }
+        //   // }, 100)
+        // }, userInfoReady)
+        
+  const { ready, setReady, 
+          activeComponent, setActiveComponent, 
+          pageIndex, setPageIndex, 
+          uniqueId, setUniqueId, 
+          posts, setPosts, 
+          userId, setUserId, 
+          loggedIn, setLoggedIn } = useContext(GlobalContext)
 
   const retrievePosts = () => {
-      axios
-          .get("/posts/retrieve")
-          .then(res => {
-              res.data.map(post => {
-                  // setPosts([...posts, post]);
-                  posts.push(post)
-
-              });
-              setPostsLoaded(true);
-              
-          })
-          .catch(err => console.log(err));
+    axios
+      .get("/posts/retrieve")
+      .then(res => {
+          res.data.map(post => {
+              // setPosts([...posts, post]);
+              posts.push(post)
+          });
+          setPostsLoaded(true);
+          
+      })
+      .catch(err => console.log(err));
   }
 
   const handleLogout = () => {
-      setUserId(null)
-      setLoggedIn(false)
-      window.location.reload();
+    setUserId(null)
+    // setLoggedIn(false)
+    window.location.reload();
   }
 
   if (!userId) {
-      setUserId({
-          hasAdmin: true,
-          isAdmin: true,
-          headmin: "self",
-          date: "2020 - 02 - 25T00: 08: 31.591Z",
-          _id: "5e4188831c9d4400000ba31e",
-          id: "6a7e487d-efcc-4feb-ae53-b38f23e95ca8",
-          username: 'chrispy',
-          firstName: 'Jeff',
-          lastName: 'Norman',
-          password: 'hallybird101',
-          email: 'jeff_norman@live.com',
-          department: 'A',
-          role: 'Analyst'
-      })
-      
-    }
+    setUserId({
+        hasAdmin: true,
+        isAdmin: true,
+        headmin: "self",
+        date: "2020 - 02 - 25T00: 08: 31.591Z",
+        _id: "5e4188831c9d4400000ba31e",
+        id: "6a7e487d-efcc-4feb-ae53-b38f23e95ca8",
+        username: 'chrispy',
+        firstName: 'Jeff',
+        lastName: 'Norman',
+        password: 'hallybird101',
+        email: 'jeff_norman@live.com',
+        department: 'A',
+        role: 'Analyst'
+    })
+    setRenderWelcome(true)
+  }
 
-    
+  
 
   const profileLink = `/profile/${uniqueId}`
 
   return (
+    
+    
     <div
       style={require("../style/dashboard.css")}
       className={navCollapse ? "main_container shrink" : "main_container"}
     >
+        
       {/* {userId.isAdmin == true && ( */}
         <div className="addUserBtn">
           <FontAwesomeIcon
@@ -123,22 +138,23 @@ export const Dashboard = ({ navCollapse, setNavCollapse, pageReady, setPageReady
         setRenderTeamPage={setRenderTeamPage}
         activeUser={activeUser}
         setActiveUser={setActiveUser}
+        userInfoReady={userInfoReady}
+        setUserInfoReady={setUserInfoReady}
       />
-      <div
-        className={
-          navCollapse ? "container_window shrink" : "container_window"
-        }
-      >
+      <div className={navCollapse ? "container_window shrink" : "container_window"}>
         <h1>{activeComponent}</h1>
       </div>
-      <div
-        className={
-          navCollapse ? "content_container shrink" : "content_container"
-        }
-      >
-        {/* <div className="active_comp"><UserProfile /></div> */}
+      <div className={navCollapse ? "content_container shrink" : "content_container"}>
+      
 
-        {renderWelcome && <Welcome />}
+        {renderWelcome && 
+          <Redirect push to="/welcome">
+          {/* <Route exact path="/welcome"> */}
+            <Route exact path="/welcome" component={Welcome} />
+              {/* <Welcome />
+            </Route> */}
+          </Redirect>
+        }
         
         
           {renderUserProfile && (
@@ -146,6 +162,8 @@ export const Dashboard = ({ navCollapse, setNavCollapse, pageReady, setPageReady
               <Redirect push to={profileLink} />
               <Route exact path={profileLink}>
                 <UserProfile
+                  userInfoReady={userInfoReady}
+                  setUserInfoReady={setUserInfoReady}
                   activeUser={activeUser}
                   setActiveUser={setActiveUser}
                   addPhotoOpen={addPhotoOpen}
@@ -169,8 +187,11 @@ export const Dashboard = ({ navCollapse, setNavCollapse, pageReady, setPageReady
             </React.Fragment>
           )}
 
-        {!renderUserProfile && (
+        {!renderUserProfile && !renderWelcome && (
           <div className="component_container">
+            {!pageReady && (
+              <LoadingScreen setPageReady={setPageReady} />
+            )}
             <WorkingView
               pageReady={pageReady}
               setPageReady={setPageReady}
@@ -197,5 +218,7 @@ export const Dashboard = ({ navCollapse, setNavCollapse, pageReady, setPageReady
         )}
       </div>
     </div>
+    // </LoadingScreen>
   );
+  
 }

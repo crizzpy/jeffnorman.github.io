@@ -6,7 +6,7 @@
 // -----888-------888-------o--.8'-----`888.---8----Y-----888-------------888----------.8'-----`888.--`88.----.88'---888-------o-
 // ----o888o-----o888ooooood8-o88o-----o8888o-o8o--------o888o-----------o888o--------o88o-----o8888o--`Y8bood8P'---o888ooooood8-
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { useSpring, animated, config, useTransition } from 'react-spring'
 import { Keyframes, Spring, Transition } from 'react-spring/renderprops'
 import {  faUserFriends } from "@fortawesome/free-solid-svg-icons";

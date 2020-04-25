@@ -1,3 +1,10 @@
+App ideas
+
+make a bot that gets angry/happy based on prompts from the user.
+animation page for an economy - show the flow of money as it circulates - banks - individuals - companies - government - black market - financial schemes
+animation page for how a scheme works ie. ponzi schemes, how the drug trade works, etc.
+simple ecommerce site - place an order for a tshirt, set up CC info/paypal, account setup - (maybe)
+
 /* Ellipse 24 */
 
 

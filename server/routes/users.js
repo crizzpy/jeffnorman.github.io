@@ -20,7 +20,6 @@ router.post('/load', (req, res) => {
       res.send(user)
     } else {
       console.log('user not found')
-      console.log(uuid.v4())
       res.json({msg: "user not found."})
     }
   }) 

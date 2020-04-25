@@ -7,9 +7,10 @@
 // ------`8'------`8'-------o888ooooood8-o888bood8P'-------------`Y8bood8P'--o88o-----o8888o-o8o--------o888o-
 import React, { useState, useEffect, useCallback, useRef, createContext, useContext, useMemo } from "react";
 import Webcam from "react-webcam";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 
-export const WebcamComponent = () => {
+export const WebcamComponent = ({setWebCamOpen}) => {
   const videoConstraints = {
     width: 1280,
     height: 720,
@@ -23,16 +24,31 @@ export const WebcamComponent = () => {
   }, [webcamRef]);
 
   return (
-    <>
-      <Webcam
-        audio={false}
-        height={720}
-        ref={webcamRef}
-        screenshotFormat="image/jpeg"
-        width={1280}
-        videoConstraints={videoConstraints}
-      />
-      <button onClick={capture}>Capture photo</button>
-    </>
+    <React.Fragment>
+      <div className="webcam_container">
+        <div className="view-wrap">
+          <div className="camera-feed">  
+            <Webcam
+              audio={false}
+              height={720}
+              ref={webcamRef}
+              screenshotFormat="image/jpeg"
+              width={1280}
+              videoConstraints={videoConstraints}
+            />
+            <div className="camera-x-btn" onClick={e => {
+              setWebCamOpen(false)
+            }}>
+              <FontAwesomeIcon icon="times" />
+            </div>
+          </div>
+          <div className="webcam-btn-wrap">
+            <div onClick={capture}>
+              <FontAwesomeIcon icon="camera-retro" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </React.Fragment>
   );
 };

@@ -1,9 +1,12 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import { useSpring, animated, config, useTransition } from 'react-spring'
 import {NavLink} from 'react-router-dom'
+import { GlobalContext } from '../App'
 
 export const UserProfilePreview = ({navCollapse, setRenderWelcome, setRenderBulletinBoard, renderUserProfile, setRenderUserProfile, setRenderMessages, setRenderTeamPage, setActiveComponent}) => {
   
+  const { ready, setReady, history, setHistory, setUniqueId, userId, setLastView, setCameFromProfile } = useContext(GlobalContext)
+
   const transition = useTransition(!renderUserProfile, null, {
     from: { transform: "translate(-100%, 0)" },
     enter: { transform: "translate(0, 0)" },
@@ -19,7 +22,7 @@ export const UserProfilePreview = ({navCollapse, setRenderWelcome, setRenderBull
                 <animated.div style={props}>
                   <div className={navCollapse ? "profileImgInset shrink" : "profileImgInset"}>
                     <div className={navCollapse ? "profileImgLrg shrink" : "profileImgLrg"}>
-                      <NavLink exact to="/profile">
+                      <NavLink exact to="/profile" onClick={() => setHistory([...(history || []), '/profile'])}>
 
                         <img
                           src={require("../images/img.jpg")}
@@ -31,9 +34,11 @@ export const UserProfilePreview = ({navCollapse, setRenderWelcome, setRenderBull
                             setRenderUserProfile(true);
                             setRenderMessages(false);
                             setRenderTeamPage(false);
+                            setCameFromProfile(true)
+                            setUniqueId(userId.id)
+                            setLastView("profile")
                             setActiveComponent("profile");
-                          }}
-                        />
+                        }}/>
                       </NavLink>
                     </div>
                     

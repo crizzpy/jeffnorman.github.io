@@ -17,18 +17,27 @@ import { useSpring, animated, config, useTransition } from 'react-spring'
 import { Keyframes, Spring, Transition } from 'react-spring/renderprops'
 import delay from 'delay'
 import uuid from 'uuid'
-import {UserContext, PostsContext} from '../App'
+import {GlobalContext} from '../App'
 import { AbsoluteWrapper } from './AbsoluteWrapper'
+import { LoadingScreen2 } from './LoadingScreen2'
 import { ScrollWindow } from './ScrollWindow'
 import { Post } from './Post'
 import * as Scroll from 'react-scroll';
 import { Link, Element , Events, animateScroll as scroll, scrollSpy, scroller } from 'react-scroll'
-import {LoadingScreen} from './LoadingScreen'
+import { LoadingScreen } from './LoadingScreen'
+import {PostBuilder} from './PostBuilder'
+import {PreviewCard} from './PreviewCard'
 
 export const BulletinBoard = ({pageReady, setPageReady, addPostOpen, setAddPostOpen, activeUser, setActiveUser, postsLoaded, setPostsLoaded, setActiveComponent, setRenderUserProfile}) => {
-  const { userId, setUserId } = useContext(UserContext)
-  const { posts, setPosts } = useContext(PostsContext)
-
+  
+  const { userId, setUserId, 
+          posts, setPosts, 
+          history, setHistory, 
+          setPreviewCardOpen, setPreviewCardLabel, 
+          setXCoordinate, setYCoordinate,
+          previewCardOpen, xCoordinate,
+          hidePreview, setHidePreview } = useContext(GlobalContext)
+ 
   // const fadein = useSpring({
   //   from: {
   //     opacity: 0
@@ -39,6 +48,20 @@ export const BulletinBoard = ({pageReady, setPageReady, addPostOpen, setAddPostO
   const [postAdminsOnly, setPostAdminsOnly] = useState(false)
   const [postContent, setPostContent] = useState('')
   let delBtn = ""
+
+  const transition = useTransition(addPostOpen, null, {
+    from: { height: "60px", width: "170px", opacity: 0 },
+    enter: { height: "150px", width: "350px", opacity: 1 },
+    leave: { height: "60px", width: "170px", opacity: 0 },
+  })
+
+
+  //Replace xCoordinate somehow
+  // const previewTransition1 = useTransition(previewCardOpen, null, {
+  //   from: { opacity: 0, position: "absolute", width: "auto", left: xCoordinate, top: "0px", background: "black", borderRadius: "5px", height: "25px", padding: "5px" },
+  //   enter: { opacity: 1, position: "absolute", width: "auto", left: xCoordinate, top: "0px", background: "black", borderRadius: "5px", height: "25px", padding: "5px" },
+  //   leave: { opacity: 0, position: "absolute", width: "auto", left: xCoordinate, top: "0px", background: "black", borderRadius: "5px", height: "25px", padding: "5px" }
+  // })
 
   const submitPost = () => {
     console.log('submit post')
@@ -69,19 +92,49 @@ export const BulletinBoard = ({pageReady, setPageReady, addPostOpen, setAddPostO
     }
   }
 
+  
+
   return (
     <AbsoluteWrapper>
       <div>
+        {/* {previewTransition1.map(({item, props, key}) => (
+          item && (
+            <animated.div style={props}> */}
+        <div style={{height: "auto", position: "absolute", zIndex: 100}}>
+          <PreviewCard />
+        </div>
+            {/* </animated.div>
+             
+          )
+        ))} */}
         <div
           className="addPost"
+          id="add-post"
           onClick={e => {
             e.preventDefault();
             setAddPostOpen(!addPostOpen);
+            setPreviewCardOpen(false)
             console.log(addPostOpen);
-        }}>
+          }}
+          onMouseEnter={() => {
+            if (!addPostOpen) {
+              setPreviewCardOpen(true)
+              setPreviewCardLabel("Create a Post")
+              let elem = document.getElementById("add-post")
+              let coords = elem.getBoundingClientRect()
+              setXCoordinate(coords.left - 195 + "px")
+              setYCoordinate("15px")
+            }
+          }}
+          onMouseLeave={() => {
+            setPreviewCardOpen(false)
+            // setTimeout(() => {
+            //   setPreviewCardLabel("")
+            // }, 500)
+          }}
+        >
           <FontAwesomeIcon icon="pencil-alt" class="buttonicon" />
         </div>
-        {/* <ScrollWindow> */}
         <div className="posts_window">
           <div className="posts_innerwrap">
             {postsLoaded && (
@@ -93,80 +146,39 @@ export const BulletinBoard = ({pageReady, setPageReady, addPostOpen, setAddPostO
                     delBtn = "hide";
                   }
                   return (
-                    <Post key={post.id} post={post} delBtn={delBtn} setActiveComponent={setActiveComponent} setRenderUserProfile={setRenderUserProfile} />
-                  );
-                })}
+                    
+                        <Post 
+                          key={post.id} 
+                          post={post} 
+                          delBtn={delBtn} 
+                          setActiveComponent={setActiveComponent} 
+                          setRenderUserProfile={setRenderUserProfile} 
+                          postsLoaded={postsLoaded}
+                        />
+                )})}
               </ul>
             )}
             {!postsLoaded && (
-              <LoadingScreen pageReady={pageReady} setPageReady={setPageReady} />
+              // null
+              <LoadingScreen2 />
+              // <LoadingScreen pageReady={pageReady} setPageReady={setPageReady} />
             )}
           </div>
         </div>
-        {/* </ScrollWindow> */}
-        {addPostOpen && (
-          <div className="postbuilder">
-            <div className="postbuilder_innercontainer">
-              <form
-                onSubmit={e => {
-                  e.preventDefault();
-                  submitPost();
-                }}
-              >
-                {/* <div
-                      contentEditable="true"
-                      className="post_compose"
-                      value={postContent}
-                      onChange={e => {
-                          setPostContent(e.target.innerHtml)
-                          console.log(postContent)
-                        }
-                      }/> */}
-                <textarea
-                  className="post_compose"
-                  value={postContent}
-                  onChange={e => {
-                    setPostContent(e.target.value);
-                    console.log(postContent);
-                  }}
-                />
-                <div className="postbuilder_bottomwrapper">
-                  <div className="bottomicon_wrap">
-                    <FontAwesomeIcon icon="bold" class="bottomicon" />
-                  </div>
-                  <div className="bottomicon_wrap">
-                    <FontAwesomeIcon icon="italic" class="bottomicon" />
-                  </div>
-                  <div className="bottomicon_wrap" id="send">
-                    <FontAwesomeIcon
-                      icon="paper-plane"
-                      class="bottomicon"
-                      onClick={e => {
-                        e.preventDefault();
-                        submitPost();
-                      }}
-                    />
-                  </div>
 
-                  <div
-                    className={userId.isAdmin ? "bottomicon_wrap" : "hide"}
-                    onClick={e => {
-                      setPostAdminsOnly(!postAdminsOnly);
-                    }}
-                  >
-                    <input
-                      type="checkbox"
-                      id="checkbox"
-                      checked={postAdminsOnly ? true : false}
-                      onChange={e => setPostAdminsOnly(!postAdminsOnly)}
-                    />
-                    <p>Admins only</p>
-                  </div>
-                </div>
-              </form>
-            </div>
-          </div>
-        )}
+        {transition.map(({ item, props, key }) => (
+          item && (
+            <animated.div className="postbuilder" id="postbuilder" style={props}>
+                  <PostBuilder
+                    postAdminsOnly={postAdminsOnly}
+                    setPostAdminsOnly={setPostAdminsOnly}
+                    postContent={postContent}
+                    setPostContent={setPostContent}
+                    addPostOpen={addPostOpen}
+                    setAddPostOpen={setAddPostOpen}
+                  />
+              </animated.div>
+          )))}
       </div>
     </AbsoluteWrapper>
   );

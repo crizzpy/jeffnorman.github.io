@@ -21,13 +21,13 @@ import { SidebarBody } from "./SidebarBody";
 import { Keyframes, Spring, Transition } from 'react-spring/renderprops'
 import delay from 'delay'
 import uuid from 'uuid'
-import { UserContext, PostsContext, PageIndexContext, ActiveComponentContext } from '../App'
+import { GlobalContext } from '../App'
 
 
-export const NavBar = ({ navCollapse, setNavCollapse, renderWelcome, setRenderWelcome, renderUserProfile, setRenderUserProfile, renderBulletinBoard, setRenderBulletinBoard, renderMessages, setRenderMessages, renderTeamPage, setRenderTeamPage, activeUser, setActiveUser }) => {
+export const NavBar = ({ navCollapse, setNavCollapse, renderWelcome, setRenderWelcome, renderUserProfile, setRenderUserProfile, renderBulletinBoard, setRenderBulletinBoard, renderMessages, setRenderMessages, renderTeamPage, setRenderTeamPage, activeUser, setActiveUser, userInfoReady, setUserInfoReady }) => {
 
-  const {activeComponent, setActiveComponent} = useContext(ActiveComponentContext)
-  const {pageIndex, setPageIndex} = useContext(PageIndexContext)
+  const { activeComponent, setActiveComponent, pageIndex, setPageIndex } = useContext(GlobalContext)
+
 
   const transition = useTransition(!renderUserProfile, null, {
     from: {transform: "translate(0, 0)"},
@@ -59,6 +59,7 @@ export const NavBar = ({ navCollapse, setNavCollapse, renderWelcome, setRenderWe
             setRenderMessages={setRenderMessages}
             setRenderTeamPage={setRenderTeamPage}
             setActiveComponent={setActiveComponent}
+            key={key}
           />
         )
       ))}
@@ -70,12 +71,17 @@ export const NavBar = ({ navCollapse, setNavCollapse, renderWelcome, setRenderWe
       <SidebarBody
         navCollapse={navCollapse}
         setRenderWelcome={setRenderWelcome}
+        renderBulletinBoard={renderBulletinBoard}
         setRenderBulletinBoard={setRenderBulletinBoard}
         setRenderUserProfile={setRenderUserProfile}
+        renderMessages={renderMessages}
         setRenderMessages={setRenderMessages}
+        renderTeamPage={renderTeamPage}
         setRenderTeamPage={setRenderTeamPage}
         setActiveComponent={setActiveComponent}
         setPageIndex={setPageIndex}
+        userInfoReady={userInfoReady}
+        setUserInfoReady={setUserInfoReady}
       />
     </div>
   );

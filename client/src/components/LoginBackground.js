@@ -3,7 +3,6 @@ import delay from 'delay'
 import { useSpring, animated, config, useTransition } from 'react-spring'
 import { Keyframes, Spring } from 'react-spring/renderprops'
 import { LoginForm } from './LoginForm'
-import { UserContext, SignupContext, LoginContext } from "../App";
 
 export const LoginBackground = () => {
     const Script1 = Keyframes.Spring(async next => {
@@ -401,9 +400,38 @@ export const LoginBackground = () => {
       await next({ transform: "translateY(0px)", opacity: 0.1, from: { transform: "translateY(-1px)", opacity: 0 }, reset: true })
     }
   })
+  // function setWindowHeight() {
+  //   let windowHeight = document.innerHeight;
+  //   document.body.style.height = windowHeight + "px";
+  //   console.log(document.body.style.height);
+  // }
+  // document.addEventListener("resize", setWindowHeight, false);
+
+  // document.addEventListener("DOMContentLoaded", event => {
+  //   setTimeout(() => {
+  //     setPageReady(true);
+  //   }, 230);
+  // });
 
   return(
-      <React.Fragment>
+    //   <React.Fragment>
+    //   <div className="login_container" style={require("../style/login.css")}>
+    //     {/* <div className="moon"> */}
+    //     {/* <svg width="100%" height="100%" viewBox="0 0 100% 100%" xmlns="http://www.w3.org/2000/svg"> */}
+    //       <svg width="100%" height="100%" viewBox="0 0 100 800" fill="none" xmlns="http://www.w3.org/2000/svg">
+    //           <defs>
+    //             <filter height="200%" width="200%" y="-50%" x="-50%" id="svg_1_blur">
+    //               <feGaussianBlur stdDeviation="4" in="SourceGraphic" />
+    //             </filter>
+    //           </defs>
+    //           <path stroke="#FFE68F" transform="rotate(-134 67.58161163330078,68.32870483398438) " id="svg_3" d="m99.186113,130.951092l0,0c-34.906272,0 -63.209006,-28.032067 -63.209006,-62.62238c0,-34.585881 28.302735,-62.62238 63.209006,-62.62238l0,0c-19.893102,14.782639 -31.602332,37.984648 -31.602332,62.62238s11.709231,47.835309 31.602332,62.62238z" fill-opacity="null" stroke-opacity="null" stroke-width="1.5" fill="#FFE68F" />
+    //           <path style={{overflow: "hidden"}} filter="url(#svg_1_blur)" stroke="#FFE68F" transform="rotate(-134 67.58161163330078,68.32870483398438) " id="svg_3" d="m99.186113,130.951092l0,0c-34.906272,0 -63.209006,-28.032067 -63.209006,-62.62238c0,-34.585881 28.302735,-62.62238 63.209006,-62.62238l0,0c-19.893102,14.782639 -31.602332,37.984648 -31.602332,62.62238s11.709231,47.835309 31.602332,62.62238z" fill-opacity="null" stroke-opacity="null" stroke-width="1.5" fill="none" />
+    //       </svg>
+    //     {/* </svg> */}
+    //   </div>
+    // </React.Fragment>
+    <React.Fragment>
+
       <div className="login_container" style={require("../style/login.css")}>
         <div className="moon">
           <svg width="119" height="123" viewBox="0 0 119 123" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -414,41 +442,41 @@ export const LoginBackground = () => {
             </defs>
             <ellipse cx="59.5" cy="61.5" rx="59.5" ry="59.5" fill="#FFE68F" />
             <ellipse cx="41.5" cy="44.5" rx="59.5" ry="59.5" fill="#001970" style={{ clipPath: "url(#clipPath1)" }}/> */}
-              <defs>
-                <filter height="200%" width="200%" y="-50%" x="-50%" id="svg_1_blur">
-                  <feGaussianBlur stdDeviation="4" in="SourceGraphic" />
-                </filter>
-              </defs>
-              <path stroke="#FFE68F" transform="rotate(-134 67.58161163330078,68.32870483398438) " id="svg_3" d="m99.186113,130.951092l0,0c-34.906272,0 -63.209006,-28.032067 -63.209006,-62.62238c0,-34.585881 28.302735,-62.62238 63.209006,-62.62238l0,0c-19.893102,14.782639 -31.602332,37.984648 -31.602332,62.62238s11.709231,47.835309 31.602332,62.62238z" fill-opacity="null" stroke-opacity="null" stroke-width="1.5" fill="#FFE68F" />
-              <path style={{overflow: "hidden"}} filter="url(#svg_1_blur)" stroke="#FFE68F" transform="rotate(-134 67.58161163330078,68.32870483398438) " id="svg_3" d="m99.186113,130.951092l0,0c-34.906272,0 -63.209006,-28.032067 -63.209006,-62.62238c0,-34.585881 28.302735,-62.62238 63.209006,-62.62238l0,0c-19.893102,14.782639 -31.602332,37.984648 -31.602332,62.62238s11.709231,47.835309 31.602332,62.62238z" fill-opacity="null" stroke-opacity="null" stroke-width="1.5" fill="none" />
+            <defs>
+              <filter height="200%" width="200%" y="-50%" x="-50%" id="svg_1_blur">
+                <feGaussianBlur stdDeviation="4" in="SourceGraphic" />
+              </filter>
+            </defs>
+            <path stroke="#FFE68F" transform="rotate(-134 67.58161163330078,68.32870483398438) " id="svg_3" d="m99.186113,130.951092l0,0c-34.906272,0 -63.209006,-28.032067 -63.209006,-62.62238c0,-34.585881 28.302735,-62.62238 63.209006,-62.62238l0,0c-19.893102,14.782639 -31.602332,37.984648 -31.602332,62.62238s11.709231,47.835309 31.602332,62.62238z" fill-opacity="null" stroke-opacity="null" stroke-width="1.5" fill="#FFE68F" />
+            <path style={{ overflow: "hidden" }} filter="url(#svg_1_blur)" stroke="#FFE68F" transform="rotate(-134 67.58161163330078,68.32870483398438) " id="svg_3" d="m99.186113,130.951092l0,0c-34.906272,0 -63.209006,-28.032067 -63.209006,-62.62238c0,-34.585881 28.302735,-62.62238 63.209006,-62.62238l0,0c-19.893102,14.782639 -31.602332,37.984648 -31.602332,62.62238s11.709231,47.835309 31.602332,62.62238z" fill-opacity="null" stroke-opacity="null" stroke-width="1.5" fill="none" />
           </svg>
         </div>
         <div className="cloudrear">
           <CloudScript1
-            config={{duration: 40000}}
+            config={{ duration: 40000 }}
           >
             {style => (
               <svg style={style} width="120" height="100" viewBox="0 0 39 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect width="27" height="9" rx="6" fill="#B7B5A4"/>
-                <ellipse cx="11" cy="1" rx="7" ry="5" fill="#B7B5A4"/>
+                <rect width="27" height="9" rx="6" fill="#B7B5A4" />
+                <ellipse cx="11" cy="1" rx="7" ry="5" fill="#B7B5A4" />
               </svg>
             )}
           </CloudScript1>
           <CloudScript2
-            config={{duration: 40000}}
+            config={{ duration: 40000 }}
           >
             {style => (
               <svg style={style} width="120" height="100" viewBox="0 0 39 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect width="27" height="9" rx="6" fill="#B7B5A4"/>
-                <ellipse cx="11" cy="1" rx="7" ry="5" fill="#B7B5A4"/>
+                <rect width="27" height="9" rx="6" fill="#B7B5A4" />
+                <ellipse cx="11" cy="1" rx="7" ry="5" fill="#B7B5A4" />
               </svg>
             )}
           </CloudScript2>
-          
+
         </div>
         <div className="cloudmid">
           <CloudScript1
-            config={{duration: 60000}}
+            config={{ duration: 60000 }}
           >
             {style => (
               <svg style={style} width="140" height="100" viewBox="0 0 39 21" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -482,31 +510,31 @@ export const LoginBackground = () => {
         </div>
         <div className="cloudfront">
           <CloudScript1
-            config={{duration: 80000}}
+            config={{ duration: 80000 }}
           >
             {style => (
               <svg style={style} width="140" height="120" viewBox="0 0 39 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect width="35" height="15" rx="10" fill="#B7B5A4"/>
-                <ellipse cx="12" cy="1" rx="7" ry="5" fill="#B7B5A4"/>
+                <rect width="35" height="15" rx="10" fill="#B7B5A4" />
+                <ellipse cx="12" cy="1" rx="7" ry="5" fill="#B7B5A4" />
               </svg>
             )}
           </CloudScript1>
           <CloudScript2
-            config={{duration: 80000}}
+            config={{ duration: 80000 }}
           >
             {style => (
               <svg style={style} width="140" height="120" viewBox="0 0 39 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect width="35" height="15" rx="10" fill="#B7B5A4"/>
-                <ellipse cx="12" cy="1" rx="7" ry="5" fill="#B7B5A4"/>
+                <rect width="35" height="15" rx="10" fill="#B7B5A4" />
+                <ellipse cx="12" cy="1" rx="7" ry="5" fill="#B7B5A4" />
               </svg>
             )}
           </CloudScript2>
         </div>
         <div className="treesback">
           <svg width="1450" height="123" viewBox="0 0 400 123" fill="none" xmlns="http://www.w3.org/2000/svg">
-            
+
             {/* <animated.ellipse cx="-100" cy="49.5" rx="48" ry="49.5" fill="#5E51AA" /> */}
-              {/* <Script
+            {/* <Script
                 config={config.molasses}
               >
                 {style => (
@@ -518,7 +546,7 @@ export const LoginBackground = () => {
             {/* <animated.ellipse cx="-100" cy="49.5" rx="48" ry="49.5" fill="#5E51AA" state="showAndHide" style={{ 
               transform: xy.interpolate((x, y) => `translate(${x}px, ${y}px)`)
             }}/> */}
-            
+
             {/*  BACK TREES  */}
 
             <Script5 config={{
@@ -529,7 +557,7 @@ export const LoginBackground = () => {
               clamp: false,
               duration: 1000
             }}>
-                {style => <animated.ellipse style={style} cx="250" cy="30" rx="47.5" ry="49.5" fill="#473A94"  />}
+              {style => <animated.ellipse style={style} cx="250" cy="30" rx="47.5" ry="49.5" fill="#473A94" />}
             </Script5>
             <Script8 config={{
               mass: 1,
@@ -539,9 +567,9 @@ export const LoginBackground = () => {
               clamp: false,
               duration: 1000
             }}>
-                {style => <animated.ellipse style={style} cx="400" cy="25" rx="47.5" ry="49" fill="#473A94" />}
+              {style => <animated.ellipse style={style} cx="400" cy="25" rx="47.5" ry="49" fill="#473A94" />}
             </Script8>
-            
+
             <Script13 config={{
               mass: 1,
               tension: 20,
@@ -550,9 +578,9 @@ export const LoginBackground = () => {
               clamp: false,
               duration: 1000
             }}>
-                {style => <animated.ellipse style={style} cx="650" cy="19" rx="47.5" ry="49" fill="#473A94" />}
+              {style => <animated.ellipse style={style} cx="650" cy="19" rx="47.5" ry="49" fill="#473A94" />}
             </Script13>
-            
+
             <Script16 config={{
               mass: 1,
               tension: 20,
@@ -561,9 +589,9 @@ export const LoginBackground = () => {
               clamp: false,
               duration: 1000
             }}>
-                {style => <animated.ellipse style={style} cx="800" cy="19" rx="47.5" ry="49" fill="#473A94" />}
+              {style => <animated.ellipse style={style} cx="800" cy="19" rx="47.5" ry="49" fill="#473A94" />}
             </Script16>
-            
+
             <Script17 config={{
               mass: 1,
               tension: 20,
@@ -572,9 +600,9 @@ export const LoginBackground = () => {
               clamp: false,
               duration: 1000
             }}>
-                {style => <animated.ellipse style={style} cx="850" cy="28" rx="47.5" ry="49" fill="#473A94" />}
+              {style => <animated.ellipse style={style} cx="850" cy="28" rx="47.5" ry="49" fill="#473A94" />}
             </Script17>
-            
+
             <Script19 config={{
               mass: 1,
               tension: 20,
@@ -583,7 +611,7 @@ export const LoginBackground = () => {
               clamp: false,
               duration: 1000
             }}>
-                {style => <animated.ellipse style={style} cx="950" cy="27" rx="47.5" ry="49" fill="#473A94" />}
+              {style => <animated.ellipse style={style} cx="950" cy="27" rx="47.5" ry="49" fill="#473A94" />}
             </Script19>
             <Script20 config={{
               mass: 1,
@@ -593,7 +621,7 @@ export const LoginBackground = () => {
               clamp: false,
               duration: 1000
             }}>
-                {style => <animated.ellipse style={style} cx="1000" cy="25" rx="47.5" ry="49" fill="#473A94" />}
+              {style => <animated.ellipse style={style} cx="1000" cy="25" rx="47.5" ry="49" fill="#473A94" />}
             </Script20>
 
 
@@ -612,7 +640,7 @@ export const LoginBackground = () => {
             }}>
               {style => <animated.ellipse style={style} cx="50" cy="20" rx="48" ry="49.5" fill="#4C4093" />}
             </Script1>
-            
+
             <Script4 config={{
               mass: 1,
               tension: 20,
@@ -621,7 +649,7 @@ export const LoginBackground = () => {
               clamp: false,
               duration: 1000
             }}>
-                {style => <animated.ellipse style={style} cx="200" cy="25" rx="47.5" ry="49" fill="#4C4093"  />}
+              {style => <animated.ellipse style={style} cx="200" cy="25" rx="47.5" ry="49" fill="#4C4093" />}
             </Script4>
             <Script9 config={{
               mass: 1,
@@ -631,7 +659,7 @@ export const LoginBackground = () => {
               clamp: false,
               duration: 1000
             }}>
-                {style => <animated.ellipse style={style} cx="450" cy="22" rx="47.5" ry="49" fill="#4C4093" />}
+              {style => <animated.ellipse style={style} cx="450" cy="22" rx="47.5" ry="49" fill="#4C4093" />}
             </Script9>
             <Script11 config={{
               mass: 1,
@@ -641,7 +669,7 @@ export const LoginBackground = () => {
               clamp: false,
               duration: 1000
             }}>
-                {style => <animated.ellipse style={style} cx="550" cy="18" rx="48" ry="49.5" fill="#4C4093" />}
+              {style => <animated.ellipse style={style} cx="550" cy="18" rx="48" ry="49.5" fill="#4C4093" />}
             </Script11>
             <Script12 config={{
               mass: 1,
@@ -651,7 +679,7 @@ export const LoginBackground = () => {
               clamp: false,
               duration: 1000
             }}>
-                {style => <animated.ellipse style={style} cx="600" cy="21" rx="48" ry="49" fill="#4C4093" />}
+              {style => <animated.ellipse style={style} cx="600" cy="21" rx="48" ry="49" fill="#4C4093" />}
             </Script12>
 
             {/*  FRONT TREES  */}
@@ -663,7 +691,7 @@ export const LoginBackground = () => {
               clamp: false,
               duration: 1000
             }}>
-                {style => <animated.ellipse style={style} cx="100" cy="18" rx="48" ry="49.5" fill="#5E51AA" />}
+              {style => <animated.ellipse style={style} cx="100" cy="18" rx="48" ry="49.5" fill="#5E51AA" />}
             </Script2>
             <Script3 config={{
               mass: 1,
@@ -673,7 +701,7 @@ export const LoginBackground = () => {
               clamp: false,
               duration: 1000
             }}>
-                {style => <animated.ellipse style={style} cx="150" cy="22" rx="48" ry="49" fill="#5E51AA"  />}
+              {style => <animated.ellipse style={style} cx="150" cy="22" rx="48" ry="49" fill="#5E51AA" />}
             </Script3>
             <Script6 config={{
               mass: 1,
@@ -683,7 +711,7 @@ export const LoginBackground = () => {
               clamp: false,
               duration: 1000
             }}>
-                {style => <animated.ellipse style={style} cx="300" cy="24" rx="47.5" ry="49" fill="#5E51AA" />}
+              {style => <animated.ellipse style={style} cx="300" cy="24" rx="47.5" ry="49" fill="#5E51AA" />}
             </Script6>
             <Script7 config={{
               mass: 1,
@@ -693,7 +721,7 @@ export const LoginBackground = () => {
               clamp: false,
               duration: 1000
             }}>
-                {style => <animated.ellipse style={style} cx="350" cy="20" rx="47.5" ry="49" fill="#5E51AA" />}
+              {style => <animated.ellipse style={style} cx="350" cy="20" rx="47.5" ry="49" fill="#5E51AA" />}
             </Script7>
             <Script10 config={{
               mass: 1,
@@ -703,7 +731,7 @@ export const LoginBackground = () => {
               clamp: false,
               duration: 1000
             }}>
-                {style => <animated.ellipse style={style} cx="500" cy="20" rx="47.5" ry="49" fill="#5E51AA" />}
+              {style => <animated.ellipse style={style} cx="500" cy="20" rx="47.5" ry="49" fill="#5E51AA" />}
             </Script10>
             <Script14 config={{
               mass: 1,
@@ -713,7 +741,7 @@ export const LoginBackground = () => {
               clamp: false,
               duration: 1000
             }}>
-                {style => <animated.ellipse style={style} cx="700" cy="17" rx="47.5" ry="49" fill="#5E51AA" />}
+              {style => <animated.ellipse style={style} cx="700" cy="17" rx="47.5" ry="49" fill="#5E51AA" />}
             </Script14>
             <Script15 config={{
               mass: 1,
@@ -723,10 +751,10 @@ export const LoginBackground = () => {
               clamp: false,
               duration: 1000
             }}>
-                {style => <animated.ellipse style={style} cx="750" cy="21" rx="47.5" ry="49" fill="#5E51AA" />}
+              {style => <animated.ellipse style={style} cx="750" cy="21" rx="47.5" ry="49" fill="#5E51AA" />}
             </Script15>
-            
-                
+
+
             <Script18 config={{
               mass: 1,
               tension: 20,
@@ -735,7 +763,7 @@ export const LoginBackground = () => {
               clamp: false,
               duration: 1000
             }}>
-                {style => <animated.ellipse style={style} cx="900" cy="25" rx="47.5" ry="49" fill="#5E51AA" />}
+              {style => <animated.ellipse style={style} cx="900" cy="25" rx="47.5" ry="49" fill="#5E51AA" />}
             </Script18>
           </svg>
         </div>
@@ -749,8 +777,8 @@ export const LoginBackground = () => {
                 {/* <rect x="-300" y="60" width="200" height="40" /> */}
               </clipPath>
             </defs>
-            <svg width="1371" height="383" viewBox="0 0 1371 383" fill="none" xmlns="http://www.w3.org/2000/svg" style={{clipPath: "url(#clipPath4)"}}>
-              
+            <svg width="1371" height="383" viewBox="0 0 1371 383" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ clipPath: "url(#clipPath4)" }}>
+
               {/* Trees Reflection */}
               {/*  BACK TREES  */}
 
@@ -836,7 +864,7 @@ export const LoginBackground = () => {
                 clamp: false,
                 duration: 1000
               }}>
-                  {style => <animated.ellipse style={style} cx="310" cy="48" rx="48" ry="49.5" fill="#4C4093" />}
+                {style => <animated.ellipse style={style} cx="310" cy="48" rx="48" ry="49.5" fill="#4C4093" />}
               </Script1>
               <Script4 config={{
                 mass: 1,
@@ -846,7 +874,7 @@ export const LoginBackground = () => {
                 clamp: false,
                 duration: 1000
               }}>
-                  {style => <animated.ellipse style={style} cx="460" cy="45" rx="47.5" ry="49" fill="#4C4093"  />}
+                {style => <animated.ellipse style={style} cx="460" cy="45" rx="47.5" ry="49" fill="#4C4093" />}
               </Script4>
               <Script9 config={{
                 mass: 1,
@@ -901,8 +929,8 @@ export const LoginBackground = () => {
               }}>
                 {style => <animated.ellipse style={style} cx="410 " cy="45" rx="48" ry="49" fill="#5E51AA" />}
               </Script3>
-              
-              
+
+
               <Script6 config={{
                 mass: 1,
                 tension: 20,
@@ -923,8 +951,8 @@ export const LoginBackground = () => {
               }}>
                 {style => <animated.ellipse style={style} cx="610" cy="50" rx="47.5" ry="49" fill="#5E51AA" />}
               </Script7>
-              
-              
+
+
               <Script10 config={{
                 mass: 1,
                 tension: 20,
@@ -935,8 +963,8 @@ export const LoginBackground = () => {
               }}>
                 {style => <animated.ellipse style={style} cx="760" cy="62" rx="47.5" ry="49" fill="#5E51AA" />}
               </Script10>
-              
-              
+
+
               <Script14 config={{
                 mass: 1,
                 tension: 20,
@@ -957,8 +985,8 @@ export const LoginBackground = () => {
               }}>
                 {style => <animated.ellipse style={style} cx="1010" cy="105" rx="47.5" ry="49" fill="#5E51AA" />}
               </Script15>
-              
-              
+
+
               <Script18 config={{
                 mass: 1,
                 tension: 20,
@@ -969,7 +997,7 @@ export const LoginBackground = () => {
               }}>
                 {style => <animated.ellipse style={style} cx="1160" cy="108" rx="47.5" ry="49" fill="#5E51AA" />}
               </Script18>
-              
+
             </svg>
             <svg width="1371" height="383" viewBox="0 0 1371 383" fill="none" xmlns="http://www.w3.org/2000/svg">
               <defs>
@@ -1065,7 +1093,7 @@ export const LoginBackground = () => {
                   duration: 1000
                 }}>
                   {style => <animated.rect style={style} stroke="white" id="svg_14" height="2" width="38" y="85" x="249.5" rx="1" fill-opacity="null" stroke-opacity="null" stroke-width="1.5" fill="white" opacity="0.1" />}
-                </WaveScript6>  
+                </WaveScript6>
                 <WaveScript5 config={{
                   mass: 1,
                   tension: 20,
@@ -1087,7 +1115,7 @@ export const LoginBackground = () => {
                   duration: 1000
                 }}>
                   {style => <animated.rect style={style} stroke="white" id="svg_13" height="2" width="12" y="79" x="263.5" rx="1" fill-opacity="null" stroke-opacity="null" stroke-width="1.5" fill="white" opacity="0.1" />}
-                </WaveScript7> 
+                </WaveScript7>
                 <WaveScript8 config={{
                   mass: 1,
                   tension: 20,
@@ -1304,7 +1332,7 @@ export const LoginBackground = () => {
 
             </svg>
           </svg>
-          
+
         </div>
         <div className="hillmidrear">
           <svg width="115" height="350" viewBox="0 0 115 194" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1328,7 +1356,7 @@ export const LoginBackground = () => {
               clamp: false,
               duration: 1000
             }}>
-                {style => <animated.ellipse style={style} cx="300" cy="127" rx="120.5" ry="127" fill="#621AFB" />}
+              {style => <animated.ellipse style={style} cx="300" cy="127" rx="120.5" ry="127" fill="#621AFB" />}
             </Script21>
             <Script22 config={{
               mass: 1,
@@ -1338,14 +1366,14 @@ export const LoginBackground = () => {
               clamp: false,
               duration: 1000
             }}>
-                {style => <animated.ellipse style={style} cx="380" cy="100" rx="121" ry="127.5" fill="#7230FF" />}
+              {style => <animated.ellipse style={style} cx="380" cy="100" rx="121" ry="127.5" fill="#7230FF" />}
             </Script22>
           </svg>
         </div>
         <div className="hillfrontrear">
           <svg width="115" height="600" viewBox="0 0 115 277" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect width="115" height="277" fill="#6E23E8" />
-            <ellipse cx="5" cy="5" rx="110" ry="112" fill="#6E23E8"/>
+            <ellipse cx="5" cy="5" rx="110" ry="112" fill="#6E23E8" />
           </svg>
 
         </div>
@@ -1357,6 +1385,6 @@ export const LoginBackground = () => {
         </div>
       </div>
     </React.Fragment>
-  )
+    )
 
 }

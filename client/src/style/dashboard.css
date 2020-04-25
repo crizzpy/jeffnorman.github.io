@@ -3,54 +3,6 @@
   50% { opacity: 1; }
 }
 
-::-webkit-scrollbar {
-  width: 10px;
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: #888;
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: #ff7417;
-}
-/* This example creates a scrollbar with box shadow:
-
-Example */
-/* width */
-::-webkit-scrollbar {
-  width: 20px;
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 5px grey;
-  border-radius: 10px;
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: #fda500;
-  border-radius: 10px;
-}
-
-/* Scrollbar Selectors
-For webkit browsers, you can use the following pseudo elements to customize the browser's scrollbar: */
-
-/* ::-webkit-scrollbar the scrollbar.
-::-webkit-scrollbar-button the buttons on the scrollbar (arrows pointing upwards and downwards).
-::-webkit-scrollbar-thumb the draggable scrolling handle.
-::-webkit-scrollbar-track the track (progress bar) of the scrollbar.
-::-webkit-scrollbar-track-piece the track (progress bar) NOT covered by the handle.
-::-webkit-scrollbar-corner the bottom corner of the scrollbar, where both horizontal and vertical scrollbars meet.
-::-webkit-resizer the draggable resizing handle that appears at the bottom corner of some elements. */
 
 
 @keyframes fadeinout {
@@ -512,8 +464,8 @@ body{
     width: 0px;
 }
 .nav_wrapper .sidebar_body{
-    position: absolute;
-    top: 210px;
+    position: relative;
+    top: 105px;
     left: 0px;
     /* margin: 5px 15px 0px 0px; */
     width: 215px;
@@ -543,6 +495,7 @@ body{
     border-radius: 17px;
     border-top-right-radius: 0px;
     /* box-shadow: 0px 0px 0px 1px; */
+    padding: 0 10px 0 0;
     transition: all 0.3s ease;
     background: white;
     opacity: 0.4;
@@ -556,7 +509,7 @@ body{
     height: 100%;
     width: 100%;
     margin: 0px 0 0 0px;
-    padding: 5px 0 0 5px;
+    padding: 0px 0 0 0px;
     box-shadow: 0px 2px 5px 0px rgb(49, 49, 49);
     transition: all 0.3s ease;
     
@@ -576,6 +529,7 @@ body{
     transition: all 0.3s ease;
 }
 .sidebar_body .sidenav_container .component_previewwrap{
+    position: relative;
     /* margin: -30px 0 5px 0; */
     display: flex;
     flex-direction: column;
@@ -585,7 +539,7 @@ body{
     top: 5px;
     left: 5px;
     height: 100%;
-    padding: 2px 0 0 2px;
+    padding: 2px 0 0 0px;
     width: 190px;
     border-radius: 15px;
     background: #a6a7ff;
@@ -595,7 +549,7 @@ body{
 }
 .sidebar_body .sidenav_container .component_previewwrap:hover{
     width: 200px;
-    transition: all 0.2s ease;
+    transition: all 0.3s ease;
     background: #c4c5ff;
 }
 .sidenav_container.shrink .component_previewwrap:hover{
@@ -603,10 +557,14 @@ body{
     height: 0px;
     background: none;
 }
+.sidebar_body .sidenav_container .component_previewwrap:hover .component_preview{
+    transition: all 0.3s ease; 
+    background: white;
+}
 .component_previewwrap .componentpreview_buttonbuffer{
     /* margin: -12px 0 0 -8px; */
     flex: none;
-    margin: -5px 0 0 -7px;
+    margin: -5px 0 0 -5px;
     height: 50px;
     width: 50px;
     -webkit-clip-path: circle(50% at 50% 50%);
@@ -616,10 +574,39 @@ body{
     overflow: hidden;
     transition: all 0.3s ease;
 }
+.component_previewlabel{
+    position: absolute;
+    top: 5px;
+    left: 50px;
+    background: rgb(255, 230, 118);
+    height: 40px;
+    width: calc(100% - 55px);
+    border-radius: 15px;
+    color: rgb(0, 24, 131);
+    padding: 5px
+}
+.component_previewlabel-inner{
+    width: 100%;
+    height: 100%;
+    padding: 5px 0 0 0;
+    text-align: center;
+    background: rgb(255, 255, 255);
+    opacity: 0.9;
+    border-radius: 10px;
+    font-weight: 600;
+    text-shadow: -1px -1px 1px  rgba(255,255,255,.1), 1px 1px 1px rgba(158, 158, 158, 0.5), -2px 1px 10px rgba(206,89,55,0);
+}
 
-/* .sidebar_body .sidenav_container .component_preview{
-    
-} */
+.sidebar_body .sidenav_container .component_preview{
+    /* position: absolute; */
+    /* top: 50px; */
+    width: calc(100% - 11px);
+    height: 100%;
+    margin: 5px;
+    background: rgb(196, 209, 255);
+    border-radius: 15px;
+    transition: all 0.3s ease;  
+}
 
 .sidenav_container.shrink .component_previewwrap{
     width: 0px;
@@ -661,7 +648,7 @@ body{
     background: none;
 }
 .component_previewwrap .sidenav_buttoncontainer .sidenav_buttonwrap{ 
-    /* padding: 4px 0 0 0; */
+    /* padding: 4px 0 0 0; */   
     height: 35px;
     width: 35px;
     border-radius: 50%;
@@ -669,21 +656,48 @@ body{
     cursor: pointer;
     box-shadow: 0px 2px 2px 0px rgb(49, 49, 49);
     transition: all 0.3s ease;
-    color: #413efa;
-
+    color: #4e6eff;
+    margin: 0 0 0 2px;
 }
-.sidenav_buttonwrap:hover{
-    background: blue;
+.component_previewwrap .sidenav_buttoncontainer .sidenav_buttonwrap.active{
+    height: 40px;
+    width: 40px;
+    border: rgb(255, 255, 255) solid 2px ;
+    margin: -2px 0 0 0;
+    border-radius: 50%;
+    /* background: rgb(128, 172, 255); */
+    background: rgb(200, 180, 255);
+    color: white;
+    
+    box-shadow: 0px 1px 1px 1.5px rgb(94, 94, 94);
+}
+/* .component_previewwrap .sidenav_buttoncontainer .sidenav_buttonwrap.active{
+    height: 40px;
+    width: 40px;
+    border: rgb(255, 255, 255) solid 2px ;
+    margin: -2px 0 0 0;
+    border-radius: 50%;
+    background: rgb(128, 172, 255);
+    background: rgb(200, 180, 255);
+    color: white;
+    box-shadow: 0px 1px 1px 1.5px rgb(94, 94, 94);
+} */
+.component_previewwrap .sidenav_buttoncontainer .sidenav_buttonwrap:hover{
+    background: rgb(147, 147, 255);
     opacity: 1;
 }
 .sidenav_buttonwrap:hover .sidenav_buttonicon{
     background: none;
-    color: #ffeb79;
+    color: #dbdcff;
     opacity: 1;
+}
+.sidenav_buttonwrap.active:hover .sidenav_buttonicon{
+    /* color: rgb(172, 229, 255); */
+    color: rgb(255, 253, 125);
 }
 .component_previewwrap.shrink .sidenav_buttoncontainer .sidenav_buttonwrap{
     /* padding: 2px 0 4px 0; */
-    margin: 0px 0 0 3px;;
+    margin: 0px 0 0 0px;;
     height: 35px;
     width: 35px;
     border-radius: 50%;
@@ -787,10 +801,11 @@ body{
     background: -webkit-linear-gradient(left, rgba(227,232,244,0.5) 16%,rgba(227,232,244,0.5) 18%,rgba(227,232,244,0.5) 30%,rgba(209,239,255,0.5) 38%,rgba(227,232,244,0.5) 44%,rgba(227,232,244,0.5) 50%,rgba(227,232,244,0.5) 66%,rgba(209,239,255,0.5) 69%,rgba(227,232,244,0.5) 72%,rgba(227,232,244,0.5) 80%,rgba(227,232,244,0.5) 96%,rgba(227,232,244,0.5) 99%,rgba(227,232,244,0.5) 100%);
     background: linear-gradient(to right, rgba(227,232,244,0.5) 16%,rgba(227,232,244,0.5) 18%,rgba(227,232,244,0.5) 30%,rgba(209,239,255,0.5) 38%,rgba(227,232,244,0.5) 44%,rgba(227,232,244,0.5) 50%,rgba(227,232,244,0.5) 66%,rgba(209,239,255,0.5) 69%,rgba(227,232,244,0.5) 72%,rgba(227,232,244,0.5) 80%,rgba(227,232,244,0.5) 96%,rgba(227,232,244,0.5) 99%,rgba(227,232,244,0.5) 100%);
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#80e3e8f4', endColorstr='#80e3e8f4',GradientType=1 );   */
-    background: white;
+    background: rgba(255,255,255,0.7);
+    /* background: white; */
+    /* opacity: 0.7; */
     transition: all 0.3s ease;
     border-radius: 20px;
-    opacity: 0.7;
     /* overflow: hidden; */
 }
 .content_container.shrink{
@@ -823,7 +838,7 @@ body{
     top: 120px;
     left: 10px;
     background: #2f04ed;
-    opacity: 1;
+    /* opacity: 0.8; */
     padding: 10px 0 0 0;
     transition: all 0.3s ease;
     box-shadow: 0px 2px 5px 0px rgb(49, 49, 49);
@@ -985,7 +1000,59 @@ body{
     box-shadow: 0px 2px 10px 0px black;
     transition: all 0.3s ease;
     overflow: auto;
+    /* opacity: 0.9; */
 }
+
+.posts_window::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+.posts_window::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+.posts_window::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+.posts_window::-webkit-scrollbar-thumb:hover {
+  background: #ff7417;
+}
+/* This example creates a scrollbar with box shadow:
+
+Example */
+/* width */
+.posts_window::-webkit-scrollbar {
+  width: 20px;
+}
+
+/* Track */
+.posts_window::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 10px;
+}
+
+/* Handle */
+.posts_window::-webkit-scrollbar-thumb {
+  background: #fda500;
+  border-radius: 10px;
+}
+
+
+/* Scrollbar Selectors
+For webkit browsers, you can use the following pseudo elements to customize the browser's scrollbar: */
+
+/* ::-webkit-scrollbar the scrollbar.
+::-webkit-scrollbar-button the buttons on the scrollbar (arrows pointing upwards and downwards).
+::-webkit-scrollbar-thumb the draggable scrolling handle.
+::-webkit-scrollbar-track the track (progress bar) of the scrollbar.
+::-webkit-scrollbar-track-piece the track (progress bar) NOT covered by the handle.
+::-webkit-scrollbar-corner the bottom corner of the scrollbar, where both horizontal and vertical scrollbars meet.
+::-webkit-resizer the draggable resizing handle that appears at the bottom corner of some elements. */
+
 .test{
     background: black;
     width: 100px;
@@ -997,12 +1064,12 @@ body{
 } */
 .postbuilder{
     position: absolute;
-    left: 540px;
+    left: 700px;
     top: 60px;
     height: 150px;
     width: 350px;
-    background: #ffebc1;
-    animation: fadein 0.3s linear forwards;
+    background: #ffebc1; 
+    /* animation: fadein 0.3s linear forwards; */
     /* transition: all 0.3s ease; */
     border-radius: 10px;
 }
@@ -1032,6 +1099,58 @@ body{
     
     background: rgb(255, 244, 230);
 }
+.post_compose::-webkit-scrollbar {
+  width: 7px;
+}
+
+/* Track */
+.post_compose::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+.post_compose::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+.post_compose::-webkit-scrollbar-thumb:hover {
+  background: #ff7417;
+}
+/* This example creates a scrollbar with box shadow:
+
+Example */
+/* width */
+.post_compose::-webkit-scrollbar {
+  width: 15px;
+  cursor: wait;
+}
+
+/* Track */
+.post_compose::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 10px;
+  cursor: not-allowed;
+}
+
+/* Handle */
+.post_compose::-webkit-scrollbar-thumb {
+  background: #ff9900;
+  border-radius: 10px;
+  cursor: wait;
+}
+
+/* Scrollbar Selectors
+For webkit browsers, you can use the following pseudo elements to customize the browser's scrollbar: */
+
+/* ::-webkit-scrollbar the scrollbar.
+::-webkit-scrollbar-button the buttons on the scrollbar (arrows pointing upwards and downwards).
+::-webkit-scrollbar-thumb the draggable scrolling handle.
+::-webkit-scrollbar-track the track (progress bar) of the scrollbar.
+::-webkit-scrollbar-track-piece the track (progress bar) NOT covered by the handle.
+::-webkit-scrollbar-corner the bottom corner of the scrollbar, where both horizontal and vertical scrollbars meet.
+::-webkit-resizer the draggable resizing handle that appears at the bottom corner of some elements. */
+
 .postbuilder_bottomwrapper{
     display: flex;
     flex-direction: row;
@@ -1078,6 +1197,11 @@ body{
     width: 15px;
     color: black;
 
+}
+.postwrapper{
+    height: auto;
+    /* display: flex;
+    opacity: 1; */
 }
 .posts_innerwrap{
     width: 100%;
@@ -1166,6 +1290,7 @@ body{
     justify-items: right;
 }
 .delbutton{
+    position: relative;
     display: none;
 }
 
@@ -1184,6 +1309,11 @@ body{
 }
 .hide{
     display: none;
+}
+.togglehide{
+    height: 20px;
+    width: 20px;
+    overflow: hidden;
 }
 .confirm_prompt{
     /* position: absolute;
@@ -1246,7 +1376,7 @@ body{
     padding: 0 0 5px 0;
 }
 .del-icon{
-
+    position: relative;
     margin: 10px 0px 0 0px;
     display: flex;
     font-size: 20px;
@@ -1291,10 +1421,10 @@ body{
 .profilepage_wrapper{
     position: absolute;
     top: 115px;
-    width: 500px;
+    width: 650px;
     height: calc(100% - 135px);
     margin: 10px;
-    background: #4219f8;
+    background: #5630ff;
     display: flex;
     flex-direction: row;
     border-radius: 10px;
@@ -1303,18 +1433,29 @@ body{
 
     /* object-fit: cover; */
 }
+.side_wrapper{
+    width: 170px;
+    display: flex;
+    flex-direction: column;
+}
 .sidetop_wrapper{
     margin: 10px;
     display: flex;
+    flex: 1;
     width: 100px;
-    height: 150px;
+    height: 170px;
     flex-direction: column;
 }
 .profilebtn_wrap{
-    width: 150px;
-    height: 60px;
+    position: relative;
+    /* top: 20px; */
+    width: 43px;
+    height: 43px;
     display: flex;
     flex-direction: row;
+    border-radius: 100px;
+    box-shadow: 0px 2px 2px 2px rgb(49, 49, 49);
+
 }
 /* .profilebtn_innerwrap input[type="file"]{
     display: none;
@@ -1331,7 +1472,8 @@ body{
     height: 100px;
     clip-path: circle(50% at 50% 50%);
     background: white;
-    object-fit: cover;
+    /* object-fit: cover; */
+    overflow: visible;
     box-shadow: 0px 2px 5px 0px black;
 }
 
@@ -1354,6 +1496,9 @@ body{
     opacity: 1;
 }
 
+#top-btn{
+    margin: 0 0 0 -5px;
+}
 .profileicon{
     background: none;
     /* clip-path: circle(50% at 50% 50%); */
@@ -1361,29 +1506,220 @@ body{
 #camera{
     padding: 0px 0 3px 0;
 }
-.takepic_btn.open .profilebtn_innerwrap{
-    opacity: 1;
+.profilepage_wrapper .side_wrapper .edit-profile-btns{
+    width: 100%;
+    display: flex;
+    /* height: calc(100% - 100px); */
+    /* height: 100px; */
 }
-.choosepic_btn.open .profilebtn_innerwrap{
-    opacity: 1;
+.editprofile_btns{
+    margin: 0 0 0 9px;
+    width: 50px;
+    padding: 5px;
+    background: black;
+    border-radius: 25px;
+    cursor: auto;
+    border: 2px white solid;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0px 2px 5px 2px rgb(49, 49, 49);
 }
+.button-expanded{
+    /* height: 100%;
+    width: 100%; */
+    display: flex;
+    /* flex-direction: column; */
+    width: 45px;
+    flex: 1;
+    margin: 0 0 0 5px;
+    background: black;
+    flex-wrap: nowrap;
+    /* border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px; */
+    border-radius: 20px;
+    border: white solid 2px;
+    box-shadow: 0px 2px 5px 2px rgb(49, 49, 49);
+
+}
+.button-expanded #user-img-exp{
+    display: flex;
+    justify-content: space-around;
+    padding: 2.5px 0 0 0;
+    height: 100%;
+    width: 100%;
+    /* flex-wrap: nowrap; */
+}
+#upload1{
+    /* display: flex;
+    justify-self: center;
+    padding: 2.5px 0 0 0;
+    height: 100%;
+    width: 100%;
+    flex-wrap: nowrap;
+    justify-items: center;
+    text-align: center; */
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+
+}
+#upload2{
+    /* display: flex;
+    justify-content: space-around;
+    padding: 2.5px 0 0 0;
+    height: 100%;
+    width: 100%;   
+    flex-wrap: nowrap; */
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+
+
+}
+.inner_btn{
+    /* margin: 5px 0 0 0; */
+    display: flex;
+    /* font-size: 20px; */  
+    flex: 1;
+    height: 20px;
+    width: 20px;
+    /* flex: 1; */
+    /* flex-basis: 100%; */
+}
+#cam-btn{
+    position: relative;
+    display: flex;
+}
+#pic-btn{
+    position: relative;
+    display: flex;
+}
+.inner_btn-icon{
+    display: flex;
+    flex: 1;
+    margin: 0 0 0 -2px;
+    cursor: pointer;
+}
+
+.inner_btn:hover{
+    color: grey;
+    transition: all 0.2s ease;
+    cursor: pointer
+}
+
+.inner_btn > input
+{
+    display: none;
+}
+.inner_btn > button{
+    display: none;
+}
+.inner_btn > form{
+    display: none;
+}
+
+
+
+.addphoto-wrap{
+    /* position: absolute; */
+
+    display: flex;
+    flex-direction: row;
+}
+.edit_btn{
+    height: 43px;
+    width: 43px;
+    /* background: white; */
+    margin: auto auto auto 0px;
+    /* border-radius: 5px; */
+    color: white;
+    font-size: 30px;
+    opacity: 0.7;
+    padding: 2.5px 0px 0px 2.5px;
+    clip-path: circle(50% at 50% 50%);
+    transition: all 0.2s ease;
+    box-shadow: 0px 2px 5px 2px rgb(49, 49, 49);
+
+    /* border: solid 3px; */
+}
+.edit_btn.open{
+    box-shadow: 0px 2px 5px 2px rgb(49, 49, 49);
+
+}
+
+.edit_btn.open .profilebtn_innerwrap{
+    opacity: 1;
+    background: white;
+    color: black;
+    transition: all 0.2s ease;   
+    box-shadow: 4px 2px 5px 2px rgb(49, 49, 49);
+
+    /* padding: 0px 0px 3px 3px; */
+}
+
+
 .profilebtn_innerwrap{
     background: black;
     opacity: 0.8;
-    height: calc(100% - 2px);
-    width: calc(100% - 2px);
+    height: 38px;
+    width: 38px;
     clip-path: circle(50% at 50% 50%);
-    padding: 5px 7px 4.5px 7px;
+    /* padding: 5px 7px 4.5px 7px; */
+    padding: 3px 3px 2px 8px;
+    box-shadow: 0px 2px 5px 2px rgb(49, 49, 49);
+
+    /* margin: 2.5px 0 0 2.5px; */
+    /* transition: all 0.2s ease; */
 }
 .profilebtn_innerwrap:hover{
     opacity: 1;
     cursor: pointer;
 }
+.profilebtn_innerwrap#top{
+    margin: 0 0 0 -1.5px;
+}
+.editprofile_btnwrap{
+    display: flex;
+    flex: 1;
+    align-items: center;
+}
 .slideouts_wrapper{
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     padding: 0;
-
+    width: 100%;
+    margin: 0 0 0 5px;
+}
+.slideout{
+    /* margin: 0 5px 0 5px; */
+    /* border: white solid 2px; */
+    /* text-align: center; */
+    display: flex;
+    /* text-justify: center; */
+    justify-content: center;
+    justify-items: center;
+    /* justify-items: center; */
+    /* align-items: center; */
+    height: 100px;
+    width: 40px;
+}
+.slideout #slideout{
+    box-shadow: 0px 2px 8px 0px rgb(49, 49, 49);
+}
+.expanded-btns{
+    display: flex;
+    flex-direction: column;
+    height: 300px;
+    width: 100%;
+}
+#top-btn-exp{
+    margin-top: 32px;
+}
+.expanded-btns-inner{
+    display: flex;
+    flex: 1;
+    flex-wrap: wrap;
+    align-items: center;
 }
 .profileicon:hover{
     cursor: pointer;
@@ -1394,17 +1730,7 @@ body{
 }
 
 .takepic_btn{
-    height: 42.5px;
-    width: 42.5px;
-    background: white;
-    margin: 5px 2.5px 5px 5px;
-    /* border-radius: 5px; */
-    color: white;
-    font-size: 30px;
-    opacity: 0.7;
-    padding: 2px 0 0 2px;
-    clip-path: circle(50% at 50% 50%);
-    /* border: solid 3px; */
+    
 }
 .takepic_btn.open{
     opacity: 1;
@@ -1436,72 +1762,13 @@ body{
 .file_upload{
     border: thin white;;
 }
-.uploadwrap{
-    margin: 0 0 0 0px;
-    width: 50px;
-    padding: 5px;
-    background: black;
-    border-radius: 25px;
-    cursor: auto;
-    transition: all 0.3s ease;
-}
-.uploadwrap.fadein{
-    height: 120px;
-    animation: fadein 0.5s linear forwards;
-    transition: all 0.3s ease;
-}
-.uploadwrap.fadeout{
-    /* animation: fadeout 0.5s linear forwards; */
-    visibility: hidden;
-    height: 0px;
-    padding: 0;
-    transition: all 0.3s ease;
-    /* width: 0px; */
-    
-}
-.addphoto-wrap{
-    height: 100%;
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-}
-#shift{
-    margin: 0 0 0 55px;
-}
-.image-upload{
-    margin: 5px 0 0 0;
-    height: 50%;
-    width: 100%;
-    display: flex;
-}
 
-.image-upload > input
-{
-    display: none;
-}
-.image-upload > button{
-    display: none;
-}
-.image-upload > form{
-    display: none;
-}
 
-.image-upload:hover{
-    
-}
-.uploadbtn{
-    height: 40px;
-    width: 40px;
-    display: flex;
-}
-.uploadbtn:hover{
-    cursor: pointer;
-}
 .userinfo_outerwrapper{
     display: flex;
     flex-direction: row;
     padding: 5px;
-    margin: 5px;
+    margin: 5px 5px 5px -5px;
     /* border-radius: 5px; */
     /* background: black; */
     height: calc(100% - 10px);
@@ -1554,7 +1821,55 @@ body{
 .aboutme_textareawrap > textarea{
 
 }
+.settings-wrapper{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    /* flex: none; */
+    /* z-index: 999999999999999999999999999999999999999999999999999 !important; */
+    /* z-index: 5; */
+    margin: 0 0 0 0;
+    height: 100%;
+    width: 100%;
+    background: #4219f8;
+    /* opacity: 0.8; */
+    opacity: 1;
+    border-radius: 10px;
+    border-top-left-radius: 50px;
+    padding: 10px;
 
+}
+.settings-innerwrap{
+    position: absolute;
+    /* top: 0px;
+    left: 0px; */
+    height: calc(100% - 20px);
+    width: calc(100% - 20px);
+    background: #ffebc1;
+    border-radius: 10px;
+    border-top-left-radius: 50px;
+}
+.return-btn-wrap{
+    position: relative;
+    top: 0px;
+    left: 0px;
+    background: #4219f8;
+    height: 100px;
+    width: 100px;
+    border-radius: 45px;
+    border-top-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+.return-btn{
+    position: absolute;
+    top: 30px;
+    left: 30px;
+    height: 50px;
+    width: 50px;
+    font-size: 40px;
+    cursor: pointer;
+    color: white;
+}
 /*                                           
   /\/\   ___ ___ ___  __ _  __ _  ___ ___ 
  /    \ / _ / __/ __|/ _` |/ _` |/ _ / __|
@@ -1567,7 +1882,7 @@ body{
     width: 500px;
     height: calc(100% - 20px);
     margin: 10px 0 0 20px;
-    background: #4219f8;
+    background: #5630ff;
     border-radius: 10px;
     border-top-left-radius: 50px;
     border-top-right-radius: 50px;
@@ -1614,6 +1929,92 @@ body{
     /* box-shadow: 10px 5px 11px 10px black; */
 }
 
+/* ----------------------------------------- */
+
+
+.loader2wrap{
+    width: calc(100% - 10px);
+    height: calc(100% - 10px);
+    margin: 5px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    padding: 25%;
+}
+.loader_wrap{
+    margin: 20px 0 0 calc(50% - 50px);
+    height: 50px;
+    width: 100px;
+    display: flex;
+}
+.loader{
+    margin: -10;
+    display: flex;
+}
+
+/* ------ Webcam */
+.webcam_outer{
+    
+}
+.webcam_container{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    /* flex: none; */
+    /* z-index: 999999999999999999999999999999999999999999999999999 !important; */
+    /* z-index: 5; */
+    margin: 0 0 0 0;
+    height: 100%;
+    width: 100%;
+    background: rgb(37, 37, 37);
+    /* opacity: 0.8; */
+    opacity: 1;
+    border-radius: 10px;
+    border-top-left-radius: 50px;
+}
+.view-wrap{
+    position: relative;
+    top: calc(50% - 200px);
+    left: calc(50% - 275px);
+    height: 400px;
+    width: 550px;
+}
+
+.camera-x-btn{
+    height: 20px;
+    width: 20px;
+    position: absolute;
+    top: 20px;
+    right: 0px;
+    opacity: 0.5;
+    cursor: pointer;
+}
+.camera-feed{
+    border-radius: 20px;
+    opacity: 1;
+}
+.camera-feed:hover .camera-x-btn{
+    opacity: 1;
+}
+.webcam-btn-wrap{
+    height: 30px;
+    width: 70px;
+    text-align: center;
+    font-size: 30px;
+    margin-left: auto;
+    margin-right: auto;
+    cursor: pointer;
+    opacity: 0.7;
+}
+.webcam-btn-wrap:hover{
+    opacity: 1;
+}
+
+.welcome-container{
+    height: 100%;
+    width: 100%;
+    background: black;
+}
 
 
 /* Random 

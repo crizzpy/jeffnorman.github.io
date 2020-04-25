@@ -18,41 +18,76 @@ import { useSpring, animated, config, useTransition } from 'react-spring'
 import { Keyframes, Spring, Transition } from 'react-spring/renderprops'
 import delay from 'delay'
 import uuid from 'uuid'
-import { UserContext, PostsContext, PageIndexContext, ActiveComponentContext, HistoryContext, UniqueIdContext } from '../App'
-import { WebcamComponent } from './WebCam'
+import { GlobalContext } from '../App'
+import { ProfileImg } from './ProfileImg'
 import {useParams} from 'react-router-dom'
+import { UserInfo } from './UserInfo'
+import {ProfileSettings} from './ProfileSettings'
+import { WebcamComponent } from './WebCam'
+import { Switch, Route, __RouterContext, useHistory } from 'react-router-dom'
 
+export const UserProfile = ({userInfoReady, setUserInfoReady, activeUser, setActiveUser, addPhotoOpen, setAddPhotoOpen, takePhotoOpen, setTakePhotoOpen, uploadedFile, setUploadedFile, webCamOpen, setWebCamOpen}) => {
+  const { userId, setUserId,
+          history, setHistory,
+          uniqueId, setUniqueId,
+          ready, setReady } = useContext(GlobalContext)
 
-export const UserProfile = ({activeUser, setActiveUser, addPhotoOpen, setAddPhotoOpen, takePhotoOpen, setTakePhotoOpen, uploadedFile, setUploadedFile, webCamOpen, setWebCamOpen}) => {
-
-  const {userId, setUserId} = useContext(UserContext)
-  const { history, setHistory } = useContext(HistoryContext)
-  const {uniqueId, setUniqueId} = useContext(UniqueIdContext)
-
-
+  useEffect(() => {
+    // setHistory('/profile')
+    loadUser()
+  }, [])
 
   const [viewId, setViewId] = useState({})
-  
-  useEffect(() => {
-    setHistory('/profile')
-    if (!uniqueId) {
-      setUniqueId(userId.id)
-    }
-    if (userId.id !== uniqueId) {
-      const user = {
-        uniqueId
+  const [editProfileSettingsOpen, setEditProfileSettingsOpen] = useState(false)
+
+  const webCamTransition = useTransition(webCamOpen, null, {
+    from: { opacity: 0},
+    enter: { opacity: 1},
+    leave: { opacity: 0}
+  }) 
+  const settingsTransition = useTransition(editProfileSettingsOpen, null, {
+    from: { opacity: 0 },
+    enter: { opacity: 1 },
+    leave: { opacity: 0 }
+  }) 
+  const { location } = useContext(__RouterContext)
+  const screenTransitions = useTransition(location, location => location.pathname, {
+    from: { opacity: 0, transform: 'translate(0, 100%)' },
+    enter: { opacity: 1, transform: 'translate(0, 0)' },
+    leave: { opacity: 0, transform: 'translate(0, -100%)', margin: "0 -100% 0 0" }
+  })
+
+  // const profileTransitions = useTransition(location, location => location.pathname, {
+  //   from: { opacity: 0, transform: 'translate(0, -100%)' },
+  //   enter: { opacity: 1, transform: 'translate(0, 0)' },
+  //   leave: { opacity: 0, transform: 'translate(0, 100%)', margin: "0 -100% 0 0" }
+  // })
+
+
+  const loadUser = () => {
+    // setTimeout(() => {
+    setTimeout(() => {
+      if (userId.id !== uniqueId) {
+        const user = {
+          uniqueId
+        }
+        axios.post('/users/load', user)
+          .then(res => {
+            setViewId(res.data)
+            console.log('true')
+          })
+          .catch(err => console.log(err))
+      } else {
+        setViewId(userId)
+        console.log('true')
       }
-      axios.post('/users/load', user)
-      .then(res => {
-        setViewId(res.data)
-        // console.log(res.data)
-        // console.log(viewId)
-      })
-      .catch(err => console.log(err))
-    } else {
-      setViewId(userId)
-    }
-  }, [])
+      // setTimeout(() => {
+        setUserInfoReady(true)
+        console.log('testtrue')
+      // }, 200)
+    }, 400)
+    // }, 400)
+  }
 
   const fade = useSpring({
     from: {
@@ -69,181 +104,63 @@ export const UserProfile = ({activeUser, setActiveUser, addPhotoOpen, setAddPhot
     opacity: takePhotoOpen ? 1 : 0,
   });
 
-  const webCamFade = useSpring({
-    opacity: webCamOpen ? 1 : 0,
-    visibility: webCamOpen ? 'visible' : 'hidden'
-  })
+ 
 
-  const transition1 = useTransition(addPhotoOpen, null, {
-    from: { opacity: 1, height: "0px" },
-    enter: { opacity: 1, height: "120px" },
-    leave: { opacity: 1, height: "0px" },
-    config: {
-      // default: config.wobbly,
-      // duration: 200
-    }
-  })
-  const transition2 = useTransition(takePhotoOpen, null, {
-    from: { opacity: 1, height: "0px" },
-    enter: { opacity: 1, height: "120px" },
-    leave: { opacity: 1, height: "0px" },
-    config: {
-      // default: config.wobbly,
-      // duration: 200
-    }
-  })
-
-  const uploadHandler = async e => {
-    // const fd = new FormData(myForm.files.File)
-    // uploadedFile.map(file => {
-    //   console.log(file)
-    // })
-    
-    const fileName = `userimg-${viewId._id}-${Date.now()}`
-    console.log(fileName)
-    // fd.set() 
-    const fileBlob = new Blob(document.getElementsByName("addPhoto")[0].files)
-    const fd = new FormData()
-    fd.append('files', fileBlob, fileName);
-    // fd.append('test', 'test')
-    console.log(fd)
-    await axios.post('/images/upload', fd)
-    .then(res => {
-      console.log(res.data)
-    })
-    .catch(err => console.log(err))
-  }
   const [aboutText, setAboutText] = useState('')
   const [showAboutMe, setShowAboutMe] = useState(false)
   return (
-    <animated.div className="profilepage_wrapper" style={fade}>
-      <div className="sidetop_wrapper">
-        <div className="userimg_wrapper">
-          <div className="splitterwrapper">
-            <div className="imgcircle">
-              <div className="image">
-                <img src={require("../images/img.jpg")} className="image" />
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="profilebtn_wrap">
-          <div
-            className={takePhotoOpen ? "takepic_btn open" : "takepic_btn"}
-            onClick={e => {
-              e.preventDefault();
-              setAddPhotoOpen(false);
-              setTakePhotoOpen(!takePhotoOpen);
-          }}>
-            <div className="profilebtn_innerwrap">
-              <FontAwesomeIcon icon="camera" class="profileicon" />
-            </div>
-          </div>
-          <div
-            className={addPhotoOpen ? "choosepic_btn open" : "choosepic_btn"}
-            onClick={e => {
-              e.preventDefault();
-              setTakePhotoOpen(false);
-              setAddPhotoOpen(!addPhotoOpen);
-          }}>
-            <div className="profilebtn_innerwrap">
-              <FontAwesomeIcon icon="images" class="profileicon" />
-            </div>
-          </div>
-        </div>
-        <div className="slideouts_wrapper">
-          {transition1.map(({item, props, key}) => (
-            item && (
-              <animated.div
-                className="uploadwrap"
-                id="shift"
-                style={props}
-              >
-                <div className="addphoto-wrap">
-                  <form id="upload1">
-                    <div className="image-upload">
-                      <label for="file-input">
-                        <FontAwesomeIcon icon="plus-circle" class="uploadbtn" />
-                      </label>
-                      <input id="file-input" name="addPhoto" type="file" onChange={e => setUploadedFile(e.target.files[0])} />
-                    </div>
-                    <div className="image-upload" onClick={e => {
-                      e.preventDefault()
-                      uploadHandler()
-                    }}>
-                      <label for="file-input">
-                        <FontAwesomeIcon icon="cloud-upload-alt" class="uploadbtn" />
-                      </label>
-                      <button id="file-input" type="submit" name="test" value="Submit" />
-                    </div>
-                  </form>
-                </div>
-              </animated.div>
-            )
-          ))}
-          
-          {transition2.map(({item, props, key}) => (
-            item && (
-              <animated.div className="uploadwrap" style={props}>
-                <div className="addphoto-wrap">
-                  <form onSubmit={uploadHandler} id="upload2">
-                    <div className="image-upload" onClick={e => {
-                      e.preventDefault()
-                      setWebCamOpen(true);
-                    }}>
-                      <label for="file-input">
-                        <FontAwesomeIcon icon="plus-circle" class="uploadbtn" />
-                      </label>
-                      <input id="file-input" type="file" />
-                    </div>
-                    <div className="image-upload">
-                      <label for="file-input">
-                        <FontAwesomeIcon icon="cloud-upload-alt" class="uploadbtn" />
-                      </label>
-                      <button id="file-input" type="submit" />
-                    </div>
-                  </form>
-                </div>
-              </animated.div>
-            )
-          ))}
-          
-        </div>
-      </div>
-      
-      {webCamOpen &&(
-        <animated.div 
-        className={webCamOpen ? "webcam_wrapper open" : "webcam_wrapper close"}
-        style={webCamFade}
-        >
-          <WebcamComponent webCamOpen={webCamOpen} setWebCamOpen={setWebCamOpen} />
-        </animated.div>
-      )}
-
-
-      <div className="userinfo_outerwrapper">
-        <div className="userinfo_innerwrapper">
-          <div className="defaultinfo_wrap">
-            <p className="profile_info-top">{viewId.firstName + ' ' + viewId.lastName}</p>
-            <p><b>Department: </b>{viewId.department}</p>
-            <p><b>Role: </b>{viewId.role}</p>
-          </div>
-          <div className="aboutme_outerwrapper">
-            {showAboutMe && (
-              <animated.div className="aboutme_textareawrap">
-                <textarea />
-              </animated.div>
-            )}
-            {!showAboutMe && (
-              <div className="aboutme_innerwrapper">
-
-              </div>
-            )}
-            
-            </div>
-          </div>
-        </div>
-      {/* )} */}
-    </animated.div>
+    <React.Fragment>
+      <animated.div className="profilepage_wrapper" style={fade}>
+        <ProfileImg
+          takePhotoOpen={takePhotoOpen}
+          setTakePhotoOpen={setTakePhotoOpen}
+          addPhotoOpen={addPhotoOpen}
+          setAddPhotoOpen={setAddPhotoOpen}
+          uploadedFile={uploadedFile}
+          setUploadedFile={setUploadedFile}
+          webCamOpen={webCamOpen}
+          setWebCamOpen={setWebCamOpen}
+          viewId={viewId}
+          setViewId={setViewId}
+          editProfileSettingsOpen={editProfileSettingsOpen}
+          setEditProfileSettingsOpen={setEditProfileSettingsOpen}
+        />
+        {screenTransitions.map(({item, props, key}) => (
+          <animated.div key={key} style={props} >
+            <Switch location={item}>
+              <Route exact path="/">
+                <UserInfo
+                  userInfoReady={userInfoReady}
+                  viewId={viewId}
+                  setViewId={setViewId}
+                  showAboutMe={showAboutMe}
+                  setShowAboutMe={setShowAboutMe}
+                />
+              </Route>
+            </Switch>
+          </animated.div>
+        ))}
+      </animated.div>
+      {webCamTransition.map(({ item, props, key }) => (
+        item && (
+          <animated.div className="profilepage_wrapper"style={props}>
+            {/* <div className="webcamwrap-inner"> */}
+              <WebcamComponent
+                setWebCamOpen={setWebCamOpen}
+              />
+            {/* </div> */}
+          </animated.div>
+        )
+      ))}
+      {settingsTransition.map(({item, props, key}) => (
+        item && (
+          <animated.div className="profilepage_wrapper" style={props}>
+            <ProfileSettings 
+              setEditProfileSettingsOpen={setEditProfileSettingsOpen}
+            />
+          </animated.div>
+        )
+      ))}
+    </React.Fragment>
   );
 }

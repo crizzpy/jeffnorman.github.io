@@ -5,25 +5,23 @@
 // -888---------888------888---.88ooo8888.----888------888--888---8-----`88b.8--888-----ooooo----------------`"Y88b-888-----------888`88b.-----888----"-----888----"-----8-----`88b.8--
 // -888-------o-`88b----d88'--.8'-----`888.---888-----d88'--888---8-------`888--`88.----.88'------------oo-----.d8P-`88b----ooo---888--`88b.---888-------o--888-------o--8-------`888--
 // o888ooooood8--`Y8bood8P'--o88o-----o8888o-o888bood8P'---o888o-o8o--------`8---`Y8bood8P'-------------8""88888P'---`Y8bood8P'--o888o--o888o-o888ooooood8-o888ooooood8-o8o--------`8--
-import React from 'react'
-import { library } from "@fortawesome/fontawesome-svg-core";
-import { fab } from "@fortawesome/free-brands-svg-icons";
-import { faSpinner } from "@fortawesome/free-solid-svg-icons";
+import React, {useEffect} from 'react'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export const LoadingScreen = ({ pageReady, setPageReady }) => {
-    document.addEventListener("DOMContentLoaded", event => {
+    // document.addEventListener("DOMContentLoaded", event => {
+    //     setTimeout(() => {
+    //         setPageReady(true);
+    //     }, 230);
+    // });
+    useEffect(() => {
         setTimeout(() => {
-            setPageReady(true);
-        }, 230);
-
-    });
+            setPageReady(true)
+        }, 230)
+    })
     return (
         <React.Fragment>
-            <div
-                className="page_wrapper"
-                style={require("../style/loading-screen.css")}
-            >
+            <div className="page_wrapper" style={require("../style/loading-screen.css")}>
                 <div className="spinner_wrap">
                     <FontAwesomeIcon icon="spinner" className="spinner" />
                 </div>
