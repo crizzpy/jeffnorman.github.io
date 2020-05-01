@@ -9,15 +9,20 @@
 import React, { useEffect, useState, useContext } from 'react'
 import { useSpring, animated, config, useTransition } from 'react-spring'
 import { Keyframes, Spring, Transition } from 'react-spring/renderprops'
-import {  faUserFriends } from "@fortawesome/free-solid-svg-icons";
+// import {  faUserFriends } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from 'axios'
 import { AbsoluteWrapper } from './AbsoluteWrapper'
+import { GlobalContext } from '../App'
 
 export const TeamPage = () => {
     useEffect(() => {
         retrieveUsers();
+        setTimeout(() => {
+            setCameFromProfile(false)
+        }, 500)
     }, []);
+    const { setCameFromProfile } = useContext(GlobalContext)
 
     const fadein = useSpring({
         from: {

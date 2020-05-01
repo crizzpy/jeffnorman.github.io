@@ -39,7 +39,7 @@ const checkFileType = file => {
 };
 
 router.post('/upload', async (req, res) => {
-    
+    return null
     
     
     // console.log(req.body)

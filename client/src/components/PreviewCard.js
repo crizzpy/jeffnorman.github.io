@@ -20,13 +20,13 @@ export const PreviewCard = ({addPostOpen}) => {
                         className="preview-card-container" 
                         style={{ 
                             position: "absolute",
-                            zIndex: "100", 
-                            background: "black", 
-                            top: yCoordinate, 
-                            left: xCoordinate, 
+                            zIndex: "100",
+                            background: "black",
+                            top: yCoordinate,
+                            left: xCoordinate,
                             width: "auto",
                             // padding: "5px",
-                            borderRadius: "5px", 
+                            borderRadius: "5px",
                             height: "25px"
                         }}
                     >

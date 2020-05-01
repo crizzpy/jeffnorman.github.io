@@ -23,7 +23,6 @@ export const UserProfilePreview = ({navCollapse, setRenderWelcome, setRenderBull
                   <div className={navCollapse ? "profileImgInset shrink" : "profileImgInset"}>
                     <div className={navCollapse ? "profileImgLrg shrink" : "profileImgLrg"}>
                       <NavLink exact to="/profile" onClick={() => setHistory([...(history || []), '/profile'])}>
-
                         <img
                           src={require("../images/img.jpg")}
                           className={navCollapse ? "imageLrg shrink" : "imageLrg"}

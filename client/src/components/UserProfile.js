@@ -22,15 +22,18 @@ import { GlobalContext } from '../App'
 import { ProfileImg } from './ProfileImg'
 import {useParams} from 'react-router-dom'
 import { UserInfo } from './UserInfo'
-import {ProfileSettings} from './ProfileSettings'
+import { ProfileSettings } from './ProfileSettings'
+import { ProfileView } from './ProfileView'
+import { PreviewCard } from './PreviewCard'
 import { WebcamComponent } from './WebCam'
 import { Switch, Route, __RouterContext, useHistory } from 'react-router-dom'
 
-export const UserProfile = ({userInfoReady, setUserInfoReady, activeUser, setActiveUser, addPhotoOpen, setAddPhotoOpen, takePhotoOpen, setTakePhotoOpen, uploadedFile, setUploadedFile, webCamOpen, setWebCamOpen}) => {
+export const UserProfile = ({ userInfoReady, setUserInfoReady, activeUser, setActiveUser, addPhotoOpen, setAddPhotoOpen, takePhotoOpen, setTakePhotoOpen, uploadedFile, setUploadedFile, webCamOpen, setWebCamOpen, profileLink, setRenderUserProfile}) => {
   const { userId, setUserId,
           history, setHistory,
           uniqueId, setUniqueId,
-          ready, setReady } = useContext(GlobalContext)
+          ready, setReady,
+          lastView, cameFromProfile } = useContext(GlobalContext)
 
   useEffect(() => {
     // setHistory('/profile')
@@ -45,17 +48,12 @@ export const UserProfile = ({userInfoReady, setUserInfoReady, activeUser, setAct
     enter: { opacity: 1},
     leave: { opacity: 0}
   }) 
-  const settingsTransition = useTransition(editProfileSettingsOpen, null, {
-    from: { opacity: 0 },
-    enter: { opacity: 1 },
-    leave: { opacity: 0 }
-  }) 
+  // const settingsTransition = useTransition(editProfileSettingsOpen, null, {
+  //   from: { opacity: 0 },
+  //   enter: { opacity: 1 },
+  //   leave: { opacity: 0 }
+  // }) 
   const { location } = useContext(__RouterContext)
-  const screenTransitions = useTransition(location, location => location.pathname, {
-    from: { opacity: 0, transform: 'translate(0, 100%)' },
-    enter: { opacity: 1, transform: 'translate(0, 0)' },
-    leave: { opacity: 0, transform: 'translate(0, -100%)', margin: "0 -100% 0 0" }
-  })
 
   // const profileTransitions = useTransition(location, location => location.pathname, {
   //   from: { opacity: 0, transform: 'translate(0, -100%)' },
@@ -74,17 +72,12 @@ export const UserProfile = ({userInfoReady, setUserInfoReady, activeUser, setAct
         axios.post('/users/load', user)
           .then(res => {
             setViewId(res.data)
-            console.log('true')
           })
           .catch(err => console.log(err))
       } else {
         setViewId(userId)
-        console.log('true')
       }
-      // setTimeout(() => {
-        setUserInfoReady(true)
-        console.log('testtrue')
-      // }, 200)
+      setUserInfoReady(true)
     }, 400)
     // }, 400)
   }
@@ -111,6 +104,9 @@ export const UserProfile = ({userInfoReady, setUserInfoReady, activeUser, setAct
   return (
     <React.Fragment>
       <animated.div className="profilepage_wrapper" style={fade}>
+        <div style={{ height: "auto", position: "absolute", zIndex: 100 }}>
+          <PreviewCard />
+        </div>
         <ProfileImg
           takePhotoOpen={takePhotoOpen}
           setTakePhotoOpen={setTakePhotoOpen}
@@ -124,35 +120,30 @@ export const UserProfile = ({userInfoReady, setUserInfoReady, activeUser, setAct
           setViewId={setViewId}
           editProfileSettingsOpen={editProfileSettingsOpen}
           setEditProfileSettingsOpen={setEditProfileSettingsOpen}
+          profileLink={profileLink}
+          setRenderUserProfile={setRenderUserProfile}
         />
-        {screenTransitions.map(({item, props, key}) => (
-          <animated.div key={key} style={props} >
-            <Switch location={item}>
-              <Route exact path="/">
-                <UserInfo
-                  userInfoReady={userInfoReady}
-                  viewId={viewId}
-                  setViewId={setViewId}
-                  showAboutMe={showAboutMe}
-                  setShowAboutMe={setShowAboutMe}
-                />
-              </Route>
-            </Switch>
-          </animated.div>
-        ))}
-      </animated.div>
+        <ProfileView 
+          userInfoReady={userInfoReady}
+          viewId={viewId}
+          setViewId={setViewId}
+          showAboutMe={showAboutMe}
+          setShowAboutMe={setShowAboutMe}
+          profileLink={profileLink}
+        />
+      </animated.div >
       {webCamTransition.map(({ item, props, key }) => (
-        item && (
-          <animated.div className="profilepage_wrapper"style={props}>
-            {/* <div className="webcamwrap-inner"> */}
+          item && (
+            <animated.div className="profilepage_wrapper" style={props}>
+              {/* <div className="webcamwrap-inner"> */}
               <WebcamComponent
                 setWebCamOpen={setWebCamOpen}
               />
-            {/* </div> */}
-          </animated.div>
-        )
-      ))}
-      {settingsTransition.map(({item, props, key}) => (
+              {/* </div> */}
+            </animated.div>
+      )))}
+
+      {/* {settingsTransition.map(({item, props, key}) => (
         item && (
           <animated.div className="profilepage_wrapper" style={props}>
             <ProfileSettings 
@@ -160,7 +151,7 @@ export const UserProfile = ({userInfoReady, setUserInfoReady, activeUser, setAct
             />
           </animated.div>
         )
-      ))}
+      ))} */}
     </React.Fragment>
   );
 }

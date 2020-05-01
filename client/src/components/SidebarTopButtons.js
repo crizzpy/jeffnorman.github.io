@@ -5,7 +5,7 @@ import { GlobalContext } from '../App'
 
 export const SidebarTopButtons = ({navCollapse, setRenderWelcome, setRenderBulletinBoard, setRenderUserProfile, setRenderMessages, setRenderTeamPage, setActiveComponent}) => {
   
-  const { ready, setReady, history, setHistory, userId, setUniqueId, setLastView } = useContext(GlobalContext)
+  const { ready, setReady, history, setHistory, userId, setUniqueId, setLastView, setCameFromProfile } = useContext(GlobalContext)
 
     return (
       <div className={navCollapse ? "buttons_outerwrapper shrink" : "buttons_outerwrapper"}>
@@ -26,6 +26,7 @@ export const SidebarTopButtons = ({navCollapse, setRenderWelcome, setRenderBulle
                       setRenderMessages(false);
                       setRenderTeamPage(false);
                       setActiveComponent("profile");
+                      setCameFromProfile(true)
                       setLastView('profile')
                       setUniqueId(userId.id)
                   }}/>

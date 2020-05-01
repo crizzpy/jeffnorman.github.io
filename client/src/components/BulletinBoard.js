@@ -29,14 +29,19 @@ import {PostBuilder} from './PostBuilder'
 import {PreviewCard} from './PreviewCard'
 
 export const BulletinBoard = ({pageReady, setPageReady, addPostOpen, setAddPostOpen, activeUser, setActiveUser, postsLoaded, setPostsLoaded, setActiveComponent, setRenderUserProfile}) => {
-  
+  useEffect(() => {
+    setTimeout(() => {
+      setCameFromProfile(false)
+    }, 500)
+  }, [])
   const { userId, setUserId, 
           posts, setPosts, 
           history, setHistory, 
           setPreviewCardOpen, setPreviewCardLabel, 
           setXCoordinate, setYCoordinate,
           previewCardOpen, xCoordinate,
-          hidePreview, setHidePreview } = useContext(GlobalContext)
+          hidePreview, setHidePreview,
+          setCameFromProfile } = useContext(GlobalContext)
  
   // const fadein = useSpring({
   //   from: {

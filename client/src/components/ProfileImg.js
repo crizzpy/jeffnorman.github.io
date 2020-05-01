@@ -10,7 +10,7 @@ import { AddPhoto } from './AddPhoto'
 import { UserImgEdit } from './UserImgEdit'
 import { PreviewCard } from './PreviewCard'
 
-export const ProfileImg = ({ addPhotoOpen, setAddPhotoOpen, takePhotoOpen, setTakePhotoOpen, uploadedFile, setUploadedFile, webCamOpen, setWebCamOpen, viewId, setViewId, editProfileSettingsOpen, setEditProfileSettingsOpen}) => {
+export const ProfileImg = ({ addPhotoOpen, setAddPhotoOpen, takePhotoOpen, setTakePhotoOpen, uploadedFile, setUploadedFile, webCamOpen, setWebCamOpen, viewId, setViewId, editProfileSettingsOpen, setEditProfileSettingsOpen, profileLink, setRenderUserProfile}) => {
   
   const { userId, setUserId, 
           uniqueId, setUniqueId,
@@ -52,7 +52,7 @@ export const ProfileImg = ({ addPhotoOpen, setAddPhotoOpen, takePhotoOpen, setTa
     return(
       <React.Fragment>
         <div className="side_wrapper">
-          <PreviewCard />
+          {/* <PreviewCard /> */}
           <div className="sidetop_wrapper">
             <div className="userimg_wrapper">
               <div className="splitterwrapper">
@@ -90,6 +90,8 @@ export const ProfileImg = ({ addPhotoOpen, setAddPhotoOpen, takePhotoOpen, setTa
                     setEditProfileImgOpen={setEditProfileImgOpen}
                     editProfileSettingsOpen={editProfileSettingsOpen}
                     setEditProfileSettingsOpen={setEditProfileSettingsOpen}
+                    profileLink={profileLink}
+                    setRenderUserProfile={setRenderUserProfile}
                   />
                 </animated.div>
               )

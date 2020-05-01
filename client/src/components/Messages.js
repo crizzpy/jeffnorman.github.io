@@ -6,18 +6,24 @@
 // -8--`888'---888---888----"---------`"Y88b------`"Y88b---.88ooo8888.---888-----ooooo--888----"---------`"Y88b-
 // -8----Y-----888---888-------o-oo-----.d8P-oo-----.d8P--.8'-----`888.--`88.----.88'---888-------o-oo-----.d8P-
 // o8o--------o888o-o888ooooood8-8""88888P'--8""88888P'--o88o-----o8888o--`Y8bood8P'---o888ooooood8-8""88888P'--
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { useSpring, animated, config, useTransition } from 'react-spring'
 import { Keyframes, Spring, Transition } from 'react-spring/renderprops'
 import { faCommentAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from 'axios'
 import { AbsoluteWrapper } from './AbsoluteWrapper'
+import { GlobalContext } from '../App'
 
 export const Messages = ({ messages }) => {
     useEffect(() => {
         retrieveMessages();
+        setTimeout(() => {
+            setCameFromProfile(false)
+        }, 500)
     }, []);
+
+    const {setCameFromProfile} = useContext(GlobalContext)
 
     // const fadein = useSpring({
     //   from: {

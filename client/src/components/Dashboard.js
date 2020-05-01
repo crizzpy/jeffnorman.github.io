@@ -182,6 +182,8 @@ export const Dashboard = ({ navCollapse, setNavCollapse, pageReady, setPageReady
                   setTeamPageRendered={setTeamPageRendered}
                   messagesPageRendered={messagesPageRendered}
                   setMessagesPageRendered={setMessagesPageRendered}
+                  profileLink={profileLink}
+                  setRenderUserProfile={setRenderUserProfile}
                 />
               </Route>
             </React.Fragment>
