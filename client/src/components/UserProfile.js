@@ -28,20 +28,26 @@ import { PreviewCard } from './PreviewCard'
 import { WebcamComponent } from './WebCam'
 import { Switch, Route, __RouterContext, useHistory } from 'react-router-dom'
 
-export const UserProfile = ({ userInfoReady, setUserInfoReady, activeUser, setActiveUser, addPhotoOpen, setAddPhotoOpen, takePhotoOpen, setTakePhotoOpen, uploadedFile, setUploadedFile, webCamOpen, setWebCamOpen, profileLink, setRenderUserProfile}) => {
+export const UserProfile = ({ userInfoReady, setUserInfoReady, activeUser, setActiveUser, addPhotoOpen, setAddPhotoOpen, takePhotoOpen, setTakePhotoOpen, uploadedFile, setUploadedFile, webCamOpen, setWebCamOpen, setRenderUserProfile}) => {
   const { userId, setUserId,
           history, setHistory,
           uniqueId, setUniqueId,
           ready, setReady,
-          lastView, cameFromProfile } = useContext(GlobalContext)
+          lastView, setLastView, profileLink,
+          cameFromProfile, setCameFromProfile } = useContext(GlobalContext)
 
   useEffect(() => {
     // setHistory('/profile')
     loadUser()
+    setTimeout(() => {
+      setRenderUserProfile(true)
+    }, 1000)
+    // console.log(cameFromProfile)
+    // setLastView('profile')
   }, [])
 
   const [viewId, setViewId] = useState({})
-  const [editProfileSettingsOpen, setEditProfileSettingsOpen] = useState(false)
+  const [homeBtnOpen, setHomeBtnOpen] = useState(false)
 
   const webCamTransition = useTransition(webCamOpen, null, {
     from: { opacity: 0},
@@ -53,7 +59,6 @@ export const UserProfile = ({ userInfoReady, setUserInfoReady, activeUser, setAc
   //   enter: { opacity: 1 },
   //   leave: { opacity: 0 }
   // }) 
-  const { location } = useContext(__RouterContext)
 
   // const profileTransitions = useTransition(location, location => location.pathname, {
   //   from: { opacity: 0, transform: 'translate(0, -100%)' },
@@ -118,8 +123,6 @@ export const UserProfile = ({ userInfoReady, setUserInfoReady, activeUser, setAc
           setWebCamOpen={setWebCamOpen}
           viewId={viewId}
           setViewId={setViewId}
-          editProfileSettingsOpen={editProfileSettingsOpen}
-          setEditProfileSettingsOpen={setEditProfileSettingsOpen}
           profileLink={profileLink}
           setRenderUserProfile={setRenderUserProfile}
         />
@@ -130,6 +133,8 @@ export const UserProfile = ({ userInfoReady, setUserInfoReady, activeUser, setAc
           showAboutMe={showAboutMe}
           setShowAboutMe={setShowAboutMe}
           profileLink={profileLink}
+          homeBtnOpen={homeBtnOpen}
+          setHomeBtnOpen={setHomeBtnOpen}
         />
       </animated.div >
       {webCamTransition.map(({ item, props, key }) => (

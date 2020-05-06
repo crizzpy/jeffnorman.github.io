@@ -20,7 +20,7 @@ export const EditProfileIcon = ({ editProfileOpen, setEditProfileOpen, addPhotoO
                     setPreviewCardLabel("Edit Profile")
                     let elem = document.getElementById("ed-profile")
                     let coords = elem.getBoundingClientRect()
-                    setXCoordinate(coords.left - 250 + "px")
+                    setXCoordinate(coords.left - 245 + "px")
                     setYCoordinate(coords.top - 90 + "px")
                 }
             }}

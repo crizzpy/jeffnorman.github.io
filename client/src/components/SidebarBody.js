@@ -77,7 +77,9 @@ export const SidebarBody = ({navCollapse, setRenderWelcome, setRenderUserProfile
           userId, setUserId,
           history, setHistory,
           lastView, setLastView,
-          setCameFromProfile } = useContext(GlobalContext)
+          setCameFromProfile,
+          cameFromWorking, setCameFromWorking,
+          profileLink, setProfileLink } = useContext(GlobalContext)
       
     return (
       <div className={navCollapse ? "sidebar_body shrink" : "sidebar_body"}>

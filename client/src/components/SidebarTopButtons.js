@@ -5,7 +5,7 @@ import { GlobalContext } from '../App'
 
 export const SidebarTopButtons = ({navCollapse, setRenderWelcome, setRenderBulletinBoard, setRenderUserProfile, setRenderMessages, setRenderTeamPage, setActiveComponent}) => {
   
-  const { ready, setReady, history, setHistory, userId, setUniqueId, setLastView, setCameFromProfile } = useContext(GlobalContext)
+  const { ready, setReady, history, setHistory, uniqueId, userId, setUniqueId, setLastView, setCameFromProfile, profileLink, setProfileLink } = useContext(GlobalContext)
 
     return (
       <div className={navCollapse ? "buttons_outerwrapper shrink" : "buttons_outerwrapper"}>
@@ -14,7 +14,7 @@ export const SidebarTopButtons = ({navCollapse, setRenderWelcome, setRenderBulle
           <div className={navCollapse ? "buttons_wrapper fadeout" : "buttons_wrapper fadein"}>
             <div className={navCollapse ? "buttons fadeout" : "buttons fadein"}>
               {/* <NavLink exact to="/profile" onClick={() => history.push('/profile')}> */}
-              <NavLink exact to="/profile" onClick={() => setHistory([...(history || []), '/profile'])}>
+              {/* <NavLink exact to="/profile" onClick={() => setHistory([...(history || []), '/profile'])}> */}
                   <FontAwesomeIcon
                     icon="user"
                     class={navCollapse ? "button shrink" : "button"}
@@ -26,11 +26,14 @@ export const SidebarTopButtons = ({navCollapse, setRenderWelcome, setRenderBulle
                       setRenderMessages(false);
                       setRenderTeamPage(false);
                       setActiveComponent("profile");
-                      setCameFromProfile(true)
+                      // setCameFromProfile(true)
                       setLastView('profile')
                       setUniqueId(userId.id)
+                      setProfileLink(`/profile/${userId.id}`)
+                      history.push(`${profileLink}`)
+                      // history.push(`${profileLink}/info`)
                   }}/>
-              </NavLink>
+              {/* </NavLink> */}
               <FontAwesomeIcon
                 icon="check-square"
                 class={navCollapse ? "button shrink" : "button"}

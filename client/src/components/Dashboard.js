@@ -30,6 +30,7 @@ import { LoadingScreen } from './LoadingScreen'
 export const Dashboard = ({ navCollapse, setNavCollapse, pageReady, setPageReady, userInfoReady, setUserInfoReady, addUserOpen, setAddUserOpen, errors, setErrors, addPostOpen, setAddPostOpen, renderUserProfile, setRenderUserProfile, renderBulletinBoard, setRenderBulletinBoard, activeUser, setActiveUser, renderMessages, setRenderMessages, renderTeamPage, setRenderTeamPage, addPhotoOpen, setAddPhotoOpen, takePhotoOpen, setTakePhotoOpen, uploadedFile, setUploadedFile, webCamOpen, setWebCamOpen, userProfileRendered, setUserProfileRendered, bulletinBoardRendered, setBulletinBoardRendered, teamPageRendered, setTeamPageRendered, messagesPageRendered, setMessagesPageRendered, postsLoaded, setPostsLoaded, renderWelcome, setRenderWelcome, confirmPostDel, setConfirmPostDel }) => {
   useEffect(() => {
       retrievePosts()
+      renderDefault()
   }, [])
 
   
@@ -48,7 +49,10 @@ export const Dashboard = ({ navCollapse, setNavCollapse, pageReady, setPageReady
           uniqueId, setUniqueId, 
           posts, setPosts, 
           userId, setUserId, 
-          loggedIn, setLoggedIn } = useContext(GlobalContext)
+          loggedIn, setLoggedIn,
+          cameFromProfile, setCameFromProfile,
+          cameFromWorking, setCameFromWorking,
+          profileLink, setProfileLink } = useContext(GlobalContext)
 
   const retrievePosts = () => {
     axios
@@ -70,6 +74,15 @@ export const Dashboard = ({ navCollapse, setNavCollapse, pageReady, setPageReady
     window.location.reload();
   }
 
+  const renderDefault = () => {
+    if (!activeComponent) {
+      setActiveComponent("welcome")
+      if (!renderWelcome && !renderUserProfile && !renderMessages && !renderTeamPage && !renderBulletinBoard) {
+        setRenderWelcome(true)
+      }
+    }
+  }
+
   if (!userId) {
     setUserId({
         hasAdmin: true,
@@ -88,10 +101,6 @@ export const Dashboard = ({ navCollapse, setNavCollapse, pageReady, setPageReady
     })
     setRenderWelcome(true)
   }
-
-  
-
-  const profileLink = `/profile/${uniqueId}`
 
   return (
     
@@ -147,20 +156,18 @@ export const Dashboard = ({ navCollapse, setNavCollapse, pageReady, setPageReady
       <div className={navCollapse ? "content_container shrink" : "content_container"}>
       
 
-        {renderWelcome && 
-          <Redirect push to="/welcome">
-          {/* <Route exact path="/welcome"> */}
-            <Route exact path="/welcome" component={Welcome} />
-              {/* <Welcome />
-            </Route> */}
-          </Redirect>
-        }
+        {renderWelcome && (
+          <React.Fragment>
+            <Redirect push to="/welcome" />
+              <Route exact path="/welcome" component={Welcome} />
+          </React.Fragment>
+        )}
         
         
           {renderUserProfile && (
             <React.Fragment>
-              <Redirect push to={profileLink} />
-              <Route exact path={profileLink}>
+              <Redirect push to={`${profileLink}/info`} />
+              {/* <Route exact path={profileLink}> */}
                 <UserProfile
                   userInfoReady={userInfoReady}
                   setUserInfoReady={setUserInfoReady}
@@ -185,7 +192,7 @@ export const Dashboard = ({ navCollapse, setNavCollapse, pageReady, setPageReady
                   profileLink={profileLink}
                   setRenderUserProfile={setRenderUserProfile}
                 />
-              </Route>
+              {/* </Route> */}
             </React.Fragment>
           )}
 

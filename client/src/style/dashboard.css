@@ -1435,7 +1435,7 @@ For webkit browsers, you can use the following pseudo elements to customize the 
     /* object-fit: cover; */
 }
 .side_wrapper{
-    width: 170px;
+    width: 195px;
     display: flex;
     flex-direction: column;
 }
@@ -1514,7 +1514,9 @@ For webkit browsers, you can use the following pseudo elements to customize the 
     /* height: 100px; */
 }
 .editprofile_btns{
-    margin: 0 0 0 9px;
+    position: relative;
+    left: 9px;
+    /* margin: auto auto auto 0px; */
     width: 50px;
     padding: 5px;
     background: black;
@@ -1529,10 +1531,11 @@ For webkit browsers, you can use the following pseudo elements to customize the 
     /* height: 100%;
     width: 100%; */
     display: flex;
+    position: ;
     /* flex-direction: column; */
     width: 45px;
     flex: 1;
-    margin: 0 0 0 5px;
+    margin: 0 0 0 15px;
     background: black;
     flex-wrap: nowrap;
     /* border-top-right-radius: 20px;
@@ -1688,8 +1691,8 @@ For webkit browsers, you can use the following pseudo elements to customize the 
     display: flex;
     flex-direction: row;
     padding: 0;
-    width: 100%;
-    margin: 0 0 0 5px;
+    width: calc(100% - 10px);
+    margin: 0 0 0 15px;
 }
 .slideout{
     /* margin: 0 5px 0 5px; */
@@ -1773,6 +1776,7 @@ For webkit browsers, you can use the following pseudo elements to customize the 
     /* border-radius: 5px; */
     /* background: black; */
     height: calc(100% - 10px);
+    /* width: calc(100% - 10px); */
     width: 100%;
 }
 .userinfo_innerwrapper{
@@ -1832,7 +1836,7 @@ For webkit browsers, you can use the following pseudo elements to customize the 
     margin: 0 0 0 0;
     height: 100%;
     width: 100%;
-    background: #4219f8;
+    background: #7859ff;
     /* opacity: 0.8; */
     opacity: 1;
     border-radius: 10px;
@@ -1854,12 +1858,13 @@ For webkit browsers, you can use the following pseudo elements to customize the 
     position: relative;
     top: 0px;
     left: 0px;
-    background: #4219f8;
+    /* background: #4219f8; */
+    background: none;
     height: 100px;
     width: 100px;
     border-radius: 45px;
-    border-top-right-radius: 0;
-    border-bottom-left-radius: 0;
+    /* border-top-right-radius: 0; */
+    /* border-bottom-left-radius: 0; */
 }
 .return-btn{
     position: absolute;
@@ -1870,6 +1875,23 @@ For webkit browsers, you can use the following pseudo elements to customize the 
     font-size: 40px;
     cursor: pointer;
     color: white;
+}
+.profile-homebtn-container{
+    position: absolute;
+    flex: none;
+    height: 50px;
+    width: 50px;
+    max-height: 50px;
+    max-width: 50px;
+    border-radius: 25px;
+    /* background: black; */
+    left: 215px; 
+    top: calc(50% - 100px);
+}
+.profile-homebtn-inner{
+    width: 100%;
+    height: 100%;
+    border: white solid 1px;
 }
 /*                                           
   /\/\   ___ ___ ___  __ _  __ _  ___ ___ 

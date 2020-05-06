@@ -44,13 +44,39 @@ export const PostContainer = ({ delBtn, confirmPostDel, setConfirmPostDel, confi
                                 </NavLink>
                             </div>
                             
-                            <div className={post.userIsAdmin ? "admin-badge-wrap" : "hide"}>
+                            <div className={post.userIsAdmin ? "admin-badge-wrap" : "hide"}
+                                id={post.userIsAdmin ? `admin-badge-${post.id}` : null}
+                                onMouseEnter={() => {
+                                    setPreviewCardOpen(true)
+                                    setPreviewCardLabel("Admin")
+                                    let elem = document.getElementById(`admin-badge-${post.id}`)
+                                    let coords = elem.getBoundingClientRect()
+                                    setXCoordinate(coords.left - 220 + "px")
+                                    setYCoordinate(coords.top - 149 + "px                                                                    ")
+                                }}
+                                onMouseLeave={() => {
+                                    setPreviewCardOpen(false)
+                                }}   
+                            >
                                 <FontAwesomeIcon icon="user-shield" style={{ color: "ffbb00" }} />
                             </div>
                         </div>
                         {post.date.split('T')[0]}
                         {/* {post.date.split('T')[1]} */}
-                        <div className={post.adminsOnly ? "admins-only" : "hide"}>
+                        <div className={post.adminsOnly ? "admins-only" : "hide"}
+                            id={post.adminsOnly ? `admin-shield-${post.id}` : null}
+                            onMouseEnter={() => {
+                                setPreviewCardOpen(true)
+                                setPreviewCardLabel("Only admins can view this post")
+                                let elem = document.getElementById(`admin-shield-${post.id}`)
+                                let coords = elem.getBoundingClientRect()
+                                setXCoordinate(coords.left - 502 + "px")
+                                setYCoordinate(coords.top - 149 + "px                                                                    ")
+                            }}
+                            onMouseLeave={() => {
+                                setPreviewCardOpen(false)
+                            }}    
+                        >
                             <FontAwesomeIcon icon="shield-alt" style={{ color: "blue" }} />
                         </div>
                     </div>

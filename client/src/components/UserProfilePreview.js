@@ -5,7 +5,12 @@ import { GlobalContext } from '../App'
 
 export const UserProfilePreview = ({navCollapse, setRenderWelcome, setRenderBulletinBoard, renderUserProfile, setRenderUserProfile, setRenderMessages, setRenderTeamPage, setActiveComponent}) => {
   
-  const { ready, setReady, history, setHistory, setUniqueId, userId, setLastView, setCameFromProfile } = useContext(GlobalContext)
+  const { ready, setReady, 
+          history, setHistory, 
+          uniqueId, setUniqueId, 
+          userId, setLastView, 
+          setCameFromProfile,
+          profileLink, setProfileLink } = useContext(GlobalContext)
 
   const transition = useTransition(!renderUserProfile, null, {
     from: { transform: "translate(-100%, 0)" },
@@ -22,23 +27,26 @@ export const UserProfilePreview = ({navCollapse, setRenderWelcome, setRenderBull
                 <animated.div style={props}>
                   <div className={navCollapse ? "profileImgInset shrink" : "profileImgInset"}>
                     <div className={navCollapse ? "profileImgLrg shrink" : "profileImgLrg"}>
-                      <NavLink exact to="/profile" onClick={() => setHistory([...(history || []), '/profile'])}>
+                      {/* <NavLink exact to="/profile" onClick={() => setHistory([...(history || []), '/profile'])}> */}
                         <img
                           src={require("../images/img.jpg")}
                           className={navCollapse ? "imageLrg shrink" : "imageLrg"}
-                          onClick={e => {
-                            e.preventDefault();
+                          onClick={() => {
                             setRenderWelcome(false);
                             setRenderBulletinBoard(false);
+                            // setProfileLink(`/profile/${userId.id}/info`)
+                            setProfileLink(`/profile/${userId.id}`)
+                            history.push(`${profileLink}/info`)
+                            // history.push(`${profileLink}`)
                             setRenderUserProfile(true);
                             setRenderMessages(false);
                             setRenderTeamPage(false);
-                            setCameFromProfile(true)
+                            // setCameFromProfile(true)
                             setUniqueId(userId.id)
                             setLastView("profile")
                             setActiveComponent("profile");
                         }}/>
-                      </NavLink>
+                      {/* </NavLink> */}
                     </div>
                     
                     {/* <div className="preview_extended">

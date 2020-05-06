@@ -3,14 +3,14 @@ import { Link, useHistory } from 'react-router-dom'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { GlobalContext } from '../App'
 
-export const ProfileSettings = ({ homeBtnOpen, setHomeBtnOpen }) => {
+export const UserSettings = ({ homeBtnOpen, setHomeBtnOpen }) => {
     
     useEffect(() => {
         loadHomeBtn()
     }, [])
-    
+
     const loadHomeBtn = () => {
-        console.log('user info')
+        console.log('user settings')
         if (!homeBtnOpen) {
             setTimeout(() => {
                 setHomeBtnOpen(true)
@@ -18,15 +18,15 @@ export const ProfileSettings = ({ homeBtnOpen, setHomeBtnOpen }) => {
         }
     }
 
+
     const history = useHistory()
     const { profileLink, setCameFromProfile } = useContext(GlobalContext)
-    return (
+    
+    return(
         <React.Fragment>
-            <div className="settings-wrapper">
-                <div className="settings-innerwrap">
-                    
-                </div>
+            <div className="settings-wrapper"> 
+                
             </div>
         </React.Fragment>
-    );
-};
+    )
+}

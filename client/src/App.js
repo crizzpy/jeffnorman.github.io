@@ -173,6 +173,8 @@ const App = () => {
   const [yCoordinate, setYCoordinate] = useState(null)
   const [lastView, setLastView] = useState(null)
   const [cameFromProfile, setCameFromProfile] = useState(null)
+  const [cameFromWorking, setCameFromWorking] = useState(null)
+  const [profileLink, setProfileLink] = useState(null)
 
   const globalProviderValue = useMemo(
     () => ({
@@ -217,7 +219,11 @@ const App = () => {
       lastView,
       setLastView,
       cameFromProfile, 
-      setCameFromProfile
+      setCameFromProfile,
+      cameFromWorking,
+      setCameFromWorking,
+      profileLink,
+      setProfileLink
     }),
     [
       userId,
@@ -261,7 +267,11 @@ const App = () => {
       lastView,
       setLastView,
       cameFromProfile, 
-      setCameFromProfile
+      setCameFromProfile,
+      cameFromWorking,
+      setCameFromWorking,
+      profileLink,
+      setProfileLink
     ]
   )
 
