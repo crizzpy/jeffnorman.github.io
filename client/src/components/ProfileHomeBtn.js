@@ -15,8 +15,8 @@ export const ProfileHomeBtn = ({ setHomeBtnOpen }) => {
 
     return(
         <Spring 
-            from={{ transform: "translateX(0px)" }}
-            to={{ transform: "translateX(-140px)" }}
+            from={{ transform: "translateX(0px)", opacity: 0 }}
+            to={{ transform: "translateX(-155px)", opacity: 1 }}
         >
             {props => (
                 <div style={props}>

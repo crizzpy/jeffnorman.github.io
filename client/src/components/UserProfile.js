@@ -83,6 +83,7 @@ export const UserProfile = ({ userInfoReady, setUserInfoReady, activeUser, setAc
         setViewId(userId)
       }
       setUserInfoReady(true)
+      setCameFromProfile(true)
     }, 400)
     // }, 400)
   }

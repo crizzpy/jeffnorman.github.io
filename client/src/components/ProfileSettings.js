@@ -14,7 +14,7 @@ export const ProfileSettings = ({ homeBtnOpen, setHomeBtnOpen }) => {
         if (!homeBtnOpen) {
             setTimeout(() => {
                 setHomeBtnOpen(true)
-            }, 150)
+            }, 250)
         }
     }
 
@@ -24,7 +24,43 @@ export const ProfileSettings = ({ homeBtnOpen, setHomeBtnOpen }) => {
         <React.Fragment>
             <div className="settings-wrapper">
                 <div className="settings-innerwrap">
-                    
+                    <div className="settings-top-banner-accent" />
+                    <div className="settings-top-banner">
+                        <div className="settings-title">
+                            Edit User Info
+                        </div>
+                        <div className="iconwrap">
+                            <div className="msgimgcircle">
+                                <div className="msgimage">
+                                    <FontAwesomeIcon icon="edit" class="msgimage" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="settings-edit-container">
+                        <div className="settings-edit-inner">
+                            <div className="edit-item-container">
+                                <div className="edit-item">
+                                    First Name
+                                </div>
+                                <input className="edit-item input_wrapper"></input> 
+                            </div>
+                            <div className="edit-item-container">
+                                <div className="edit-item">
+                                    Last Name
+                                </div>
+                                <input className="edit-item input_wrapper"></input> 
+
+                            </div>
+                            <div className="edit-item-container">
+                                <div className="edit-item">
+                                    About Me
+                                </div>
+                                <input className="edit-item input_wrapper"></input> 
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
             </div>
         </React.Fragment>

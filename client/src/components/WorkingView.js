@@ -1,4 +1,4 @@
-import React, {useState, useContext} from 'react'
+import React, {useState, useContext, useEffect} from 'react'
 import {Switch, Route, __RouterContext, useHistory } from 'react-router-dom'
 import { GlobalContext } from '../App'
 import { BulletinBoard } from "./BulletinBoard"
@@ -9,13 +9,28 @@ import { Keyframes, Spring, Transition } from 'react-spring/renderprops'
 // import "bootstrap/dist/css/bootstrap.min.css"
 
 export const WorkingView = ({ pageReady, setPageReady, addPostOpen, setAddPostOpen, activeUser, setActiveUser, userProfileRendered, setUserProfileRendered, bulletinBoardRendered, setBulletinBoardRendered, teamPageRendered, setTeamPageRendered, messagesPageRendered, setMessagesPageRendered, postsLoaded, setPostsLoaded, confirmPostDel, setConfirmPostDel, setRenderUserProfile }) => {
+    useEffect(() => {
+        setInfo()
+    }, [])
     const { activeComponent, setActiveComponent, 
             userId, setUserId,
             pageIndex, setPageIndex,
             history, setHistory,
-            lastView, cameFromProfile } = useContext(GlobalContext)
+            lastView, setLastView, 
+            cameFromProfile, setCameFromProfile } = useContext(GlobalContext)
     
     const { location } = useContext(__RouterContext)
+
+    const setInfo = () => {
+        setTimeout(() => {
+            if (cameFromProfile) {
+                setCameFromProfile(false)
+            }
+            setLastView("working")
+            console.log('info set')
+            console.log(cameFromProfile, lastView)
+        }, 400)
+    }
 
     // const navigateFromAwayTransition = useTransition()
     // const navigateFromWorkingViewTransition = useTransition()

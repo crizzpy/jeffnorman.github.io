@@ -14,7 +14,7 @@ export const UserSettings = ({ homeBtnOpen, setHomeBtnOpen }) => {
         if (!homeBtnOpen) {
             setTimeout(() => {
                 setHomeBtnOpen(true)
-            }, 150)
+            }, 250)
         }
     }
 
@@ -25,7 +25,21 @@ export const UserSettings = ({ homeBtnOpen, setHomeBtnOpen }) => {
     return(
         <React.Fragment>
             <div className="settings-wrapper"> 
-                
+                <div className="settings-innerwrap">
+                    <div className="settings-top-banner">
+                        <div className="settings-top-banner-accent" />
+                        <div className="settings-title">
+                            Settings
+                        </div>
+                        <div className="iconwrap">
+                            <div className="msgimgcircle">
+                                <div className="msgimage">
+                                    <FontAwesomeIcon icon="user-cog" class="msgimage" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </React.Fragment>
     )
