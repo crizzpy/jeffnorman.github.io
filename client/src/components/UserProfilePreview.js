@@ -3,7 +3,7 @@ import { useSpring, animated, config, useTransition } from 'react-spring'
 import {NavLink} from 'react-router-dom'
 import { GlobalContext } from '../App'
 
-export const UserProfilePreview = ({navCollapse, setRenderWelcome, setRenderBulletinBoard, renderUserProfile, setRenderUserProfile, setRenderMessages, setRenderTeamPage, setActiveComponent}) => {
+export const UserProfilePreview = ({ navCollapse, setRenderWelcome, setRenderBulletinBoard, renderUserProfile, setRenderUserProfile, setRenderMessages, setRenderTeamPage, setActiveComponent }) => {
   
   const { ready, setReady, 
           history, setHistory, 
@@ -12,19 +12,19 @@ export const UserProfilePreview = ({navCollapse, setRenderWelcome, setRenderBull
           setCameFromProfile,
           profileLink, setProfileLink } = useContext(GlobalContext)
 
-  const transition = useTransition(!renderUserProfile, null, {
-    from: { transform: "translate(-100%, 0)" },
-    enter: { transform: "translate(0, 0)" },
-    leave: { transform: "translate(-100%, 0)" }
-  })
+  // const transition = useTransition(!renderUserProfile, null, {
+  //   from: { transform: "translate(-100%, 0)" },
+  //   enter: { transform: "translate(0, 0)" },
+  //   leave: { transform: "translate(-100%, 0)" }
+  // })
 
   
   return (
       <div className={navCollapse ? "profilepreview_wrap shrink" : "profilepreview_wrap"}>
           <React.Fragment>
-            {transition.map(({ item, props, key }) => (
+            {/* {transition.map(({ item, props, key }) => (
               item && (
-                <animated.div style={props}>
+                <animated.div style={props}> */}
                   <div className={navCollapse ? "profileImgInset shrink" : "profileImgInset"}>
                     <div className={navCollapse ? "profileImgLrg shrink" : "profileImgLrg"}>
                       {/* <NavLink exact to="/profile" onClick={() => setHistory([...(history || []), '/profile'])}> */}
@@ -56,8 +56,8 @@ export const UserProfilePreview = ({navCollapse, setRenderWelcome, setRenderBull
                       
                     </div> */}
                   </div>
-                </animated.div>
-              )))}
+                {/* </animated.div>
+              )))} */}
               </React.Fragment>
       </div>
     );

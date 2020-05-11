@@ -49,7 +49,9 @@ export const ProfileSettings = ({ homeBtnOpen, setHomeBtnOpen }) => {
                                 <div className="edit-item">
                                     Last Name
                                 </div>
-                                <input className="edit-item input_wrapper"></input> 
+                                <div className="edit-item input_wrapper">
+                                    <input placeholder="Hello" />
+                                </div> 
 
                             </div>
                             <div className="edit-item-container">
